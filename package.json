@@ -1,0 +1,23 @@
+{
+	"name": "cartridge-module-util",
+	"version": "0.0.1",
+	"description": "Uitility code for modules form the Carteidge project",
+	"keywords": [
+		"dependency",
+		"cartridge"
+	],
+	"homepage": "https://github.com/cartridge/cartridge-module-util",
+	"bugs": {
+		"url": "https://github.com/cartridge/cartridge-module-util/issues"
+	},
+	"license": "MIT",
+	"author": "Barney Scott <barney@pushing-pixels.co.uk>",
+	"main": "index.js",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/cartridge/cartridge-module-util.git"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	}
+}
