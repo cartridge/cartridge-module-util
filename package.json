@@ -11,7 +11,7 @@
 		"url": "https://github.com/cartridge/cartridge-module-util/issues"
 	},
 	"license": "MIT",
-	"author": "Barney Scott <barney@pushing-pixels.co.uk>",
+	"author": "Barney Scott <barney.scott@codecomputerlove.co.uk>",
 	"main": "index.js",
 	"repository": {
 		"type": "git",
@@ -19,5 +19,13 @@
 	},
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"chalk": "^1.1.1",
+		"del": "^2.2.0",
+		"fs": "0.0.2",
+		"lodash": "^4.6.1",
+		"ncp": "^2.0.0",
+		"path": "^0.12.7"
 	}
 }
