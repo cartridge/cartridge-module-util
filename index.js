@@ -21,7 +21,7 @@ var paths = {
 var cartridgeApi = {};
 
 // Checks if the project has been set up with slate
-function hasSlate() {
+function hasCartridgeInstalled() {
 	try {
 		fs.accessSync(paths.project + CONFIG_FILE, fs.R_OK | fs.W_OK);
 	} catch(err) {
@@ -71,7 +71,7 @@ function modifyJsonFile(path, transform, callback) {
 }
 
 cartridgeApi.ensureCartridgeExists = function ensureCartridgeExists() {
-	if(!hasSlate()) {
+	if(!hasCartridgeInstalled()) {
 		console.error(chalk.red('Slate is not set up in this directory. Please set it up first before installing this module'));
 		process.exit(1);
 	}
