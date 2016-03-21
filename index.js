@@ -17,8 +17,8 @@ var paths = {
 	cartridge: path.resolve('../../_cartridge')
 };
 
-// Checks if the project has been set up with slate
-function hasSlate() {
+// Checks if the project has been set up with Cartridge
+function hasCartridgeInstalled() {
 	try {
 		fs.accessSync(paths.project + CONFIG_FILE, fs.R_OK | fs.W_OK);
 	} catch(err) {
@@ -138,13 +138,13 @@ module.exports = function(packageConfig) {
 	var cartridgeApi = {};
 
 	cartridgeApi.ensureCartridgeExists = function ensureCartridgeExists() {
-		if(!hasSlate()) {
-			console.error(chalk.red('Slate is not set up in this directory. Please set it up first before installing this module'));
+		if(!hasCartridgeInstalled()) {
+			console.error(chalk.red('Cartridge is not set up in this directory. Please set it up first before installing this module'));
 			process.exit(1);
 		}
 	};
 
-	// Adds the specified module to the .slaterc file
+	// Adds the specified module to the .cartridgerc file
 	cartridgeApi.addToRc = function addToRc() {
 		var filePath = path.join(paths.project,  CONFIG_FILE);
 
@@ -174,7 +174,7 @@ module.exports = function(packageConfig) {
 			});
 	};
 
-	// Removes the specified module from the .slaterc file
+	// Removes the specified module from the .cartridgerc file
 	cartridgeApi.removeFromRc = function removeFromRc(moduleName) {
 		// TODO: implement
 	};
