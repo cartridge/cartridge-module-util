@@ -216,10 +216,6 @@ module.exports = function(packageConfig) {
 		// TODO: implement
 	};
 
-	cartridgeApi.setPackageConfig = function setPackageDetails(packageDetails) {
-		packageConfig = info;
-	};
-
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
 		cartridgeApi.logMessage('Finished post install of ' + packageConfig.name);
 		process.exit(0);
