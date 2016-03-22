@@ -1,6 +1,6 @@
 {
 	"name": "cartridge-module-util",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Uitility code for modules form the Carteidge project",
 	"keywords": [
 		"dependency",
@@ -11,7 +11,7 @@
 		"url": "https://github.com/cartridge/cartridge-module-util/issues"
 	},
 	"license": "MIT",
-	"author": "Barney Scott <barney.scott@codecomputerlove.co.uk>",
+	"author": "Code Computerlove <npm@codecomputerlove.co.uk>",
 	"main": "index.js",
 	"repository": {
 		"type": "git",
