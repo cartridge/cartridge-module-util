@@ -9,6 +9,7 @@ var chalk    = require('chalk');
 var template = require('lodash/template');
 var Promise  = require('bluebird');
 var fs       = Promise.promisifyAll(require('fs-extra'));
+var inArray = require('in-array');
 
 var paths = {
 	project:   path.resolve('../../'),
@@ -202,8 +203,17 @@ module.exports = function(packageConfig) {
 	};
 
 	// Add configuration files to the project _config directory for this module
-	cartridgeApi.addModuleConfig = function addModuleConfig(configPath, callback) {
-		var toPath = path.join(paths.config, path.basename(configPath));
+	cartridgeApi.addModuleConfig = function addModuleConfig(configPath) {
+		var configFileName = path.basename(configPath)
+		var toPath = path.join(paths.config, configFileName);
+		var destinationFileList = fs.readdirSync(paths.config);
+		var configFileExists = inArray(destinationFileList, configFileName);
+
+		if(configFileExists) {
+			cartridgeApi.logMessage('Skipping: Copying config file as it already exists');
+			return Promise.resolve();
+		}
+
 		return fs.copyAsync(configPath, toPath)
 			.then(function(){
 				cartridgeApi.logMessage('Finished: adding ' + packageConfig.name + ' config files');
