@@ -1,4 +1,4 @@
-# Cartridge Module Utilities
+# Cartridge Module Utilities [![Build Status](https://travis-ci.org/cartridge/cartridge-module-util.svg?branch=master)](https://travis-ci.org/cartridge/cartridge-module-util)
 
 This package contains several methods used by Cartridge modules when installing
 
