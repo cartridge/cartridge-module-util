@@ -143,8 +143,11 @@ module.exports = function(packageConfig) {
 
 	cartridgeApi.exitIfDevEnvironment = function() {
 		if(process.env.NODE_ENV === 'development') {
-			cartridgeApi.logMessage('NODE_ENV is set to' + chalk.underline('development'));
-			cartridgeApi.logMessage('Skipping postinstall.js');
+
+			cartridgeApi.logMessage('NODE_ENV is set to ' + chalk.underline('development'));
+			cartridgeApi.logMessage('Skipping postinstall.js for ' + chalk.underline(packageConfig.name));
+			cartridgeApi.logMessage('');
+
 			process.exit(0);
 		}
 	}
