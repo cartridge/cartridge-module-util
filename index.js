@@ -26,6 +26,9 @@ function hasCartridgeInstalled() {
 		return false;
 	}
 
+	console.log('config file');
+	console.log(paths.project + CONFIG_FILE);
+
 	return true;
 }
 
