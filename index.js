@@ -141,6 +141,14 @@ function writeJsonFile(fileContent) {
 module.exports = function(packageConfig) {
 	var cartridgeApi = {};
 
+	cartridgeApi.exitIfDevEnvironment = function() {
+		if(process.env.NODE_ENV === 'development') {
+			cartridgeApi.logMessage('NODE_ENV is set to' + chalk.underline('development'));
+			cartridgeApi.logMessage('Skipping postinstall.js');
+			process.exit(0);
+		}
+	}
+
 	cartridgeApi.ensureCartridgeExists = function ensureCartridgeExists() {
 		if(!hasCartridgeInstalled()) {
 			console.error(chalk.red('Cartridge is not set up in this directory. Please set it up first before installing this module'));
