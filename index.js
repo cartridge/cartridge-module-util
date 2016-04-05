@@ -199,10 +199,24 @@ module.exports = function(packageConfig) {
 			.then(function(data) {
 				for (var i = 0; i < data.modules.length; i++) {
 					if(data.modules[i].name === moduleName) {
-						delete data.modules[i];
+						data.modules.splice(i, 1);
 					}
 				}
+
+				return data;
 			})
+			.bind(filePath)
+			.then(writeJsonFile)
+			.then(updateReadmeModules)
+			.then(function() {
+				cartridgeApi.logMessage('Finished: Removing ' + packageConfig.name + ' from .cartridgerc');
+				return Promise.resolve();
+			})
+			.catch(function(err){
+				console.log('removeFromRc error');
+				console.error(err);
+				process.exit(1);
+			});
 	};
 
 	// Modify the project configuration (project.json) with a transform function
