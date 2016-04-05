@@ -191,7 +191,18 @@ module.exports = function(packageConfig) {
 
 	// Removes the specified module from the .cartridgerc file
 	cartridgeApi.removeFromRc = function removeFromRc(moduleName) {
-		// TODO: implement
+		var filePath = path.join(paths.project,  CONFIG_FILE);
+
+		cartridgeApi.logMessage('Removing ' + moduleName + ' from .cartridgerc');
+
+		return fs.readJsonAsync(filePath)
+			.then(function(data) {
+				for (var i = 0; i < data.modules.length; i++) {
+					if(data.modules[i].name === moduleName) {
+						delete data.modules[i];
+					}
+				}
+			})
 	};
 
 	// Modify the project configuration (project.json) with a transform function
