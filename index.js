@@ -109,6 +109,16 @@ function getModuleId(modules, moduleName) {
 	return moduleIndex;
 }
 
+function removeModuleDataFromRcObject(data, moduleName) {
+	for (var i = 0; i < data.modules.length; i++) {
+		if(data.modules[i].name === moduleName) {
+			data.modules.splice(i, 1);
+		}
+	}
+
+	return data;
+}
+
 function addModule(rcContent) {
 	// This is bound to the module data
 	var i, moduleIndex;
@@ -187,20 +197,14 @@ module.exports = function(packageConfig) {
 	};
 
 	// Removes the specified module from the .cartridgerc file
-	cartridgeApi.removeFromRc = function removeFromRc(moduleName) {
+	cartridgeApi.removeFromRc = function removeFromRc() {
 		var filePath = path.join(paths.project,  CONFIG_FILE);
 
-		cartridgeApi.logMessage('Removing ' + moduleName + ' from .cartridgerc');
+		cartridgeApi.logMessage('Removing ' + packageConfig.name + ' from .cartridgerc');
 
 		return fs.readJsonAsync(filePath)
 			.then(function(data) {
-				for (var i = 0; i < data.modules.length; i++) {
-					if(data.modules[i].name === moduleName) {
-						data.modules.splice(i, 1);
-					}
-				}
-
-				return data;
+				return removeModuleDataFromRcObject(data, packageConfig.name);
 			})
 			.bind(filePath)
 			.then(writeJsonFile)
