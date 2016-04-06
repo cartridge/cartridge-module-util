@@ -273,7 +273,12 @@ module.exports = function(packageConfig) {
 	};
 
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
-		cartridgeApi.logMessage('Finished post install of ' + packageConfig.name);
+		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
+		process.exit(0);
+	};
+
+	cartridgeApi.finishUninstall = function finishUninstall(packageDetails) {
+		cartridgeApi.logMessage('Finished: post uninstall of ' + packageConfig.name);
 		process.exit(0);
 	};
 
