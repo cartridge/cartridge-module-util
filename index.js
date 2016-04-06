@@ -261,8 +261,15 @@ module.exports = function(packageConfig) {
 	};
 
 	// Remove configuration files from the project _config directory for this module
-	cartridgeApi.removeModuleConfig = function removeModuleConfig() {
-		// TODO: implement
+	cartridgeApi.removeModuleConfig = function removeModuleConfig(configPath) {
+		var configFileName = path.basename(configPath)
+		var projectModuleConfigPath = path.join(paths.config, configFileName);
+
+		return fs.removeAsync(projectModuleConfigPath)
+			.then(function(){
+				cartridgeApi.logMessage('Finished: Removed ' + packageConfig.name + ' config files');
+				return Promise.resolve();
+			});
 	};
 
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
