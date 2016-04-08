@@ -148,6 +148,25 @@ function writeJsonFile(fileContent) {
 module.exports = function(packageConfig) {
 	var cartridgeApi = {};
 
+	function _copyToProjectDir(packageName, copyPath, destinationPath) {
+		var fullFileName = path.basename(copyPath);
+		var projectDestinationDirectory = (destinationPath) ? path.join(paths.project, destinationPath) : paths.project;
+		var destinationFileList = fs.readdirSync(projectDestinationDirectory);
+		var projectDestinationPath = path.join(projectDestinationDirectory, fullFileName);
+		var fileAlreadyExists = inArray(destinationFileList, fullFileName);
+
+		if(fileAlreadyExists) {
+			cartridgeApi.logMessage('Skipping: Copying ' + fullFileName + ' file as it already exists');
+			return Promise.resolve();
+		}
+
+		return fs.copyAsync(copyPath, projectDestinationPath)
+			.then(function(){
+				cartridgeApi.logMessage('Finished: Copying ' + fullFileName + ' for ' + packageName + '');
+				return Promise.resolve();
+			});
+	}
+
 	cartridgeApi.exitIfDevEnvironment = function() {
 		if(process.env.NODE_ENV === 'development') {
 
@@ -260,6 +279,16 @@ module.exports = function(packageConfig) {
 				return Promise.resolve();
 			});
 	};
+
+	cartridgeApi.copyToProjectDir = function copyToProjectDir(fileList) {
+		var copyTasks = [];
+
+		for (var i = 0; i < fileList.length; i++) {
+			copyTasks.push(_copyToProjectDir(packageConfig.name, fileList[i].copyPath, fileList[i].destinationPath));
+		}
+
+		return Promise.all(copyTasks);
+	}
 
 	// Remove configuration files from the project _config directory for this module
 	cartridgeApi.removeModuleConfig = function removeModuleConfig(configPath) {
