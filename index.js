@@ -313,7 +313,7 @@ module.exports = function(packageConfig) {
 			});
 	};
 
-	cartridgeApi.removeFromModuleDir = function removeFromModuleDir(fileList) {
+	cartridgeApi.removeFromProjectDir = function removeFromProjectDir(fileList) {
 		var removeTasks = [];
 
 		for (var i = 0; i < fileList.length; i++) {
