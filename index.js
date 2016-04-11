@@ -167,6 +167,17 @@ module.exports = function(packageConfig) {
 			});
 	}
 
+	function _removeFromProjectDir(removePath, packageName) {
+		var fullFileName = path.basename(removePath);
+		var projectRemovePath = path.join(paths.project, removePath);
+
+		return fs.removeAsync(projectRemovePath)
+			.then(function(){
+				cartridgeApi.logMessage('Finished: Removing ' + fullFileName + ' for ' + packageName + '');
+				return Promise.resolve();
+			});
+	}
+
 	cartridgeApi.exitIfDevEnvironment = function() {
 		if(process.env.NODE_ENV === 'development') {
 
@@ -301,6 +312,16 @@ module.exports = function(packageConfig) {
 				return Promise.resolve();
 			});
 	};
+
+	cartridgeApi.removeFromModuleDir = function removeFromModuleDir(fileList) {
+		var removeTasks = [];
+
+		for (var i = 0; i < fileList.length; i++) {
+			removeTasks.push(_removeFromProjectDir(fileList[i], packageConfig.name));
+		}
+
+		return Promise.all(removeTasks);
+	}
 
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
 		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
