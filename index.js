@@ -204,7 +204,8 @@ module.exports = function(packageConfig) {
 	// Add configuration files to the project _config directory for this module
 	cartridgeApi.addModuleConfig = function addModuleConfig(configPath, callback) {
 		var toPath = path.join(paths.config, path.basename(configPath));
-		return fs.copyAsync(configPath, toPath)
+
+		return fs.copyAsync(configPath, toPath, { clobber: false })
 			.then(function(){
 				cartridgeApi.logMessage('Finished: adding ' + packageConfig.name + ' config files');
 				return Promise.resolve();
