@@ -64,6 +64,11 @@ cartridgeUtil.addToRc()
 ### ensureCartridgeExists
 Validates that a `.cartridgerc` file exists in the current working directory. Exits the process if the file does not exist.
 
+#### Example
+
+```javascript
+cartridgeUtil.ensureCartridgeExists();
+```
 
 -------
 
@@ -74,6 +79,11 @@ Stop execution if `NODE_ENV` environment variable equals `development`. This can
 * `export NODE_ENV=development` before running `cartridgeUtil.exitIfDevEnvironment()` will exit out.
 * `export NODE_ENV=production` before running `cartridgeUtil.exitIfDevEnvironment()` will continue execution unaffected.
 
+#### Example
+
+```javascript
+cartridgeUtil.exitIfDevEnvironment();
+```
 
 -------
 
