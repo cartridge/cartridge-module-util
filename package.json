@@ -1,6 +1,6 @@
 {
 	"name": "cartridge-module-util",
-	"version": "0.1.2",
+   "version": "0.4.2",
 	"description": "Uitility code for modules form the Carteidge project",
 	"keywords": [
 		"dependency",
@@ -26,6 +26,7 @@
 		"del": "^2.2.0",
 		"lodash": "^4.6.1",
 		"path": "^0.12.7",
-		"fs-extra": "^0.26.7"
+		"fs-extra": "^0.26.7",
+		"in-array": "^0.1.0"
 	}
 }

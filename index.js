@@ -9,6 +9,7 @@ var chalk    = require('chalk');
 var template = require('lodash/template');
 var Promise  = require('bluebird');
 var fs       = Promise.promisifyAll(require('fs-extra'));
+var inArray = require('in-array');
 
 var paths = {
 	project:   path.resolve('../../'),
@@ -108,6 +109,16 @@ function getModuleId(modules, moduleName) {
 	return moduleIndex;
 }
 
+function removeModuleDataFromRcObject(data, moduleName) {
+	for (var i = 0; i < data.modules.length; i++) {
+		if(data.modules[i].name === moduleName) {
+			data.modules.splice(i, 1);
+		}
+	}
+
+	return data;
+}
+
 function addModule(rcContent) {
 	// This is bound to the module data
 	var i, moduleIndex;
@@ -136,6 +147,47 @@ function writeJsonFile(fileContent) {
 
 module.exports = function(packageConfig) {
 	var cartridgeApi = {};
+
+	function _copyToProjectDir(packageName, copyPath, destinationPath) {
+		var fullFileName = path.basename(copyPath);
+		var projectDestinationDirectory = (destinationPath) ? path.join(paths.project, destinationPath) : paths.project;
+		var destinationFileList = fs.readdirSync(projectDestinationDirectory);
+		var projectDestinationPath = path.join(projectDestinationDirectory, fullFileName);
+		var fileAlreadyExists = inArray(destinationFileList, fullFileName);
+
+		if(fileAlreadyExists) {
+			cartridgeApi.logMessage('Skipping: Copying ' + fullFileName + ' file as it already exists');
+			return Promise.resolve();
+		}
+
+		return fs.copyAsync(copyPath, projectDestinationPath)
+			.then(function(){
+				cartridgeApi.logMessage('Finished: Copying ' + fullFileName + ' for ' + packageName + '');
+				return Promise.resolve();
+			});
+	}
+
+	function _removeFromProjectDir(removePath, packageName) {
+		var fullFileName = path.basename(removePath);
+		var projectRemovePath = path.join(paths.project, removePath);
+
+		return fs.removeAsync(projectRemovePath)
+			.then(function(){
+				cartridgeApi.logMessage('Finished: Removing ' + fullFileName + ' for ' + packageName + '');
+				return Promise.resolve();
+			});
+	}
+
+	cartridgeApi.exitIfDevEnvironment = function() {
+		if(process.env.NODE_ENV === 'development') {
+
+			cartridgeApi.logMessage('NODE_ENV is set to ' + chalk.underline('development'));
+			cartridgeApi.logMessage('Skipping postinstall.js for ' + chalk.underline(packageConfig.name));
+			cartridgeApi.logMessage('');
+
+			process.exit(0);
+		}
+	}
 
 	cartridgeApi.ensureCartridgeExists = function ensureCartridgeExists() {
 		if(!hasCartridgeInstalled()) {
@@ -175,8 +227,27 @@ module.exports = function(packageConfig) {
 	};
 
 	// Removes the specified module from the .cartridgerc file
-	cartridgeApi.removeFromRc = function removeFromRc(moduleName) {
-		// TODO: implement
+	cartridgeApi.removeFromRc = function removeFromRc() {
+		var filePath = path.join(paths.project,  CONFIG_FILE);
+
+		cartridgeApi.logMessage('Removing ' + packageConfig.name + ' from .cartridgerc');
+
+		return fs.readJsonAsync(filePath)
+			.then(function(data) {
+				return removeModuleDataFromRcObject(data, packageConfig.name);
+			})
+			.bind(filePath)
+			.then(writeJsonFile)
+			.then(updateReadmeModules)
+			.then(function() {
+				cartridgeApi.logMessage('Finished: Removing ' + packageConfig.name + ' from .cartridgerc');
+				return Promise.resolve();
+			})
+			.catch(function(err){
+				console.log('removeFromRc error');
+				console.error(err);
+				process.exit(1);
+			});
 	};
 
 	// Modify the project configuration (project.json) with a transform function
@@ -202,23 +273,63 @@ module.exports = function(packageConfig) {
 	};
 
 	// Add configuration files to the project _config directory for this module
-	cartridgeApi.addModuleConfig = function addModuleConfig(configPath, callback) {
-		var toPath = path.join(paths.config, path.basename(configPath));
+	cartridgeApi.addModuleConfig = function addModuleConfig(configPath) {
+		var configFileName = path.basename(configPath)
+		var toPath = path.join(paths.config, configFileName);
+		var destinationFileList = fs.readdirSync(paths.config);
+		var configFileExists = inArray(destinationFileList, configFileName);
 
-		return fs.copyAsync(configPath, toPath, { clobber: false })
+		if(configFileExists) {
+			cartridgeApi.logMessage('Skipping: Copying config file as it already exists');
+			return Promise.resolve();
+		}
+
+		return fs.copyAsync(configPath, toPath)
 			.then(function(){
 				cartridgeApi.logMessage('Finished: adding ' + packageConfig.name + ' config files');
 				return Promise.resolve();
 			});
 	};
 
+	cartridgeApi.copyToProjectDir = function copyToProjectDir(fileList) {
+		var copyTasks = [];
+
+		for (var i = 0; i < fileList.length; i++) {
+			copyTasks.push(_copyToProjectDir(packageConfig.name, fileList[i].copyPath, fileList[i].destinationPath));
+		}
+
+		return Promise.all(copyTasks);
+	}
+
 	// Remove configuration files from the project _config directory for this module
-	cartridgeApi.removeModuleConfig = function removeModuleConfig() {
-		// TODO: implement
+	cartridgeApi.removeModuleConfig = function removeModuleConfig(configPath) {
+		var configFileName = path.basename(configPath)
+		var projectModuleConfigPath = path.join(paths.config, configFileName);
+
+		return fs.removeAsync(projectModuleConfigPath)
+			.then(function(){
+				cartridgeApi.logMessage('Finished: Removed ' + packageConfig.name + ' config files');
+				return Promise.resolve();
+			});
 	};
 
+	cartridgeApi.removeFromProjectDir = function removeFromProjectDir(fileList) {
+		var removeTasks = [];
+
+		for (var i = 0; i < fileList.length; i++) {
+			removeTasks.push(_removeFromProjectDir(fileList[i], packageConfig.name));
+		}
+
+		return Promise.all(removeTasks);
+	}
+
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
-		cartridgeApi.logMessage('Finished post install of ' + packageConfig.name);
+		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
+		process.exit(0);
+	};
+
+	cartridgeApi.finishUninstall = function finishUninstall(packageDetails) {
+		cartridgeApi.logMessage('Finished: post uninstall of ' + packageConfig.name);
 		process.exit(0);
 	};
 
