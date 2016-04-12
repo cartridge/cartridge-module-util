@@ -128,9 +128,18 @@ cartridgeUtil.modifyProjectConfig(function(config) {
 -------
 
 
-### removeFromRc()
-> TODO: Needs implementing
+### removeFromRc
+Remove the module information to the project `.cartridgerc` file.
 
+Returns a promise that is fulfilled once the `.cartridgerc` file is written.
+
+#### Example
+```javascript
+cartridgeUtil.removeFromRc()
+	.then(function() {
+		// Code to run after completion
+	})
+```
 
 -------
 
