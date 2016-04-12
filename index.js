@@ -3,13 +3,13 @@
 var CONFIG_FILE = '/.cartridgerc';
 var MATCH_REGEX = /(\[\/\/\]: <> \(Modules start\)\s)([^[]*)(\[\/\/\]: <> \(Modules end\)\s)/g;
 
-var del      = require('del');
-var path     = require('path');
-var chalk    = require('chalk');
-var template = require('lodash/template');
-var Promise  = require('bluebird');
-var fs       = Promise.promisifyAll(require('fs-extra'));
-var inArray = require('in-array');
+var del        = require('del');
+var path       = require('path');
+var chalk      = require('chalk');
+var template   = require('lodash/template');
+var Promise    = require('bluebird');
+var fs         = Promise.promisifyAll(require('fs-extra'));
+var pathExists = require('path-exists');
 
 var paths = {
 	project:   path.resolve('../../'),
@@ -148,25 +148,6 @@ function writeJsonFile(fileContent) {
 module.exports = function(packageConfig) {
 	var cartridgeApi = {};
 
-	function _copyToProjectDir(packageName, copyPath, destinationPath) {
-		var fullFileName = path.basename(copyPath);
-		var projectDestinationDirectory = (destinationPath) ? path.join(paths.project, destinationPath) : paths.project;
-		var destinationFileList = fs.readdirSync(projectDestinationDirectory);
-		var projectDestinationPath = path.join(projectDestinationDirectory, fullFileName);
-		var fileAlreadyExists = inArray(destinationFileList, fullFileName);
-
-		if(fileAlreadyExists) {
-			cartridgeApi.logMessage('Skipping: Copying ' + fullFileName + ' file as it already exists');
-			return Promise.resolve();
-		}
-
-		return fs.copyAsync(copyPath, projectDestinationPath)
-			.then(function(){
-				cartridgeApi.logMessage('Finished: Copying ' + fullFileName + ' for ' + packageName + '');
-				return Promise.resolve();
-			});
-	}
-
 	function _removeFromProjectDir(removePath, packageName) {
 		var fullFileName = path.basename(removePath);
 		var projectRemovePath = path.join(paths.project, removePath);
@@ -177,6 +158,29 @@ module.exports = function(packageConfig) {
 				return Promise.resolve();
 			});
 	}
+
+	cartridgeApi.copyFileToProject = function copyFileToProject(copyPath, destinationPath) {
+		var fileName, destinationFile;
+
+		destinationPath = (destinationPath) ? path.join(paths.project, destinationPath) : paths.project;
+		fileName        = path.basename(copyPath);
+		destinationFile = path.join(destinationPath, fileName);
+
+		console.log('checking path: ' + destinationFile);
+		if(pathExists.sync(destinationFile)) {
+			cartridgeApi.logMessage('Skipping: Copying ' + fileName + ' file as it already exists');
+			return Promise.resolve();
+		} else {
+			return fs.ensureDirAsync(destinationPath)
+				.then(function() {
+					return fs.copyAsync(copyPath, destinationFile);
+				})
+				.then(function(){
+					cartridgeApi.logMessage('Finished: Copying ' + fileName + ' for ' + packageConfig.name + '');
+					return Promise.resolve();
+				});
+		}
+	};
 
 	cartridgeApi.exitIfDevEnvironment = function() {
 		if(process.env.NODE_ENV === 'development') {
@@ -274,28 +278,14 @@ module.exports = function(packageConfig) {
 
 	// Add configuration files to the project _config directory for this module
 	cartridgeApi.addModuleConfig = function addModuleConfig(configPath) {
-		var configFileName = path.basename(configPath)
-		var toPath = path.join(paths.config, configFileName);
-		var destinationFileList = fs.readdirSync(paths.config);
-		var configFileExists = inArray(destinationFileList, configFileName);
-
-		if(configFileExists) {
-			cartridgeApi.logMessage('Skipping: Copying config file as it already exists');
-			return Promise.resolve();
-		}
-
-		return fs.copyAsync(configPath, toPath)
-			.then(function(){
-				cartridgeApi.logMessage('Finished: adding ' + packageConfig.name + ' config files');
-				return Promise.resolve();
-			});
+		return cartridgeApi.copyFileToProject(configPath, '_config');
 	};
 
 	cartridgeApi.copyToProjectDir = function copyToProjectDir(fileList) {
 		var copyTasks = [];
 
 		for (var i = 0; i < fileList.length; i++) {
-			copyTasks.push(_copyToProjectDir(packageConfig.name, fileList[i].copyPath, fileList[i].destinationPath));
+			copyTasks.push(cartridgeApi.copyFileToProject(fileList[i].copyPath, fileList[i].destinationPath));
 		}
 
 		return Promise.all(copyTasks);
@@ -325,11 +315,6 @@ module.exports = function(packageConfig) {
 
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
 		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
-		process.exit(0);
-	};
-
-	cartridgeApi.finishUninstall = function finishUninstall(packageDetails) {
-		cartridgeApi.logMessage('Finished: post uninstall of ' + packageConfig.name);
 		process.exit(0);
 	};
 

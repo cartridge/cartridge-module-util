@@ -1,32 +1,32 @@
 {
-	"name": "cartridge-module-util",
-   "version": "0.4.2",
-	"description": "Uitility code for modules form the Carteidge project",
-	"keywords": [
-		"dependency",
-		"cartridge"
-	],
-	"homepage": "https://github.com/cartridge/cartridge-module-util",
-	"bugs": {
-		"url": "https://github.com/cartridge/cartridge-module-util/issues"
-	},
-	"license": "MIT",
-	"author": "Code Computerlove <npm@codecomputerlove.co.uk>",
-	"main": "index.js",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/cartridge/cartridge-module-util.git"
-	},
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"dependencies": {
-		"bluebird": "^3.3.4",
-		"chalk": "^1.1.1",
-		"del": "^2.2.0",
-		"lodash": "^4.6.1",
-		"path": "^0.12.7",
-		"fs-extra": "^0.26.7",
-		"in-array": "^0.1.0"
-	}
+  "name": "cartridge-module-util",
+  "version": "0.4.2",
+  "description": "Uitility code for modules form the Carteidge project",
+  "keywords": [
+    "dependency",
+    "cartridge"
+  ],
+  "homepage": "https://github.com/cartridge/cartridge-module-util",
+  "bugs": {
+    "url": "https://github.com/cartridge/cartridge-module-util/issues"
+  },
+  "license": "MIT",
+  "author": "Code Computerlove <npm@codecomputerlove.co.uk>",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cartridge/cartridge-module-util.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "chalk": "^1.1.1",
+    "del": "^2.2.0",
+    "fs-extra": "^0.26.7",
+    "lodash": "^4.6.1",
+    "path": "^0.12.7",
+    "path-exists": "^2.1.0"
+  }
 }
