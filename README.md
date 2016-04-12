@@ -74,10 +74,10 @@ cartridgeUtil.ensureCartridgeExists();
 
 
 ### exitIfDevEnvironment
-Stop execution if `NODE_ENV` environment variable equals `development`. This can be used to stop certain steps from running such as post install scripts, when developing, running CI builds etc.
+Stop execution with a non-error exit code if `NODE_ENV` environment variable equals `development`. This can be used to stop certain steps from running such as post install scripts, when developing, running CI builds etc.
 
-* `export NODE_ENV=development` before running `cartridgeUtil.exitIfDevEnvironment()` will exit out.
-* `export NODE_ENV=production` before running `cartridgeUtil.exitIfDevEnvironment()` will continue execution unaffected.
+* `export NODE_ENV=development` in a command line window before running `cartridgeUtil.exitIfDevEnvironment()` will exit out.
+* `export NODE_ENV=production` in a command line window before running `cartridgeUtil.exitIfDevEnvironment()` will continue execution unaffected.
 
 #### Example
 
