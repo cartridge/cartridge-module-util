@@ -15,8 +15,10 @@ var paths = {
 	project:   path.resolve('../../'),
 	config:    path.resolve('../../', '_config'),
 	readme:    path.resolve('../../', 'readme.md'),
-	cartridge: path.resolve('../../_cartridge')
+	cartridge: path.resolve('../../_cartridge'),
+	pkg: 			 path.resolve('../../', 'package.json')
 };
+
 
 // Checks if the project has been set up with Cartridge
 function hasCartridgeInstalled() {
@@ -48,6 +50,13 @@ function updateReadme(renderedModuleTemplate) {
 			console.error(err);
 			process.exit(1);
 		});
+}
+
+function updateJsonObj(obj, newObj){
+	for (var key in newObj) {
+    obj[key] = newObj[key];
+	}
+	return obj;
 }
 
 function compileTemplate(rawTemplate) {
@@ -321,6 +330,30 @@ module.exports = function(packageConfig) {
 		}
 
 		return Promise.all(removeTasks);
+	}
+
+	cartridgeApi.addToPackage = function addToPackage(objToAdd){
+		//get package.json
+		var pkg = {};
+		return fs.readJsonAsync(paths.pkg)
+			.then(function(data){
+				pkg = data;
+				return updateJsonObj(data.dependencies, objToAdd);
+			})
+			.then(function(newPkg){
+				//update file with new values
+				pkg.dependencies = newPkg;
+				writeJsonFile(pkg);
+			})
+			.then(function(){
+				cartridgeApi.logMessage('Finished: modifying package.json for ' + packageConfig.name);
+				return Promise.resolve();
+			})
+			.catch(function(err){
+				console.log('modifyPackageJson error');
+				console.error(err);
+				process.exit(1);
+			});
 	}
 
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
