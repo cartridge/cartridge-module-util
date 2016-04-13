@@ -53,11 +53,38 @@ function updateReadme(renderedModuleTemplate) {
 		});
 }
 
-function updateJsonObj(obj, newObj){
+function updateJsonObj(obj, newObj, ignoreArr){
 	for (var key in newObj) {
-    obj[key] = newObj[key];
+		for(var i = 0; i < ignoreArr.length; i++){
+			if(key !== ignoreArr[i]){
+	    	obj[key] = newObj[key];
+	  	}
+  	}
 	}
 	return obj;
+}
+
+function cleanJsonObj(obj, newObj){
+	for (var key in newObj) {
+    delete obj[key];
+	}
+	return obj;
+}
+
+function jSonObjToNpmInstallArray(newObj, ignoreArr){
+	var npmArray = [];
+	for (var key in newObj) {
+		for(var i = 0; i < ignoreArr.length; i++){
+			
+			if(key !== ignoreArr[i]){
+				if (newObj.hasOwnProperty(key)) {
+	        //npmArray.push(key + '@' + newObj[key]);
+	        npmArray.push(key);
+	    	}
+	    }
+  	}
+	}
+	return npmArray;
 }
 
 function compileTemplate(rawTemplate) {
@@ -333,20 +360,20 @@ module.exports = function(packageConfig) {
 		return Promise.all(removeTasks);
 	}
 
-	cartridgeApi.addToPackage = function addToPackage(objToAdd){
+	cartridgeApi.addToPackage = function addToPackage(objToAdd, ignoreArr){
 		//get package.json
 		var pkg = {};
 		return fs.readJsonAsync(paths.pkg)
 			.then(function(data){
 				pkg = data;
-				return updateJsonObj(data.dependencies, objToAdd);
+				return updateJsonObj(data.dependencies, objToAdd, ignoreArr);
 			})
 			.then(function(newPkg){
 				//update file with new values
 				pkg.dependencies = newPkg;
 
-				return fs.writeJsonAsync('../../package.json', pkg, function (err) {
-				  console.log(err)
+				return fs.writeJsonAsync(paths.pkg, pkg, function (err) {
+				  console.log('write json error', err)
 				})
 				.then(function(){
 					return pkg;
@@ -363,11 +390,44 @@ module.exports = function(packageConfig) {
 			});
 	};
 
-	cartridgeApi.installDependencies = function installDependencies(dependencies){
-		return npmInstallPackage(dependencies, function(err){
-			console.log(err);
-		})
-	}
+	cartridgeApi.moveDependencies = function installDependencies(dependencies, ignoreArr){
+		var moveArr = jSonObjToNpmInstallArray(dependencies, ignoreArr);
+		for(var i = 0; i < moveArr.length; i++){
+			fs.copy(moveArr[i], '../../node_modules/', function(err){
+				if (err) return console.error(err);
+			});
+		};
+		return Promise.resolve();
+	};
+
+	cartridgeApi.modifyProjectPackage = function modifyProjectPackage(objToAdd){
+		var pkg = {};
+		return fs.readJsonAsync(paths.pkg)
+			.then(function(data){
+				pkg = data;
+				return cleanJsonObj(data.dependencies, objToAdd);
+			})
+			.then(function(newPkg){
+				//update file with new values
+				pkg.dependencies = newPkg;
+
+				return fs.writeJsonAsync(paths.pkg, pkg, function (err) {
+				  console.log(err)
+				})
+				.then(function(){
+					return pkg;
+				});
+			})
+			.then(function(){
+				cartridgeApi.logMessage('Finished: modifying package.json for ' + packageConfig.name);
+				return Promise.resolve();
+			})
+			.catch(function(err){
+				console.log('modifyPackageJson error');
+				console.error(err);
+				process.exit(1);
+			});
+	};
 
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
 		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
