@@ -10,6 +10,7 @@ var template = require('lodash/template');
 var Promise  = require('bluebird');
 var fs       = Promise.promisifyAll(require('fs-extra'));
 var inArray = require('in-array');
+var npmInstallPackage = require('npm-install-package');
 
 var paths = {
 	project:   path.resolve('../../'),
@@ -343,7 +344,13 @@ module.exports = function(packageConfig) {
 			.then(function(newPkg){
 				//update file with new values
 				pkg.dependencies = newPkg;
-				writeJsonFile(pkg);
+
+				return fs.writeJsonAsync('../../package.json', pkg, function (err) {
+				  console.log(err)
+				})
+				.then(function(){
+					return pkg;
+				});
 			})
 			.then(function(){
 				cartridgeApi.logMessage('Finished: modifying package.json for ' + packageConfig.name);
@@ -354,6 +361,12 @@ module.exports = function(packageConfig) {
 				console.error(err);
 				process.exit(1);
 			});
+	};
+
+	cartridgeApi.installDependencies = function installDependencies(dependencies){
+		return npmInstallPackage(dependencies, function(err){
+			console.log(err);
+		})
 	}
 
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
