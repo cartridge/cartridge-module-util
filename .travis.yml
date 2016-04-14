@@ -1,15 +1,16 @@
 sudo: false
 language: node_js
 node_js:
-    - stable
-    - '0.12'
+   - stable
+   - '0.12'
 script:
-    - npm run lint
+   - npm run lint
+env:
+   - NODE_ENV=development
 install:
-    - export NODE_ENV=development
-    - npm install
+   - npm install
 cache:
-  directories:
-    - node_modules
+   directories:
+      - node_modules
 git:
-  depth: 1
+   depth: 1
