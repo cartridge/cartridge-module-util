@@ -1,4 +1,6 @@
-# Cartridge Module Utilities [![Build Status](https://travis-ci.org/cartridge/cartridge-module-util.svg?branch=master)](https://travis-ci.org/cartridge/cartridge-module-util)
+# Cartridge Module Utilities
+[![Build Status](https://travis-ci.org/cartridge/cartridge-module-util.svg?branch=master)](https://travis-ci.org/cartridge/cartridge-module-util)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 This package contains several methods used by Cartridge modules when installing.
 
