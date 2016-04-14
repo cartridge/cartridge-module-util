@@ -19,13 +19,7 @@ var paths = {
 
 // Checks if the project has been set up with Cartridge
 function hasCartridgeInstalled() {
-	try {
-		fs.accessSync(paths.project + CONFIG_FILE, fs.R_OK | fs.W_OK);
-	} catch(err) {
-		return false;
-	}
-
-	return true;
+	return pathExists.sync(paths.project + CONFIG_FILE);
 }
 
 function insertModulesInToReadme(readmeContents) {
