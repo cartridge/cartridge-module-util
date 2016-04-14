@@ -6,7 +6,8 @@ node_js:
 script:
     - npm run lint
 install:
-    - echo "@TODO CI things"
+    - export NODE_ENV=development
+    - npm install
 cache:
   directories:
     - node_modules
