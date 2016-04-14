@@ -1,6 +1,6 @@
 # Cartridge Module Utilities
-[![Build Status](https://travis-ci.org/cartridge/cartridge-module-util.svg?branch=master)](https://travis-ci.org/cartridge/cartridge-module-util)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![Build Status](https://img.shields.io/travis/cartridge/cartridge-module-util.svg?branch=master&style=flat-square)](https://travis-ci.org/cartridge/cartridge-module-util)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg?style=flat-square)](http://commitizen.github.io/cz-cli/)
 
 This package contains several methods used by Cartridge modules when installing.
 
@@ -19,11 +19,14 @@ API
 -------
 - [addModuleConfig](#addModuleConfig)
 - [addToRc](#addToRc)
+- [copyFileToProject](#copyFileToProject)
+- [copyToProjectDir](#copyToProjectDir)
 - [ensureCartridgeExists](#ensureCartridgeExists)
 - [exitIfDevEnvironment](#exitIfDevEnvironment)
 - [finishInstall](#finishInstall)
 - [logMessage](#logMessage)
 - [modifyProjectConfig](#modifyProjectConfig)
+- [removeFromProjectDir](#removeFromProjectDir)
 - [removeFromRc](#removeFromRc)
 - [removeModuleConfig](#removeModuleConfig)
 
@@ -58,6 +61,18 @@ cartridgeUtil.addToRc()
 		// Code to run after completion
 	})
 ```
+
+-------
+
+
+### copyFileToProject
+> TODO: Add documentation
+
+-------
+
+
+### copyToProjectDir
+> TODO: Add documentation
 
 
 -------
@@ -136,6 +151,12 @@ cartridgeUtil.modifyProjectConfig(function(config) {
 });
 ```
 
+-------
+
+
+### removeFromProjectDir
+> TODO: Add documentation
+
 
 -------
 
@@ -156,5 +177,5 @@ cartridgeUtil.removeFromRc()
 -------
 
 
-### removeModuleConfig()
+### removeModuleConfig
 > TODO: Needs implementing
