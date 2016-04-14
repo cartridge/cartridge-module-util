@@ -1,5 +1,6 @@
 .git
 .github
 .travis.yml
+.editorconfig
 appveyor.yml
 test
