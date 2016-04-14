@@ -11,6 +11,7 @@ var Promise  = require('bluebird');
 var fs       = Promise.promisifyAll(require('fs-extra'));
 var inArray = require('in-array');
 var npmInstallPackage = require('npm-install-package');
+var process = require('process');
 
 var paths = {
 	project:   path.resolve('../../'),
@@ -85,6 +86,33 @@ function jSonObjToNpmInstallArray(newObj, ignoreArr){
   	}
 	}
 	return npmArray;
+}
+
+function joinObjects(obj1, obj2){
+	var obj3 = {};
+  for (var attrname in obj1) { 
+  	obj3[attrname] = obj1[attrname]; 
+  }
+  for (var attrname in obj2) { 
+  	obj3[attrname] = obj2[attrname]; 
+  }
+  return obj3;
+}
+
+function checkForDuplicates(obj, newObj){
+	var duplicates = {};
+	for (var key in obj) {
+		for(var dupKey in newObj){
+			if(key === dupKey){
+				duplicates[key] = obj[key];
+			}	
+		}
+	}
+	return duplicates;
+}
+
+function createDuplicatesList(duplicates){
+	return fs.writeJsonAsync('./duplicateDependencies.json', duplicates);
 }
 
 function compileTemplate(rawTemplate) {
@@ -366,6 +394,13 @@ module.exports = function(packageConfig) {
 		return fs.readJsonAsync(paths.pkg)
 			.then(function(data){
 				pkg = data;
+				
+				var allCurrentDependencies = joinObjects(data.dependencies, data.devDependencies);
+
+				var duplicates = checkForDuplicates(allCurrentDependencies, objToAdd);
+				
+				createDuplicatesList(duplicates);
+
 				return updateJsonObj(data.dependencies, objToAdd, ignoreArr);
 			})
 			.then(function(newPkg){
@@ -394,10 +429,24 @@ module.exports = function(packageConfig) {
 		var moveArr = jSonObjToNpmInstallArray(dependencies, ignoreArr);
 		for(var i = 0; i < moveArr.length; i++){
 			fs.copy(moveArr[i], '../../node_modules/', function(err){
-				if (err) return console.error(err);
+				if(err) throw err;
 			});
 		};
 		return Promise.resolve();
+	};
+
+
+
+	cartridgeApi.installDependencies = function installDependencies(dependencies, ignoreArr){
+		return new Promise(function (resolve, reject){
+			process.chdir('../../');
+			return npmInstallPackage(jSonObjToNpmInstallArray(dependencies, ignoreArr), function(err){
+				if(err) throw err;
+			});
+		}).then(function(){
+			cartridgeApi.logMessage('Finished: installing dependencies for ' + packageConfig.name);
+			return Promise.resolve();
+		})
 	};
 
 	cartridgeApi.modifyProjectPackage = function modifyProjectPackage(objToAdd){

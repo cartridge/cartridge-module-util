@@ -28,6 +28,7 @@
     "in-array": "^0.1.0",
     "lodash": "^4.6.1",
     "npm-install-package": "^1.0.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "process": "^0.11.2"
   }
 }
