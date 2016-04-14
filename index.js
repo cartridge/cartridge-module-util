@@ -3,7 +3,6 @@
 var CONFIG_FILE = '/.cartridgerc';
 var MATCH_REGEX = /(\[\/\/\]: <> \(Modules start\)\s)([^[]*)(\[\/\/\]: <> \(Modules end\)\s)/g;
 
-var del        = require('del');
 var path       = require('path');
 var chalk      = require('chalk');
 var template   = require('lodash/template');
@@ -30,7 +29,10 @@ function hasCartridgeInstalled() {
 }
 
 function insertModulesInToReadme(readmeContents) {
+	/* jshint validthis:true */
+	// In this instance this has been bound by updateReadme to be the rendered module table HTML
 	return readmeContents.replace(MATCH_REGEX, this.renderedModules);
+	/* jshint validthis:false */
 }
 
 function updateReadme(renderedModuleTemplate) {
@@ -41,7 +43,7 @@ function updateReadme(renderedModuleTemplate) {
 		})
 		.then(insertModulesInToReadme)
 		.then(function(fileContent){
-			return fs.writeFileAsync(paths.readme, fileContent)
+			return fs.writeFileAsync(paths.readme, fileContent);
 		})
 		.catch(function(err) {
 			console.log('updateReadme error');
@@ -53,7 +55,11 @@ function updateReadme(renderedModuleTemplate) {
 function compileTemplate(rawTemplate) {
 	var compiledTemplate = template(rawTemplate);
 
-	return compiledTemplate(this)
+
+	/* jshint validthis:true */
+	// In this instance this has been bound by updateReadmeModules to be the contents of the cartridgeRc
+	return compiledTemplate(this);
+	/* jshint validthis:false */
 }
 
 function updateReadmeModules(rcData) {
@@ -96,7 +102,7 @@ function getModuleId(modules, moduleName) {
 	// Yes so check that this one doesn't already exist
 	for(i = 0; i < modules.length; i++) {
 
-		if(modules[i].name == moduleName) {
+		if(modules[i].name === moduleName) {
 			moduleIndex = i;
 			break;
 		}
@@ -121,7 +127,7 @@ function removeModuleDataFromRcObject(data, moduleName) {
 
 function addModule(rcContent) {
 	// This is bound to the module data
-	var i, moduleIndex;
+	var moduleIndex;
 
 	// Check if any modules have been added to the rc yet
 	if(!rcContent.hasOwnProperty('modules')) {
@@ -129,17 +135,26 @@ function addModule(rcContent) {
 		rcContent.modules = [];
 		moduleIndex = 0;
 	} else {
+		/* jshint validthis:true */
+		// In this instance this has been bound by addToRc to be the object containing the module information
 		moduleIndex = getModuleId(rcContent.modules, this.name);
+		/* jshint validthis:false */
 	}
 
 	// Set the data
+	/* jshint validthis:true */
+	// In this instance this has been bound by addToRc to be the object containing the module information
 	rcContent.modules[moduleIndex] = this;
+	/* jshint validthis:false */
 
 	return rcContent;
 }
 
 function writeJsonFile(fileContent) {
+	/* jshint validthis:true */
+	// In this instance this has been bound by the calling function to be the path of the JSON file
 	return fs.writeJsonAsync(this, fileContent)
+	/* jshint validthis:false */
 		.then(function(){
 			return fileContent;
 		});
@@ -191,7 +206,7 @@ module.exports = function(packageConfig) {
 
 			process.exit(0);
 		}
-	}
+	};
 
 	cartridgeApi.ensureCartridgeExists = function ensureCartridgeExists() {
 		if(!hasCartridgeInstalled()) {
@@ -289,11 +304,11 @@ module.exports = function(packageConfig) {
 		}
 
 		return Promise.all(copyTasks);
-	}
+	};
 
 	// Remove configuration files from the project _config directory for this module
 	cartridgeApi.removeModuleConfig = function removeModuleConfig(configPath) {
-		var configFileName = path.basename(configPath)
+		var configFileName          = path.basename(configPath);
 		var projectModuleConfigPath = path.join(paths.config, configFileName);
 
 		return fs.removeAsync(projectModuleConfigPath)
@@ -311,9 +326,9 @@ module.exports = function(packageConfig) {
 		}
 
 		return Promise.all(removeTasks);
-	}
+	};
 
-	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
+	cartridgeApi.finishInstall = function finishInstall() {
 		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
 		process.exit(0);
 	};
