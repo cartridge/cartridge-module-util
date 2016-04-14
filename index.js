@@ -72,6 +72,15 @@ function cleanJsonObj(obj, newObj){
 	return obj;
 }
 
+function removeDependency(obj, match){
+
+	for (var key in obj) {
+	if(key === match)
+    delete obj[key];
+	}
+	return obj;
+}
+
 function jSonObjToNpmInstallArray(newObj, ignoreArr){
 	var npmArray = [];
 	for (var key in newObj) {
@@ -79,40 +88,12 @@ function jSonObjToNpmInstallArray(newObj, ignoreArr){
 			
 			if(key !== ignoreArr[i]){
 				if (newObj.hasOwnProperty(key)) {
-	        //npmArray.push(key + '@' + newObj[key]);
 	        npmArray.push(key);
 	    	}
 	    }
   	}
 	}
 	return npmArray;
-}
-
-function joinObjects(obj1, obj2){
-	var obj3 = {};
-  for (var attrname in obj1) { 
-  	obj3[attrname] = obj1[attrname]; 
-  }
-  for (var attrname in obj2) { 
-  	obj3[attrname] = obj2[attrname]; 
-  }
-  return obj3;
-}
-
-function checkForDuplicates(obj, newObj){
-	var duplicates = {};
-	for (var key in obj) {
-		for(var dupKey in newObj){
-			if(key === dupKey){
-				duplicates[key] = obj[key];
-			}	
-		}
-	}
-	return duplicates;
-}
-
-function createDuplicatesList(duplicates){
-	return fs.writeJsonAsync('./duplicateDependencies.json', duplicates);
 }
 
 function compileTemplate(rawTemplate) {
@@ -394,12 +375,6 @@ module.exports = function(packageConfig) {
 		return fs.readJsonAsync(paths.pkg)
 			.then(function(data){
 				pkg = data;
-				
-				var allCurrentDependencies = joinObjects(data.dependencies, data.devDependencies);
-
-				var duplicates = checkForDuplicates(allCurrentDependencies, objToAdd);
-				
-				createDuplicatesList(duplicates);
 
 				return updateJsonObj(data.dependencies, objToAdd, ignoreArr);
 			})
@@ -425,57 +400,44 @@ module.exports = function(packageConfig) {
 			});
 	};
 
-	cartridgeApi.moveDependencies = function installDependencies(dependencies, ignoreArr){
-		var moveArr = jSonObjToNpmInstallArray(dependencies, ignoreArr);
-		for(var i = 0; i < moveArr.length; i++){
-			fs.copy(moveArr[i], '../../node_modules/', function(err){
-				if(err) throw err;
-			});
-		};
-		return Promise.resolve();
+	cartridgeApi.cleanExpansionPack = function cleanExpansionPack(){
+		var pkg = {};
+		return fs.readJsonAsync(paths.pkg)
+			.then(function(data){
+				pkg = data;
+				//remove from package json
+				return removeDependency(data.dependencies, packageConfig.name);
+			})
+			.then(function(newPkg){
+				//update file with new values
+
+				pkg.dependencies = newPkg;
+
+				return fs.writeJsonAsync(paths.pkg, pkg, function (err) {
+				  console.log('write json error', err)
+				});
+			})
+			.then(function(){
+				//remove from node modules
+				return fs.removeSync(path.resolve(__dirname + '../../../../' + packageConfig.name));
+				
+			})
+			.then(function(){
+				cartridgeApi.logMessage('Finished: cleaned packages for ' + packageConfig.name);
+				return Promise.resolve();
+			})
+
 	};
-
-
 
 	cartridgeApi.installDependencies = function installDependencies(dependencies, ignoreArr){
 		return new Promise(function (resolve, reject){
 			process.chdir('../../');
 			return npmInstallPackage(jSonObjToNpmInstallArray(dependencies, ignoreArr), function(err){
 				if(err) throw err;
+				cartridgeApi.logMessage('Finished: installing dependencies for ' + packageConfig.name);
+				resolve();
 			});
-		}).then(function(){
-			cartridgeApi.logMessage('Finished: installing dependencies for ' + packageConfig.name);
-			return Promise.resolve();
-		})
-	};
-
-	cartridgeApi.modifyProjectPackage = function modifyProjectPackage(objToAdd){
-		var pkg = {};
-		return fs.readJsonAsync(paths.pkg)
-			.then(function(data){
-				pkg = data;
-				return cleanJsonObj(data.dependencies, objToAdd);
-			})
-			.then(function(newPkg){
-				//update file with new values
-				pkg.dependencies = newPkg;
-
-				return fs.writeJsonAsync(paths.pkg, pkg, function (err) {
-				  console.log(err)
-				})
-				.then(function(){
-					return pkg;
-				});
-			})
-			.then(function(){
-				cartridgeApi.logMessage('Finished: modifying package.json for ' + packageConfig.name);
-				return Promise.resolve();
-			})
-			.catch(function(err){
-				console.log('modifyPackageJson error');
-				console.error(err);
-				process.exit(1);
-			});
+		});
 	};
 
 	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
