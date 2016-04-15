@@ -3,6 +3,9 @@
 var CONFIG_FILE = '/.cartridgerc';
 var MATCH_REGEX = /(\[\/\/\]: <> \(Modules start\)\s)([^[]*)(\[\/\/\]: <> \(Modules end\)\s)/g;
 
+var EXIT_OK   = 0;
+var EXIT_FAIL = 1;
+
 var path       = require('path');
 var chalk      = require('chalk');
 var template   = require('lodash/template');
@@ -42,7 +45,7 @@ function updateReadme(renderedModuleTemplate) {
 		.catch(function(err) {
 			console.log('updateReadme error');
 			console.error(err);
-			process.exit(1);
+			process.exit(EXIT_FAIL);
 		});
 }
 
@@ -67,7 +70,7 @@ function updateReadmeModules(rcData) {
 			console.log('updateReadmeModules error');
 			console.error(err);
 			console.trace();
-			process.exit(1);
+			process.exit(EXIT_FAIL);
 		});
 }
 
@@ -110,9 +113,10 @@ function getModuleId(modules, moduleName) {
 }
 
 function removeModuleDataFromRcObject(data, moduleName) {
+	var deleteLength = 1;
 	for (var i = 0; i < data.modules.length; i++) {
 		if(data.modules[i].name === moduleName) {
-			data.modules.splice(i, 1);
+			data.modules.splice(i, deleteLength);
 		}
 	}
 
@@ -168,6 +172,10 @@ module.exports = function(packageConfig) {
 			});
 	}
 
+	cartridgeApi.logMessage = function logMessage(message) {
+		console.log(message);
+	};
+
 	cartridgeApi.copyFileToProject = function copyFileToProject(copyPath, destinationPath) {
 		var fileName, destinationFile;
 
@@ -175,20 +183,19 @@ module.exports = function(packageConfig) {
 		fileName        = path.basename(copyPath);
 		destinationFile = path.join(destinationPath, fileName);
 
-		console.log('checking path: ' + destinationFile);
 		if(pathExists.sync(destinationFile)) {
 			cartridgeApi.logMessage('Skipping: Copying ' + fileName + ' file as it already exists');
 			return Promise.resolve();
-		} else {
-			return fs.ensureDirAsync(destinationPath)
-				.then(function() {
-					return fs.copyAsync(copyPath, destinationFile);
-				})
-				.then(function(){
-					cartridgeApi.logMessage('Finished: Copying ' + fileName + ' for ' + packageConfig.name + '');
-					return Promise.resolve();
-				});
 		}
+
+		return fs.ensureDirAsync(destinationPath)
+			.then(function() {
+				return fs.copyAsync(copyPath, destinationFile);
+			})
+			.then(function(){
+				cartridgeApi.logMessage('Finished: Copying ' + fileName + ' for ' + packageConfig.name + '');
+				return Promise.resolve();
+			});
 	};
 
 	cartridgeApi.exitIfDevEnvironment = function() {
@@ -198,14 +205,14 @@ module.exports = function(packageConfig) {
 			cartridgeApi.logMessage('Skipping postinstall.js for ' + chalk.underline(packageConfig.name));
 			cartridgeApi.logMessage('');
 
-			process.exit(0);
+			process.exit(EXIT_OK);
 		}
 	};
 
 	cartridgeApi.ensureCartridgeExists = function ensureCartridgeExists() {
 		if(!hasCartridgeInstalled()) {
 			console.error(chalk.red('Cartridge is not set up in this directory. Please set it up first before installing this module'));
-			process.exit(1);
+			process.exit(EXIT_FAIL);
 		}
 	};
 
@@ -235,7 +242,7 @@ module.exports = function(packageConfig) {
 			.catch(function(err){
 				console.log('addToRc error');
 				console.error(err);
-				process.exit(1);
+				process.exit(EXIT_FAIL);
 			});
 	};
 
@@ -259,7 +266,7 @@ module.exports = function(packageConfig) {
 			.catch(function(err){
 				console.log('removeFromRc error');
 				console.error(err);
-				process.exit(1);
+				process.exit(EXIT_FAIL);
 			});
 	};
 
@@ -281,7 +288,7 @@ module.exports = function(packageConfig) {
 			.catch(function(err){
 				console.log('modifyProjectConfig error');
 				console.error(err);
-				process.exit(1);
+				process.exit(EXIT_FAIL);
 			});
 	};
 
@@ -324,11 +331,7 @@ module.exports = function(packageConfig) {
 
 	cartridgeApi.finishInstall = function finishInstall() {
 		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
-		process.exit(0);
-	};
-
-	cartridgeApi.logMessage = function logMessage(message) {
-		console.log(message);
+		process.exit(EXIT_OK);
 	};
 
 	return cartridgeApi;
