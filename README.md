@@ -31,7 +31,7 @@ API
 - [removeModuleConfig](#removeModuleConfig)
 
 
-### addModuleConfig
+### <a name="addModuleConfig"></a> addModuleConfig
 Moves a configuration file from the module directory to the configuration directory of the project. Returns a promise on completion.
 
 #### Arguments
@@ -48,7 +48,7 @@ cartridgeUtil.addModuleConfig(path.resolve('_config', 'task.sass.js'));
 -------
 
 
-### addToRc
+### <a name="addToRc"></a> addToRc
 
 Adds the module information to the project `.cartridgerc` file. Will update the existing entry if one exists rather than adding a second.
 
@@ -65,20 +65,20 @@ cartridgeUtil.addToRc()
 -------
 
 
-### copyFileToProject
+### <a name="copyFileToProject"></a> copyFileToProject
 > TODO: Add documentation
 
 -------
 
 
-### copyToProjectDir
+### <a name="copyToProjectDir"></a> copyToProjectDir
 > TODO: Add documentation
 
 
 -------
 
 
-### ensureCartridgeExists
+### <a name="ensureCartridgeExists"></a> ensureCartridgeExists
 Validates that a `.cartridgerc` file exists in the current working directory. Exits the process if the file does not exist.
 
 #### Example
@@ -90,7 +90,7 @@ cartridgeUtil.ensureCartridgeExists();
 -------
 
 
-### exitIfDevEnvironment
+### <a name="exitIfDevEnvironment"></a> exitIfDevEnvironment
 Stop execution with a non-error exit code if `NODE_ENV` environment variable equals `development`. This can be used to stop certain steps from running such as post install scripts, when developing, running CI builds etc.
 
 * `export NODE_ENV=development` in a command line window before running `cartridgeUtil.exitIfDevEnvironment()` will exit out.
@@ -105,14 +105,14 @@ cartridgeUtil.exitIfDevEnvironment();
 -------
 
 
-### finishInstall
+### <a name="finishInstall"></a> finishInstall
 Logs out a message that the installation has finished and exits the process with a success status.
 
 
 -------
 
 
-### logMessage
+### <a name="logMessage"></a> logMessage
 Log a message out to the console.
 
 > TODO: Move away from `console.log` to an approach that ties in to how verbose the install is set to
@@ -131,7 +131,7 @@ cartridgeUtil.logMessage('Show me on the command line!');
 -------
 
 
-### modifyProjectConfig
+### <a name="modifyProjectConfig"></a> modifyProjectConfig
 Modify the project.json config file of a project with the use of a transform function.
 
 #### Arguments
@@ -154,14 +154,14 @@ cartridgeUtil.modifyProjectConfig(function(config) {
 -------
 
 
-### removeFromProjectDir
+### <a name="removeFromProjectDir"></a> removeFromProjectDir
 > TODO: Add documentation
 
 
 -------
 
 
-### removeFromRc
+### <a name="removeFromRc"></a> removeFromRc
 Remove the module information to the project `.cartridgerc` file.
 
 Returns a promise that is fulfilled once the `.cartridgerc` file is written.
@@ -177,7 +177,7 @@ cartridgeUtil.removeFromRc()
 -------
 
 
-### removeModuleConfig
+### <a name="removeModuleConfig"></a> removeModuleConfig
 > TODO: Needs implementing
 
 * * *
