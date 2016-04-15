@@ -179,3 +179,16 @@ cartridgeUtil.removeFromRc()
 
 ### removeModuleConfig
 > TODO: Needs implementing
+
+* * * 
+
+## Development
+### Commit message standards [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+Try and adhere as closely as possible to the [Angular commit messages guidelines](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#-git-commit-guidelines).
+
+[Commitizen](https://github.com/commitizen/cz-cli) is a command line tool which can help with this:
+```sh
+npm install -g commitizen
+```
+Now, simply use `git cz` instead of `git commit` when committing.
+
