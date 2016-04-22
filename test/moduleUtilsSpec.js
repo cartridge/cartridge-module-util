@@ -49,4 +49,31 @@ describe('As user of the module utils module', function() {
 
 	})
 
+
+	describe('When using the finishInstall function', function() {
+
+		before(function() {
+			consoleLogToFile.enable();
+
+			process.exit = function() {
+				return false;
+			}
+		})
+
+		after(function() {
+			consoleLogToFile.removeLogFile();
+		})
+
+		it('should correctly log the input', function() {
+			var expected = fs.readFileSync(path.join(__dirname, 'structs', 'finishInstall.txt'), 'utf8');
+			var actual;
+
+			moduleUtilsInstance.finishInstall();
+			consoleLogToFile.restore();
+			actual = consoleLogToFile.getFileContents();
+
+			expect(expected).to.equal(actual);
+		})
+	})
+
 })
