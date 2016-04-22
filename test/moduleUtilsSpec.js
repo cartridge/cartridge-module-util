@@ -56,6 +56,7 @@ describe('As user of the module utils module', function() {
 	describe('When using the finishInstall function', function() {
 
 		describe('And testing the on-screen output', function() {
+
 			before(function() {
 				mockConsoleLog.enable({
 					writeToFile: true
@@ -82,6 +83,7 @@ describe('As user of the module utils module', function() {
 		})
 
 		describe('And testing if the process it exited', function() {
+
 			before(function() {
 				mockProcessExit.enable();
 				mockConsoleLog.enable();
