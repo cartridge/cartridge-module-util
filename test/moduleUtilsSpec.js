@@ -85,7 +85,7 @@ describe('As user of the module utils module', function() {
 				consoleLogToFile.restore();
 			})
 
-			it('should exit the process with no error', function() {
+			it('should exit the process with error code 0 (no error)', function() {
 				var exitCallInfo;
 
 				moduleUtilsInstance.finishInstall();
