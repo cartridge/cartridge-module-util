@@ -18,7 +18,7 @@ mockProcessExitApi.enable = function() {
 
 mockProcessExitApi.callInfo = function() {
 	return {
-		called: true,
+		called: _hasBeenCalled,
 		errorCode: _errorCode
 	};
 }
