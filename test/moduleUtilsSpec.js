@@ -53,26 +53,50 @@ describe('As user of the module utils module', function() {
 
 	describe('When using the finishInstall function', function() {
 
-		before(function() {
-			consoleLogToFile.enable();
-			mockProcessExit.enable();
+		describe('And testing the on-screen output', function() {
+			before(function() {
+				consoleLogToFile.enable();
+				mockProcessExit.enable();
+			})
+
+			after(function() {
+				consoleLogToFile.removeLogFile();
+			})
+
+			it('should correctly log the input', function() {
+				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'finishInstall.txt'), 'utf8');
+				var actual;
+
+				moduleUtilsInstance.finishInstall();
+				consoleLogToFile.restore();
+				mockProcessExit.restore();
+				actual = consoleLogToFile.getFileContents();
+
+				expect(expected).to.equal(actual);
+			})
 		})
 
-		after(function() {
-			consoleLogToFile.removeLogFile();
+		describe('And testing if the process it exited', function() {
+			before(function() {
+				mockProcessExit.enable();
+			})
+
+			after(function() {
+				consoleLogToFile.restore();
+			})
+
+			it('should exit the process with no error', function() {
+				var exitCallInfo;
+
+				moduleUtilsInstance.finishInstall();
+
+				exitCallInfo = mockProcessExit.callInfo();
+
+				expect(exitCallInfo.called).to.be.true;
+				expect(exitCallInfo.errorCode).to.equal(0);
+			})
+
 		})
 
-		it('should correctly log the input', function() {
-			var expected = fs.readFileSync(path.join(__dirname, 'structs', 'finishInstall.txt'), 'utf8');
-			var actual;
-
-			moduleUtilsInstance.finishInstall();
-			consoleLogToFile.restore();
-			mockProcessExit.restore();
-			actual = consoleLogToFile.getFileContents();
-
-			expect(expected).to.equal(actual);
-		})
 	})
-
 })
