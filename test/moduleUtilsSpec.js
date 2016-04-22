@@ -7,6 +7,8 @@ var mockPackageJson = JSON.parse(fs.readFileSync(path.join(__dirname, './mockPac
 var moduleUtils = require('../index.js');
 var moduleUtilsInstance = moduleUtils(mockPackageJson);
 
+var consoleLogToFile = require('./consoleLogToFile');
+
 chai.use(require('chai-fs'));
 chai.should();
 
@@ -21,6 +23,30 @@ describe('As user of the module utils module', function() {
 		it('should return an object', function() {
 			expect(moduleUtilsInstance).to.be.an('object');
 		})
+	})
+
+	describe('When using the logMessage function', function() {
+
+		before(function() {
+			consoleLogToFile.enable();
+		})
+
+		after(function() {
+			consoleLogToFile.removeLogFile();
+		})
+
+		it('should correctly log the input', function() {
+			var logInput = "Who are the patriots?"
+			var expected = "Who are the patriots?\n"
+			var actual;
+
+			moduleUtilsInstance.logMessage(logInput);
+			consoleLogToFile.restore();
+			actual = consoleLogToFile.getFileContents();
+
+			expect(expected).to.equal(actual);
+		});
+
 	})
 
 })
