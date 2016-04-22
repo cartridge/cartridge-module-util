@@ -8,6 +8,7 @@ var moduleUtils = require('../index.js');
 var moduleUtilsInstance = moduleUtils(mockPackageJson);
 
 var consoleLogToFile = require('./consoleLogToFile');
+var mockProcessExit = require('./mockProcessExit');
 
 chai.use(require('chai-fs'));
 chai.should();
@@ -54,10 +55,7 @@ describe('As user of the module utils module', function() {
 
 		before(function() {
 			consoleLogToFile.enable();
-
-			process.exit = function() {
-				return false;
-			}
+			mockProcessExit.enable();
 		})
 
 		after(function() {
@@ -70,6 +68,7 @@ describe('As user of the module utils module', function() {
 
 			moduleUtilsInstance.finishInstall();
 			consoleLogToFile.restore();
+			mockProcessExit.restore();
 			actual = consoleLogToFile.getFileContents();
 
 			expect(expected).to.equal(actual);
