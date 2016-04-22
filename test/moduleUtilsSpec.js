@@ -7,7 +7,7 @@ var mockPackageJson = JSON.parse(fs.readFileSync(path.join(__dirname, './mockPac
 var moduleUtils = require('../index.js');
 var moduleUtilsInstance = moduleUtils(mockPackageJson);
 
-var consoleLogToFile = require('./consoleLogToFile');
+var mockConsoleLog = require('./mockConsoleLog');
 var mockProcessExit = require('./mockProcessExit');
 
 chai.use(require('chai-fs'));
@@ -29,11 +29,13 @@ describe('As user of the module utils module', function() {
 	describe('When using the logMessage function', function() {
 
 		before(function() {
-			consoleLogToFile.enable();
+			mockConsoleLog.enable({
+				writeToFile: true
+			});
 		})
 
 		after(function() {
-			consoleLogToFile.removeLogFile();
+			mockConsoleLog.removeLogFile();
 		})
 
 		it('should correctly log the input', function() {
@@ -42,8 +44,8 @@ describe('As user of the module utils module', function() {
 			var actual;
 
 			moduleUtilsInstance.logMessage(logInput);
-			consoleLogToFile.restore();
-			actual = consoleLogToFile.getFileContents();
+			mockConsoleLog.restore();
+			actual = mockConsoleLog.getFileContents();
 
 			expect(expected).to.equal(actual);
 		});
@@ -55,12 +57,15 @@ describe('As user of the module utils module', function() {
 
 		describe('And testing the on-screen output', function() {
 			before(function() {
-				consoleLogToFile.enable();
+				mockConsoleLog.enable({
+					writeToFile: true
+				});
+
 				mockProcessExit.enable();
 			})
 
 			after(function() {
-				consoleLogToFile.removeLogFile();
+				mockConsoleLog.removeLogFile();
 			})
 
 			it('should correctly log the input', function() {
@@ -68,9 +73,9 @@ describe('As user of the module utils module', function() {
 				var actual;
 
 				moduleUtilsInstance.finishInstall();
-				consoleLogToFile.restore();
+				mockConsoleLog.restore();
 				mockProcessExit.restore();
-				actual = consoleLogToFile.getFileContents();
+				actual = mockConsoleLog.getFileContents();
 
 				expect(expected).to.equal(actual);
 			})
@@ -79,16 +84,18 @@ describe('As user of the module utils module', function() {
 		describe('And testing if the process it exited', function() {
 			before(function() {
 				mockProcessExit.enable();
+				mockConsoleLog.enable();
 			})
 
 			after(function() {
-				consoleLogToFile.restore();
+				mockProcessExit.restore();
 			})
 
 			it('should exit the process with error code 0 (no error)', function() {
 				var exitCallInfo;
 
 				moduleUtilsInstance.finishInstall();
+				mockConsoleLog.restore();
 
 				exitCallInfo = mockProcessExit.callInfo();
 

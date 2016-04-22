@@ -7,13 +7,17 @@ var logToFileApi = {};
 var _logFilePath = path.join(__dirname, 'console.log');
 var _originalMethod;
 var _fileStream;
+var _options;
 
-logToFileApi.enable = function() {
+logToFileApi.enable = function(options) {
+	_options = options || {};
 	_originalMethod = console.log;
 	_fileStream = fs.createWriteStream(_logFilePath, {flags : 'w'});
 
 	console.log = function(data) {
-		_fileStream.write(util.format(data) + '\n');
+		if(_options.writeToFile) {
+			_fileStream.write(util.format(data) + '\n');
+		}
 	}
 }
 
@@ -30,7 +34,9 @@ logToFileApi.restore = function() {
 		return;
 	}
 
-	_fileStream.end();
+	if(_options.writeToFile) {
+		_fileStream.end();
+	}
 	console.log = _originalMethod
 }
 
