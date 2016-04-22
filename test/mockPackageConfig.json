@@ -1,0 +1,6 @@
+{
+  "name": "cartridge-mock-package",
+  "version": "0.0.1",
+  "homepage": "https://github.com/cartridge/mock-json",
+  "main": "task.js"
+}
