@@ -52,7 +52,6 @@ describe('As user of the module utils module', function() {
 
 	})
 
-
 	describe('When using the finishInstall function', function() {
 
 		describe('And testing the on-screen output', function() {
