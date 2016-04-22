@@ -37,7 +37,7 @@ describe('As user of the module utils module', function() {
 
 		it('should correctly log the input', function() {
 			var logInput = "Who are the patriots?"
-			var expected = "Who are the patriots?\n"
+			var expected = fs.readFileSync(path.join(__dirname, 'structs', 'logMessage.txt'), 'utf8');
 			var actual;
 
 			moduleUtilsInstance.logMessage(logInput);
