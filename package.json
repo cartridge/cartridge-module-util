@@ -30,9 +30,12 @@
     "path-exists": "^2.1.0"
   },
   "devDependencies": {
+    "chai": "^1.10.0",
+    "chai-fs": "^0.1.0",
     "cz-conventional-changelog": "^1.1.5",
     "eslint": "^2.7.0",
     "ghooks": "^1.2.1",
+    "mocha": "^2.4.5",
     "validate-commit-msg": "^2.6.0"
   },
   "config": {
