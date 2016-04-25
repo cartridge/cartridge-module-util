@@ -190,15 +190,45 @@ describe('As user of the module utils module', function() {
 		})
 	})
 
-	describe.skip('When using addToRc', function() {
+	describe('When using addToRc', function() {
 
-		beforeEach(function() {
+		var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRc.json'), 'utf8'));
+		var cartridgeRcJson;
+
+		before(function() {
+			mockConsoleLog.enable();
+
 			return moduleUtilsInstance.addToRc()
+				.then(function() {
+					mockConsoleLog.restore();
+					mockConsoleLog.clearLogData();
+
+					cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
+				})
 		})
 
-		it('should correctly add data to the .cartridgerc file', function() {
+		describe('And module data is written to the file', function() {
 
+			it('should correctly populate the modules array', function() {
+				expect(cartridgeRcJson.modules).to.be.an('array');
+				expect(cartridgeRcJson.modules.length).to.equal(1);
+			})
 
+			it('should correctly set the name value', function() {
+				expect(cartridgeRcJson.modules[0].name).to.equal(cartridgeRcStruct.modules[0].name);
+			})
+
+			it('should correctly set the version value', function() {
+				expect(cartridgeRcJson.modules[0].version).to.equal(cartridgeRcStruct.modules[0].version);
+			})
+
+			it('should correctly set the site value', function() {
+				expect(cartridgeRcJson.modules[0].site).to.equal(cartridgeRcStruct.modules[0].site);
+			})
+
+			it('should correctly set the task value', function() {
+				expect(cartridgeRcJson.modules[0].task).to.equal(cartridgeRcStruct.modules[0].task);
+			})
 		})
 
 	})
