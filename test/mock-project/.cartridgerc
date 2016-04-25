@@ -1,5 +1,12 @@
 {
   "cartridgeVersion": "0.0.0",
   "dateGenerated": "00/00/0000",
-  "modules": []
+  "modules": [
+    {
+      "name": "cartridge-mock-package",
+      "version": "0.0.1",
+      "site": "https://github.com/cartridge/mock-json",
+      "task": "cartridge-mock-package/task.js"
+    }
+  ]
 }

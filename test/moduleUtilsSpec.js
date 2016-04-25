@@ -3,20 +3,20 @@ var path = require('path');
 
 var chai = require('chai');
 var stripAnsi = require('strip-ansi');
+var rewire =  require('rewire')
 var expect = chai.expect;
 var mockPackageJson = JSON.parse(fs.readFileSync(path.join(__dirname, './mocks/mockPackageConfig.json'), 'utf8'));
 
-//This has to be done due to moduleUtils setting project paths on require
-//Change the current working directory so that mock-project directory is where moduleUtils looks for .cartridgerc, _config etc
-var _cachedCwd = process.cwd();
-console.log('changing cwd to', path.join(process.cwd(), 'test', 'mock-project', 'empty-folder', 'another-empty-folder'));
-process.chdir(path.join(process.cwd(), 'test', 'mock-project', 'empty-folder', 'another-empty-folder'));
+var moduleUtils = rewire('../index.js');
 
-var moduleUtils = require('../index.js');
+moduleUtils.__set__("paths", {
+	project: path.join(process.cwd(), 'test', 'mock-project'),
+	config: path.join(process.cwd(), 'test', 'mock-project', '_config'),
+	readme: path.join(process.cwd(), 'test', 'mock-project', 'readme.md'),
+	cartridge: path.join(process.cwd(), 'test', 'mock-project', '_cartridge')
+});
+
 var moduleUtilsInstance = moduleUtils(mockPackageJson);
-
-process.chdir(_cachedCwd);
-
 var mockConsoleLog = require('./mocks/mockConsoleLog');
 var mockProcessExit = require('./mocks/mockProcessExit');
 
