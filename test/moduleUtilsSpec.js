@@ -5,8 +5,16 @@ var chai = require('chai');
 var stripAnsi = require('strip-ansi');
 var expect = chai.expect;
 var mockPackageJson = JSON.parse(fs.readFileSync(path.join(__dirname, './mocks/mockPackageConfig.json'), 'utf8'));
+
+//This has to be done due to moduleUtils setting project paths on require
+//Change the current working directory so that mock-project directory is where moduleUtils looks for .cartridgerc, _config etc
+var _cachedCwd = process.cwd();
+process.chdir(path.join(process.cwd(), 'test', 'mock-project', 'empty-folder', 'another-empty-folder'));
+
 var moduleUtils = require('../index.js');
 var moduleUtilsInstance = moduleUtils(mockPackageJson);
+
+process.chdir(_cachedCwd);
 
 var mockConsoleLog = require('./mocks/mockConsoleLog');
 var mockProcessExit = require('./mocks/mockProcessExit');
@@ -179,6 +187,18 @@ describe('As user of the module utils module', function() {
 
 				expect(exitCallInfo.called).to.be.false;
 			})
+		})
+	})
+
+	describe.skip('When using addToRc', function() {
+
+		beforeEach(function() {
+			return moduleUtilsInstance.addToRc()
+		})
+
+		it('should correctly add data to the .cartridgerc file', function() {
+
+
 		})
 
 	})
