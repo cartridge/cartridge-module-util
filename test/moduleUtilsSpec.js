@@ -336,6 +336,40 @@ describe('As user of the module utils module', function() {
 
 	})
 
+	describe('When using modifyProjectConfig', function() {
+		var projectJson;
+		var transformFunction = function(config) {
+			config.paths.metal = "gear?!";
+
+			return config;
+		}
+
+		before(function() {
+			fs.copySync(path.join(__dirname, 'stubs', 'projectJsonStub.json'), path.join(__dirname, 'mock-project', '_config', 'project.json'));
+			mockConsoleLog.enable();
+
+			return moduleUtilsInstance.modifyProjectConfig(transformFunction)
+				.then(function() {
+					mockConsoleLog.restore();
+					mockConsoleLog.clearLogData();
+
+					projectJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '_config', 'project.json'), 'utf8'));
+			})
+		})
+
+		after(function() {
+			fs.removeSync(path.join(__dirname, 'mock-project', '_config'))
+		})
+
+		it('should correctly add the data to the project.json file', function() {
+			var expected = "gear?!";
+
+			expect(projectJson.paths.metal).to.not.be.undefined;
+			expect(projectJson.paths.metal).to.equal(expected);
+		});
+
+	})
+
 	describe('When using ensureCartridgeExists', function() {
 
 		describe('And the cartridgerc file does not exist', function() {
