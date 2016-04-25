@@ -159,8 +159,16 @@ describe('As user of the module utils module', function() {
 				mockProcessExit.restore();
 			})
 
-			it.skip('should not output an on-screen message', function() {
-				//@TODO
+			it('should not output an on-screen message', function() {
+				var expected = "";
+				var actual;
+
+				moduleUtilsInstance.exitIfDevEnvironment();
+				mockConsoleLog.restore();
+
+				actual = mockConsoleLog.getLogData();
+
+				expect(expected).to.equal(actual);
 			});
 
 			it('should not exit the process', function() {
