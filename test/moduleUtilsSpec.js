@@ -1,4 +1,4 @@
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 
 var chai = require('chai');
@@ -197,6 +197,7 @@ describe('As user of the module utils module', function() {
 		var cartridgeRcJson;
 
 		before(function() {
+			fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStub.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
 			mockConsoleLog.enable();
 
 			return moduleUtilsInstance.addToRc()
@@ -206,6 +207,10 @@ describe('As user of the module utils module', function() {
 
 					cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
 				})
+		})
+
+		after(function() {
+			fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'))
 		})
 
 		describe('And module data is written to the file', function() {
