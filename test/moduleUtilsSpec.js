@@ -30,13 +30,12 @@ describe('As user of the module utils module', function() {
 	describe('When using the logMessage function', function() {
 
 		before(function() {
-			mockConsoleLog.enable({
-				writeToFile: true
-			});
+			mockConsoleLog.enable();
 		})
 
 		after(function() {
-			mockConsoleLog.removeLogFile();
+			// mockConsoleLog.removeLogFile();
+			mockConsoleLog.clearLogData();
 		})
 
 		it('should correctly log the input', function() {
@@ -46,7 +45,9 @@ describe('As user of the module utils module', function() {
 
 			moduleUtilsInstance.logMessage(logInput);
 			mockConsoleLog.restore();
-			actual = mockConsoleLog.getFileContents();
+
+			// actual = mockConsoleLog.getFileContents();
+			actual = mockConsoleLog.getLogData();
 
 			expect(expected).to.equal(actual);
 		});
@@ -58,15 +59,14 @@ describe('As user of the module utils module', function() {
 		describe('And testing the on-screen output', function() {
 
 			before(function() {
-				mockConsoleLog.enable({
-					writeToFile: true
-				});
+				mockConsoleLog.enable();
 
 				mockProcessExit.enable();
 			})
 
 			after(function() {
-				mockConsoleLog.removeLogFile();
+				// mockConsoleLog.removeLogFile();
+				mockConsoleLog.clearLogData();
 			})
 
 			it('should correctly log the input', function() {
@@ -76,7 +76,8 @@ describe('As user of the module utils module', function() {
 				moduleUtilsInstance.finishInstall();
 				mockConsoleLog.restore();
 				mockProcessExit.restore();
-				actual = mockConsoleLog.getFileContents();
+				// actual = mockConsoleLog.getFileContents();
+				actual = mockConsoleLog.getLogData();
 
 				expect(expected).to.equal(actual);
 			})
