@@ -276,19 +276,45 @@ describe('As user of the module utils module', function() {
 
 	})
 
-	describe.skip('When using ensureCartridgeExists', function() {
+	describe('When using ensureCartridgeExists', function() {
 
 		describe('And the cartridgerc file does not exist', function() {
 
-			it('should log an on-screen message', function() {
+			beforeEach(function() {
+				mockProcessExit.enable();
+				mockConsoleLog.enable();
+			})
 
+			afterEach(function() {
+				mockConsoleLog.clearLogData();
+				mockProcessExit.restore();
+			})
+
+			it('should log an on-screen message', function() {
+				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'ensureCartridgeExists.txt'), 'utf8');
+				var actual;
+
+				moduleUtilsInstance.ensureCartridgeExists();
+				mockConsoleLog.restore();
+
+				actual = stripAnsi(mockConsoleLog.getLogData());
+
+				expect(expected).to.equal(actual);
 			})
 
 			it('should exit the process with error code 1 (error)', function() {
+				var exitCallInfo;
 
+				moduleUtilsInstance.ensureCartridgeExists();
+				mockConsoleLog.restore();
+
+				exitCallInfo = mockProcessExit.callInfo();
+
+				expect(exitCallInfo.called).to.be.true;
+				expect(exitCallInfo.errorCode).to.equal(1);
 			})
 
-			})
+		})
 
 	})
 })
