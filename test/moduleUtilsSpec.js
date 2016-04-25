@@ -216,18 +216,22 @@ describe('As user of the module utils module', function() {
 
 			it('should correctly set the name value', function() {
 				expect(cartridgeRcJson.modules[0].name).to.equal(cartridgeRcStruct.modules[0].name);
+				expect(cartridgeRcJson.modules[0].name).to.be.a('string');
 			})
 
 			it('should correctly set the version value', function() {
 				expect(cartridgeRcJson.modules[0].version).to.equal(cartridgeRcStruct.modules[0].version);
+				expect(cartridgeRcJson.modules[0].version).to.be.a('string');
 			})
 
 			it('should correctly set the site value', function() {
 				expect(cartridgeRcJson.modules[0].site).to.equal(cartridgeRcStruct.modules[0].site);
+				expect(cartridgeRcJson.modules[0].site).to.be.a('string');
 			})
 
 			it('should correctly set the task value', function() {
 				expect(cartridgeRcJson.modules[0].task).to.equal(cartridgeRcStruct.modules[0].task);
+				expect(cartridgeRcJson.modules[0].task).to.be.a('string');
 			})
 		})
 
