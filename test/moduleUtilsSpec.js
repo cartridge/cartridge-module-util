@@ -56,7 +56,7 @@ describe('As user of the module utils module', function() {
 
 			actual = mockConsoleLog.getLogData();
 
-			expect(expected).to.equal(actual);
+			expect(actual).to.equal(expected);
 		});
 
 	})
@@ -83,7 +83,7 @@ describe('As user of the module utils module', function() {
 				mockProcessExit.restore();
 				actual = mockConsoleLog.getLogData();
 
-				expect(expected).to.equal(actual);
+				expect(actual).to.equal(expected);
 			})
 		})
 
@@ -140,7 +140,7 @@ describe('As user of the module utils module', function() {
 
 				actual = stripAnsi(mockConsoleLog.getLogData());
 
-				expect(expected).to.equal(actual);
+				expect(actual).to.equal(expected);
 			})
 
 			it('should exit the process with error code 0 (no error)', function() {
@@ -177,7 +177,7 @@ describe('As user of the module utils module', function() {
 
 				actual = mockConsoleLog.getLogData();
 
-				expect(expected).to.equal(actual);
+				expect(actual).to.equal(expected);
 			});
 
 			it('should not exit the process', function() {
@@ -290,7 +290,7 @@ describe('As user of the module utils module', function() {
 				mockProcessExit.restore();
 			})
 
-			it('should log an on-screen message', function() {
+			it('should output an on-screen message', function() {
 				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'ensureCartridgeExists.txt'), 'utf8');
 				var actual;
 
@@ -299,7 +299,7 @@ describe('As user of the module utils module', function() {
 
 				actual = stripAnsi(mockConsoleLog.getLogData());
 
-				expect(expected).to.equal(actual);
+				expect(actual).to.equal(expected);
 			})
 
 			it('should exit the process with error code 1 (error)', function() {
@@ -314,6 +314,45 @@ describe('As user of the module utils module', function() {
 				expect(exitCallInfo.errorCode).to.equal(1);
 			})
 
+		})
+
+		describe('And the cartridge file does exist', function() {
+			beforeEach(function() {
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+
+				mockProcessExit.enable();
+				mockConsoleLog.enable();
+			})
+
+			afterEach(function() {
+				fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'));
+
+				mockConsoleLog.clearLogData();
+				mockProcessExit.restore();
+			})
+
+			it('should not output an on-screen message', function() {
+				var expected = "";
+				var actual;
+
+				moduleUtilsInstance.ensureCartridgeExists();
+				mockConsoleLog.restore();
+
+				actual = mockConsoleLog.getLogData();
+
+				expect(actual).to.equal(expected);
+			})
+
+			it('should not exit the process', function() {
+				var exitCallInfo;
+
+				moduleUtilsInstance.ensureCartridgeExists();
+				mockConsoleLog.restore();
+
+				exitCallInfo = mockProcessExit.callInfo();
+
+				expect(exitCallInfo.called).to.be.false;
+			})
 		})
 
 	})
