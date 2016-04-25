@@ -9,6 +9,7 @@ var mockPackageJson = JSON.parse(fs.readFileSync(path.join(__dirname, './mocks/m
 //This has to be done due to moduleUtils setting project paths on require
 //Change the current working directory so that mock-project directory is where moduleUtils looks for .cartridgerc, _config etc
 var _cachedCwd = process.cwd();
+console.log('changing cwd to', path.join(process.cwd(), 'test', 'mock-project', 'empty-folder', 'another-empty-folder'));
 process.chdir(path.join(process.cwd(), 'test', 'mock-project', 'empty-folder', 'another-empty-folder'));
 
 var moduleUtils = require('../index.js');
