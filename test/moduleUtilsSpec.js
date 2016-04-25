@@ -123,7 +123,7 @@ describe('As user of the module utils module', function() {
 			})
 
 			it('should output on-screen message saying this step is going to be skipped', function() {
-				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'exitIfDev.txt'), 'utf8');
+				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'exitIfDevNodeEnvDevelopment.txt'), 'utf8');
 				var actual;
 
 				moduleUtilsInstance.exitIfDevEnvironment();
