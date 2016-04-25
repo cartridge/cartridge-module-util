@@ -2,14 +2,14 @@ var fs = require('fs');
 var util = require('util');
 var path = require('path');
 
-var logToFileApi = {};
+var mockConsoleLogApi = {};
 
 var _logFilePath = path.join(__dirname, 'console.log');
 var _originalMethod;
 var _fileStream;
 var _options;
 
-logToFileApi.enable = function(options) {
+mockConsoleLogApi.enable = function(options) {
 	_options = options || {};
 	_originalMethod = console.log;
 	_fileStream = fs.createWriteStream(_logFilePath, {flags : 'w'});
@@ -21,15 +21,15 @@ logToFileApi.enable = function(options) {
 	}
 }
 
-logToFileApi.getFileContents = function() {
+mockConsoleLogApi.getFileContents = function() {
 	return fs.readFileSync(_logFilePath, 'utf8');
 }
 
-logToFileApi.removeLogFile = function() {
+mockConsoleLogApi.removeLogFile = function() {
 	fs.unlinkSync(_logFilePath);
 }
 
-logToFileApi.restore = function() {
+mockConsoleLogApi.restore = function() {
 	if(!_originalMethod) {
 		return;
 	}
@@ -40,4 +40,4 @@ logToFileApi.restore = function() {
 	console.log = _originalMethod
 }
 
-module.exports = logToFileApi;
+module.exports = mockConsoleLogApi;
