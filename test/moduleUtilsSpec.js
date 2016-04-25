@@ -154,5 +154,34 @@ describe('As user of the module utils module', function() {
 
 		})
 
+		describe('And NODE_ENV does not equal `development`', function() {
+			beforeEach(function() {
+				mockProcessExit.enable();
+				// mockConsoleLog.enable({
+				// 	writeToFile: true
+				// });
+
+				process.env.NODE_ENV = 'played-me-like-a-damn-fiddle';
+			})
+
+			afterEach(function() {
+				mockProcessExit.restore();
+				// mockConsoleLog.removeLogFile();
+			})
+
+			it.skip('should not output an on-screen message', function() {
+				//@TODO
+			});
+
+			it('should not exit the process', function() {
+				var exitCallInfo;
+
+				moduleUtilsInstance.exitIfDevEnvironment();
+				exitCallInfo = mockProcessExit.callInfo();
+
+				expect(exitCallInfo.called).to.be.false;
+			})
+		})
+
 	})
 })
