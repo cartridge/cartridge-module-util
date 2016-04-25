@@ -214,6 +214,10 @@ describe('As user of the module utils module', function() {
 				expect(cartridgeRcJson.modules.length).to.equal(1);
 			})
 
+			it('should create a module object', function() {
+				expect(cartridgeRcJson.modules[0]).to.be.an('object');
+			});
+
 			it('should correctly set the name value', function() {
 				expect(cartridgeRcJson.modules[0].name).to.equal(cartridgeRcStruct.modules[0].name);
 				expect(cartridgeRcJson.modules[0].name).to.be.a('string');
