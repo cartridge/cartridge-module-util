@@ -18,8 +18,9 @@
     "url": "https://github.com/cartridge/cartridge-module-util.git"
   },
   "scripts": {
-    "test": "node run lint",
-    "lint": "eslint index.js"
+    "test": "node run lint && node run mocha",
+    "lint": "eslint index.js",
+    "mocha": "mocha"
   },
   "dependencies": {
     "bluebird": "^3.3.4",
