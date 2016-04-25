@@ -450,4 +450,25 @@ describe('As user of the module utils module', function() {
 		})
 
 	})
+
+	describe('When using copyFileToProject', function() {
+
+		before(function() {
+			mockConsoleLog.enable();
+
+			return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'))
+				.then(function() {
+					mockConsoleLog.restore();
+				})
+		})
+
+		after(function() {
+			fs.removeSync(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt'));
+		})
+
+		it('should copy the file to the correct path', function() {
+			expect(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt')).to.be.a.file();
+		})
+
+	})
 })

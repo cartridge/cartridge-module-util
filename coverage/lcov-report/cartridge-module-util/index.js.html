@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for cartridge-module-util/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">cartridge-module-util/</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">65.54% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>97/148</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">59.09% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>13/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">61.54% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>24/39</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">65.54% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>97/148</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">'use strict';
+&nbsp;
+var CONFIG_FILE = '/.cartridgerc';
+var MATCH_REGEX = /(\[\/\/\]: &lt;&gt; \(Modules start\)\s)([^[]*)(\[\/\/\]: &lt;&gt; \(Modules end\)\s)/g;
+&nbsp;
+var EXIT_OK   = 0;
+var EXIT_FAIL = 1;
+&nbsp;
+var path       = require('path');
+var chalk      = require('chalk');
+var template   = require('lodash/template');
+var Promise    = require('bluebird');
+var fs         = Promise.promisifyAll(require('fs-extra'));
+var pathExists = require('path-exists');
+&nbsp;
+var paths = {
+	project:   path.resolve('../../'),
+	config:    path.resolve('../../', '_config'),
+	readme:    path.resolve('../../', 'readme.md'),
+	cartridge: path.resolve('../../_cartridge')
+};
+&nbsp;
+// Checks if the project has been set up with Cartridge
+function hasCartridgeInstalled() {
+	return pathExists.sync(paths.project + CONFIG_FILE);
+}
+&nbsp;
+function insertModulesInToReadme(readmeContents) {
+	/* jshint validthis:true */
+	// In this instance this has been bound by updateReadme to be the rendered module table HTML
+	return readmeContents.replace(MATCH_REGEX, this.renderedModules);
+	/* jshint validthis:false */
+}
+&nbsp;
+function updateReadme(renderedModuleTemplate) {
+&nbsp;
+	return fs.readFileAsync(paths.readme, 'utf8')
+		.bind({
+			renderedModules: renderedModuleTemplate
+		})
+		.then(insertModulesInToReadme)
+		.then(function(fileContent){
+			return fs.writeFileAsync(paths.readme, fileContent);
+		})
+		.catch(<span class="fstat-no" title="function not covered" >function(err) {</span>
+<span class="cstat-no" title="statement not covered" >			console.log('updateReadme error');</span>
+<span class="cstat-no" title="statement not covered" >			console.error(err);</span>
+<span class="cstat-no" title="statement not covered" >			process.exit(EXIT_FAIL);</span>
+		});
+}
+&nbsp;
+function compileTemplate(rawTemplate) {
+	var compiledTemplate = template(rawTemplate);
+&nbsp;
+&nbsp;
+	/* jshint validthis:true */
+	// In this instance this has been bound by updateReadmeModules to be the contents of the cartridgeRc
+	return compiledTemplate(this);
+	/* jshint validthis:false */
+}
+&nbsp;
+function updateReadmeModules(rcData) {
+	var filePath = path.join(paths.cartridge, 'modules.tpl');
+&nbsp;
+	return fs.readFileAsync(filePath, 'utf8')
+		.bind(rcData)
+		.then(compileTemplate)
+		.then(updateReadme)
+		.catch(<span class="fstat-no" title="function not covered" >function(err){</span>
+<span class="cstat-no" title="statement not covered" >			console.log('updateReadmeModules error');</span>
+<span class="cstat-no" title="statement not covered" >			console.error(err);</span>
+<span class="cstat-no" title="statement not covered" >			console.trace();</span>
+<span class="cstat-no" title="statement not covered" >			process.exit(EXIT_FAIL);</span>
+		});
+}
+&nbsp;
+function ensureProjectConfigPaths(projectConfig) {
+	<span class="missing-if-branch" title="if path not taken" >I</span>if(!projectConfig.hasOwnProperty('paths')) {
+<span class="cstat-no" title="statement not covered" >		projectConfig.paths = {</span>
+			src:   {},
+			dest: {}
+		};
+	}
+&nbsp;
+	<span class="missing-if-branch" title="if path not taken" >I</span>if(!projectConfig.paths.hasOwnProperty('src')) {
+<span class="cstat-no" title="statement not covered" >		projectConfig.paths.src = {};</span>
+	}
+&nbsp;
+	<span class="missing-if-branch" title="if path not taken" >I</span>if(!projectConfig.paths.hasOwnProperty('dest')) {
+<span class="cstat-no" title="statement not covered" >		projectConfig.paths.dest = {};</span>
+	}
+&nbsp;
+	return projectConfig;
+}
+&nbsp;
+function getModuleId(modules, moduleName) {
+	var i, moduleIndex;
+&nbsp;
+	// Yes so check that this one doesn't already exist
+	for(i = 0; i &lt; modules.length; i++) {
+&nbsp;
+		<span class="missing-if-branch" title="else path not taken" >E</span>if(modules[i].name === moduleName) {
+			moduleIndex = i;
+			break;
+		}
+	}
+&nbsp;
+	if(moduleIndex === undefined) {
+		moduleIndex = modules.length;
+	}
+&nbsp;
+	return moduleIndex;
+}
+&nbsp;
+function removeModuleDataFromRcObject(data, moduleName) {
+	var deleteLength = 1;
+	for (var i = 0; i &lt; data.modules.length; i++) {
+		if(data.modules[i].name === moduleName) {
+			data.modules.splice(i, deleteLength);
+		}
+	}
+&nbsp;
+	return data;
+}
+&nbsp;
+function addModule(rcContent) {
+	// This is bound to the module data
+	var moduleIndex;
+&nbsp;
+	// Check if any modules have been added to the rc yet
+	<span class="missing-if-branch" title="if path not taken" >I</span>if(!rcContent.hasOwnProperty('modules')) {
+		// No so create the array
+<span class="cstat-no" title="statement not covered" >		rcContent.modules = [];</span>
+<span class="cstat-no" title="statement not covered" >		moduleIndex = 0;</span>
+	} else {
+		/* jshint validthis:true */
+		// In this instance this has been bound by addToRc to be the object containing the module information
+		moduleIndex = getModuleId(rcContent.modules, this.name);
+		/* jshint validthis:false */
+	}
+&nbsp;
+	// Set the data
+	/* jshint validthis:true */
+	// In this instance this has been bound by addToRc to be the object containing the module information
+	rcContent.modules[moduleIndex] = this;
+	/* jshint validthis:false */
+&nbsp;
+	return rcContent;
+}
+&nbsp;
+function writeJsonFile(fileContent) {
+	/* jshint validthis:true */
+	// In this instance this has been bound by the calling function to be the path of the JSON file
+	return fs.writeJsonAsync(this, fileContent)
+	/* jshint validthis:false */
+		.then(function(){
+			return fileContent;
+		});
+}
+&nbsp;
+module.exports = function(packageConfig) {
+	var cartridgeApi = {};
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function _removeFromProjectDir(removePath, packageName) {</span>
+<span class="cstat-no" title="statement not covered" >		var fullFileName = path.basename(removePath);</span>
+<span class="cstat-no" title="statement not covered" >		var projectRemovePath = path.join(paths.project, removePath);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return fs.removeAsync(projectRemovePath)</span>
+			.then(<span class="fstat-no" title="function not covered" >function(){</span>
+<span class="cstat-no" title="statement not covered" >				cartridgeApi.logMessage('Finished: Removing ' + fullFileName + ' for ' + packageName + '');</span>
+<span class="cstat-no" title="statement not covered" >				return Promise.resolve();</span>
+			});
+	}
+&nbsp;
+	cartridgeApi.logMessage = function logMessage(message) {
+		console.log(message);
+	};
+&nbsp;
+	cartridgeApi.copyFileToProject = <span class="fstat-no" title="function not covered" >function copyFileToProject(copyPath, destinationPath) {</span>
+<span class="cstat-no" title="statement not covered" >		var fileName, destinationFile;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		destinationPath = (destinationPath) ? path.join(paths.project, destinationPath) : paths.project;</span>
+<span class="cstat-no" title="statement not covered" >		fileName        = path.basename(copyPath);</span>
+<span class="cstat-no" title="statement not covered" >		destinationFile = path.join(destinationPath, fileName);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if(pathExists.sync(destinationFile)) {</span>
+<span class="cstat-no" title="statement not covered" >			cartridgeApi.logMessage('Skipping: Copying ' + fileName + ' file as it already exists');</span>
+<span class="cstat-no" title="statement not covered" >			return Promise.resolve();</span>
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return fs.ensureDirAsync(destinationPath)</span>
+			.then(<span class="fstat-no" title="function not covered" >function() {</span>
+<span class="cstat-no" title="statement not covered" >				return fs.copyAsync(copyPath, destinationFile);</span>
+			})
+			.then(<span class="fstat-no" title="function not covered" >function(){</span>
+<span class="cstat-no" title="statement not covered" >				cartridgeApi.logMessage('Finished: Copying ' + fileName + ' for ' + packageConfig.name + '');</span>
+<span class="cstat-no" title="statement not covered" >				return Promise.resolve();</span>
+			});
+	};
+&nbsp;
+	cartridgeApi.exitIfDevEnvironment = function() {
+		if(process.env.NODE_ENV === 'development') {
+&nbsp;
+			cartridgeApi.logMessage('NODE_ENV is set to ' + chalk.underline('development'));
+			cartridgeApi.logMessage('Skipping postinstall.js for ' + chalk.underline(packageConfig.name));
+			cartridgeApi.logMessage('');
+&nbsp;
+			process.exit(EXIT_OK);
+		}
+	};
+&nbsp;
+	cartridgeApi.ensureCartridgeExists = function ensureCartridgeExists() {
+		if(!hasCartridgeInstalled()) {
+			console.error(chalk.red('Cartridge is not set up in this directory. Please set it up first before installing this module'));
+			process.exit(EXIT_FAIL);
+		}
+	};
+&nbsp;
+	// Adds the specified module to the .cartridgerc file
+	cartridgeApi.addToRc = function addToRc() {
+		var filePath = path.join(paths.project,  CONFIG_FILE);
+&nbsp;
+		var moduleConfig = {
+			name:    packageConfig.name,
+			version: packageConfig.version,
+			site:    packageConfig.homepage,
+			task:    packageConfig.name + '/' + packageConfig.main
+		};
+&nbsp;
+		cartridgeApi.logMessage('Adding ' + packageConfig.name + ' to .cartridgerc');
+&nbsp;
+		return fs.readJsonAsync(filePath)
+			.bind(moduleConfig)
+			.then(addModule)
+			.bind(filePath)
+			.then(writeJsonFile)
+			.then(updateReadmeModules)
+			.then(function() {
+				cartridgeApi.logMessage('Finished: adding ' + packageConfig.name + ' to .cartridgerc');
+				return Promise.resolve();
+			})
+			.catch(<span class="fstat-no" title="function not covered" >function(err){</span>
+<span class="cstat-no" title="statement not covered" >				console.log('addToRc error');</span>
+<span class="cstat-no" title="statement not covered" >				console.error(err);</span>
+<span class="cstat-no" title="statement not covered" >				process.exit(EXIT_FAIL);</span>
+			});
+	};
+&nbsp;
+	// Removes the specified module from the .cartridgerc file
+	cartridgeApi.removeFromRc = function removeFromRc() {
+		var filePath = path.join(paths.project,  CONFIG_FILE);
+&nbsp;
+		cartridgeApi.logMessage('Removing ' + packageConfig.name + ' from .cartridgerc');
+&nbsp;
+		return fs.readJsonAsync(filePath)
+			.then(function(data) {
+				return removeModuleDataFromRcObject(data, packageConfig.name);
+			})
+			.bind(filePath)
+			.then(writeJsonFile)
+			.then(updateReadmeModules)
+			.then(function() {
+				cartridgeApi.logMessage('Finished: Removing ' + packageConfig.name + ' from .cartridgerc');
+				return Promise.resolve();
+			})
+			.catch(<span class="fstat-no" title="function not covered" >function(err){</span>
+<span class="cstat-no" title="statement not covered" >				console.log('removeFromRc error');</span>
+<span class="cstat-no" title="statement not covered" >				console.error(err);</span>
+<span class="cstat-no" title="statement not covered" >				process.exit(EXIT_FAIL);</span>
+			});
+	};
+&nbsp;
+	// Modify the project configuration (project.json) with a transform function
+	cartridgeApi.modifyProjectConfig = function modifyProjectConfig(transform) {
+		var filePath = path.join(paths.config,  '/project.json');
+&nbsp;
+		cartridgeApi.logMessage('Updating project config for ' + packageConfig.name);
+&nbsp;
+		return fs.readJsonAsync(paths.config + '/project.json')
+			.then(ensureProjectConfigPaths)
+			.then(transform)
+			.bind(filePath)
+			.then(writeJsonFile)
+			.then(function(){
+				cartridgeApi.logMessage('Finished: modifying project config for ' + packageConfig.name);
+				return Promise.resolve();
+			})
+			.catch(<span class="fstat-no" title="function not covered" >function(err){</span>
+<span class="cstat-no" title="statement not covered" >				console.log('modifyProjectConfig error');</span>
+<span class="cstat-no" title="statement not covered" >				console.error(err);</span>
+<span class="cstat-no" title="statement not covered" >				process.exit(EXIT_FAIL);</span>
+			});
+	};
+&nbsp;
+	// Add configuration files to the project _config directory for this module
+	cartridgeApi.addModuleConfig = <span class="fstat-no" title="function not covered" >function addModuleConfig(configPath) {</span>
+<span class="cstat-no" title="statement not covered" >		return cartridgeApi.copyFileToProject(configPath, '_config');</span>
+	};
+&nbsp;
+	cartridgeApi.copyToProjectDir = <span class="fstat-no" title="function not covered" >function copyToProjectDir(fileList) {</span>
+<span class="cstat-no" title="statement not covered" >		var copyTasks = [];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		for (var i = 0; i &lt; fileList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			copyTasks.push(cartridgeApi.copyFileToProject(fileList[i].copyPath, fileList[i].destinationPath));</span>
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return Promise.all(copyTasks);</span>
+	};
+&nbsp;
+	// Remove configuration files from the project _config directory for this module
+	cartridgeApi.removeModuleConfig = <span class="fstat-no" title="function not covered" >function removeModuleConfig(configPath) {</span>
+<span class="cstat-no" title="statement not covered" >		var configFileName          = path.basename(configPath);</span>
+<span class="cstat-no" title="statement not covered" >		var projectModuleConfigPath = path.join(paths.config, configFileName);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return fs.removeAsync(projectModuleConfigPath)</span>
+			.then(<span class="fstat-no" title="function not covered" >function(){</span>
+<span class="cstat-no" title="statement not covered" >				cartridgeApi.logMessage('Finished: Removed ' + packageConfig.name + ' config files');</span>
+<span class="cstat-no" title="statement not covered" >				return Promise.resolve();</span>
+			});
+	};
+&nbsp;
+	cartridgeApi.removeFromProjectDir = <span class="fstat-no" title="function not covered" >function removeFromProjectDir(fileList) {</span>
+<span class="cstat-no" title="statement not covered" >		var removeTasks = [];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		for (var i = 0; i &lt; fileList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			removeTasks.push(_removeFromProjectDir(fileList[i], packageConfig.name));</span>
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return Promise.all(removeTasks);</span>
+	};
+&nbsp;
+	cartridgeApi.finishInstall = function finishInstall() {
+		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
+		process.exit(EXIT_OK);
+	};
+&nbsp;
+	return cartridgeApi;
+};
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Apr 25 2016 17:19:08 GMT+0100 (BST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
