@@ -58,7 +58,6 @@ describe('As user of the module utils module', function() {
 
 			before(function() {
 				mockConsoleLog.enable();
-
 				mockProcessExit.enable();
 			})
 
@@ -88,6 +87,7 @@ describe('As user of the module utils module', function() {
 
 			after(function() {
 				mockProcessExit.restore();
+				mockConsoleLog.clearLogData();
 			})
 
 			it('should exit the process with error code 0 (no error)', function() {
@@ -112,16 +112,14 @@ describe('As user of the module utils module', function() {
 
 			beforeEach(function() {
 				mockProcessExit.enable();
-				mockConsoleLog.enable({
-					writeToFile: true
-				});
+				mockConsoleLog.enable();
 
 				process.env.NODE_ENV = 'development';
 			})
 
 			afterEach(function() {
 				mockProcessExit.restore();
-				mockConsoleLog.removeLogFile();
+				mockConsoleLog.clearLogData();
 			})
 
 			it('should output on-screen message saying this step is going to be skipped', function() {
@@ -130,11 +128,10 @@ describe('As user of the module utils module', function() {
 
 				moduleUtilsInstance.exitIfDevEnvironment();
 				mockConsoleLog.restore();
-				//@TODO change mockConsoleLog.getFileContents(); to allow to be used asynchronously
-				actual = stripAnsi(fs.readFileSync(path.join(__dirname, 'console.log'), 'utf8'));
+
+				actual = stripAnsi(mockConsoleLog.getLogData());
 
 				expect(expected).to.equal(actual);
-
 			})
 
 			it('should exit the process with error code 0 (no error)', function() {
