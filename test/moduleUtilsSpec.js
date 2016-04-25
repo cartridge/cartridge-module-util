@@ -196,24 +196,25 @@ describe('As user of the module utils module', function() {
 		var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRc.json'), 'utf8'));
 		var cartridgeRcJson;
 
-		before(function() {
-			fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStub.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
-			mockConsoleLog.enable();
-
-			return moduleUtilsInstance.addToRc()
-				.then(function() {
-					mockConsoleLog.restore();
-					mockConsoleLog.clearLogData();
-
-					cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
-				})
-		})
-
-		after(function() {
-			fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'))
-		})
-
 		describe('And module data is written to the file', function() {
+
+			before(function() {
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubNoModules.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				mockConsoleLog.enable();
+
+				return moduleUtilsInstance.addToRc()
+					.then(function() {
+						mockConsoleLog.restore();
+						mockConsoleLog.clearLogData();
+
+						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
+					})
+			})
+
+			after(function() {
+				fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'))
+			})
+
 
 			it('should correctly populate the modules array', function() {
 				expect(cartridgeRcJson.modules).to.be.an('array');
@@ -242,6 +243,34 @@ describe('As user of the module utils module', function() {
 			it('should correctly set the task value', function() {
 				expect(cartridgeRcJson.modules[0].task).to.equal(cartridgeRcStruct.modules[0].task);
 				expect(cartridgeRcJson.modules[0].task).to.be.a('string');
+			})
+		})
+
+		describe('And the module data already exists in the cartridgerc file', function() {
+
+			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRc.json'), 'utf8'));
+			var cartridgeRcJson;
+
+			before(function() {
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				mockConsoleLog.enable();
+
+				return moduleUtilsInstance.addToRc()
+					.then(function() {
+						mockConsoleLog.restore();
+						mockConsoleLog.clearLogData();
+
+						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
+					})
+			})
+
+			after(function() {
+				fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'))
+			})
+
+			it('should not create a duplicate entry in the modules array', function() {
+				expect(cartridgeRcJson.modules).to.be.an('array');
+				expect(cartridgeRcJson.modules.length).to.equal(1);
 			})
 		})
 
