@@ -35,7 +35,7 @@ The following Cartridge modules are used in this project
 [//]: <> (Modules start)
 Module | Version | Repo
 ------ | ------- | -----
-cartridge-mock-package | 0.0.1 | https://github.com/cartridge/mock-json
+cartridge-contra | 0.0.1 | https://github.com/cartridge/mock-jsoncartridge-galaga | 0.0.1 | https://github.com/cartridge/mock-json
 [//]: <> (Modules end)
 
 ### Adding modules

@@ -5,7 +5,7 @@ var chai = require('chai');
 var stripAnsi = require('strip-ansi');
 var rewire =  require('rewire')
 var expect = chai.expect;
-var mockPackageJson = JSON.parse(fs.readFileSync(path.join(__dirname, './mocks/mockPackageConfig.json'), 'utf8'));
+var packageConfigJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'packageConfig.json'), 'utf8'));
 
 var moduleUtils = rewire('../index.js');
 
@@ -16,7 +16,7 @@ moduleUtils.__set__("paths", {
 	cartridge: path.join(process.cwd(), 'test', 'mock-project', '_cartridge')
 });
 
-var moduleUtilsInstance = moduleUtils(mockPackageJson);
+var moduleUtilsInstance = moduleUtils(packageConfigJson);
 var mockConsoleLog = require('./mocks/mockConsoleLog');
 var mockProcessExit = require('./mocks/mockProcessExit');
 
@@ -193,7 +193,7 @@ describe('As user of the module utils module', function() {
 
 	describe('When using addToRc', function() {
 
-		var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRc.json'), 'utf8'));
+		var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRcWithOneModule.json'), 'utf8'));
 		var cartridgeRcJson;
 
 		describe('And module data is written to the file', function() {
@@ -248,11 +248,11 @@ describe('As user of the module utils module', function() {
 
 		describe('And the module data already exists in the cartridgerc file', function() {
 
-			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRc.json'), 'utf8'));
+			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRcWithOneModule.json'), 'utf8'));
 			var cartridgeRcJson;
 
 			before(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.addToRc()
@@ -272,6 +272,66 @@ describe('As user of the module utils module', function() {
 				expect(cartridgeRcJson.modules).to.be.an('array');
 				expect(cartridgeRcJson.modules.length).to.equal(1);
 			})
+		})
+
+	})
+
+	describe('When using removeFromRc', function() {
+
+		after(function() {
+			fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'))
+		})
+
+		describe('And the cartridgerc only has one module', function() {
+
+			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRcWithNoModules.json'), 'utf8'));
+			var cartridgeRcJson;
+
+			before(function() {
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				mockConsoleLog.enable();
+
+				return moduleUtilsInstance.removeFromRc()
+					.then(function() {
+						mockConsoleLog.restore();
+						mockConsoleLog.clearLogData();
+
+						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
+					})
+			})
+
+			it('should correctly remove the module data', function() {
+				expect(cartridgeRcJson.modules.length).to.equal(cartridgeRcStruct.modules.length);
+			})
+
+		})
+
+		describe('And the cartridgerc has multiple modules', function() {
+
+			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRcWithTwoModules.json'), 'utf8'));
+			var cartridgeRcJson;
+
+			before(function() {
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithThreeModules.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				mockConsoleLog.enable();
+
+				return moduleUtilsInstance.removeFromRc()
+					.then(function() {
+						mockConsoleLog.restore();
+						mockConsoleLog.clearLogData();
+
+						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
+					})
+			})
+
+			it('should correctly remove the module data', function() {
+				expect(cartridgeRcJson.modules.length).to.equal(cartridgeRcStruct.modules.length);
+
+				for (var i = 0; i < cartridgeRcJson.modules.length; i++) {
+					expect(cartridgeRcJson.modules[i].name).to.not.equal(packageConfigJson.name);
+				}
+			})
+
 		})
 
 	})
@@ -318,7 +378,7 @@ describe('As user of the module utils module', function() {
 
 		describe('And the cartridge file does exist', function() {
 			beforeEach(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
 
 				mockProcessExit.enable();
 				mockConsoleLog.enable();

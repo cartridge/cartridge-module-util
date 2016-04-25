@@ -1,0 +1,24 @@
+{
+  "cartridgeVersion": "0.0.0",
+  "dateGenerated": "00/00/0000",
+  "modules": [
+    {
+      "name": "cartridge-mock-package",
+      "version": "0.0.1",
+      "site": "https://github.com/cartridge/mock-json",
+      "task": "cartridge-mock-package/task.js"
+    },
+    {
+      "name": "cartridge-contra",
+      "version": "0.0.1",
+      "site": "https://github.com/cartridge/mock-json",
+      "task": "cartridge-contra/task.js"
+    },
+      {
+      "name": "cartridge-galaga",
+      "version": "0.0.1",
+      "site": "https://github.com/cartridge/mock-json",
+      "task": "cartridge-galaga/task.js"
+    }
+  ]
+}
