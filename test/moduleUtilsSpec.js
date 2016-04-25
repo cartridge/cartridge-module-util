@@ -275,4 +275,20 @@ describe('As user of the module utils module', function() {
 		})
 
 	})
+
+	describe.skip('When using ensureCartridgeExists', function() {
+
+		describe('And the cartridgerc file does not exist', function() {
+
+			it('should log an on-screen message', function() {
+
+			})
+
+			it('should exit the process with error code 1 (error)', function() {
+
+			})
+
+			})
+
+	})
 })
