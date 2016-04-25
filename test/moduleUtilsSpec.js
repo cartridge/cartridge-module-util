@@ -453,21 +453,25 @@ describe('As user of the module utils module', function() {
 
 	describe('When using copyFileToProject', function() {
 
-		before(function() {
-			mockConsoleLog.enable();
+		describe('And no destination path is provided', function() {
 
-			return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'))
-				.then(function() {
-					mockConsoleLog.restore();
-				})
-		})
+			before(function() {
+				mockConsoleLog.enable();
 
-		after(function() {
-			fs.removeSync(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt'));
-		})
+				return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'))
+					.then(function() {
+						mockConsoleLog.restore();
+					})
+			})
 
-		it('should copy the file to the correct path', function() {
-			expect(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt')).to.be.a.file();
+			after(function() {
+				fs.removeSync(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt'));
+			})
+
+			it('should copy to file to the project root', function() {
+				expect(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt')).to.be.a.file();
+			})
+
 		})
 
 	})
