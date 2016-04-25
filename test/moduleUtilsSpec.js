@@ -34,7 +34,6 @@ describe('As user of the module utils module', function() {
 		})
 
 		after(function() {
-			// mockConsoleLog.removeLogFile();
 			mockConsoleLog.clearLogData();
 		})
 
@@ -46,7 +45,6 @@ describe('As user of the module utils module', function() {
 			moduleUtilsInstance.logMessage(logInput);
 			mockConsoleLog.restore();
 
-			// actual = mockConsoleLog.getFileContents();
 			actual = mockConsoleLog.getLogData();
 
 			expect(expected).to.equal(actual);
@@ -65,7 +63,6 @@ describe('As user of the module utils module', function() {
 			})
 
 			after(function() {
-				// mockConsoleLog.removeLogFile();
 				mockConsoleLog.clearLogData();
 			})
 
@@ -76,7 +73,6 @@ describe('As user of the module utils module', function() {
 				moduleUtilsInstance.finishInstall();
 				mockConsoleLog.restore();
 				mockProcessExit.restore();
-				// actual = mockConsoleLog.getFileContents();
 				actual = mockConsoleLog.getLogData();
 
 				expect(expected).to.equal(actual);
@@ -158,16 +154,12 @@ describe('As user of the module utils module', function() {
 		describe('And NODE_ENV does not equal `development`', function() {
 			beforeEach(function() {
 				mockProcessExit.enable();
-				// mockConsoleLog.enable({
-				// 	writeToFile: true
-				// });
 
 				process.env.NODE_ENV = 'played-me-like-a-damn-fiddle';
 			})
 
 			afterEach(function() {
 				mockProcessExit.restore();
-				// mockConsoleLog.removeLogFile();
 			})
 
 			it.skip('should not output an on-screen message', function() {
