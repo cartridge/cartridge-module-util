@@ -2,13 +2,14 @@ var fs = require('fs');
 var path = require('path');
 
 var chai = require('chai');
+var stripAnsi = require('strip-ansi');
 var expect = chai.expect;
-var mockPackageJson = JSON.parse(fs.readFileSync(path.join(__dirname, './mockPackageConfig.json'), 'utf8'));
+var mockPackageJson = JSON.parse(fs.readFileSync(path.join(__dirname, './mocks/mockPackageConfig.json'), 'utf8'));
 var moduleUtils = require('../index.js');
 var moduleUtilsInstance = moduleUtils(mockPackageJson);
 
-var mockConsoleLog = require('./mockConsoleLog');
-var mockProcessExit = require('./mockProcessExit');
+var mockConsoleLog = require('./mocks/mockConsoleLog');
+var mockProcessExit = require('./mocks/mockProcessExit');
 
 chai.use(require('chai-fs'));
 chai.should();
@@ -96,6 +97,53 @@ describe('As user of the module utils module', function() {
 				var exitCallInfo;
 
 				moduleUtilsInstance.finishInstall();
+				mockConsoleLog.restore();
+
+				exitCallInfo = mockProcessExit.callInfo();
+
+				expect(exitCallInfo.called).to.be.true;
+				expect(exitCallInfo.errorCode).to.equal(0);
+			})
+
+		})
+
+	})
+
+	describe('When using the exitIfDevEnvironment', function() {
+
+		describe('And NODE_ENV equals `development`', function() {
+
+			beforeEach(function() {
+				mockProcessExit.enable();
+				mockConsoleLog.enable({
+					writeToFile: true
+				});
+
+				process.env.NODE_ENV = 'development';
+			})
+
+			afterEach(function() {
+				mockProcessExit.restore();
+				mockConsoleLog.removeLogFile();
+			})
+
+			it('should output on-screen message saying this step is going to be skipped', function() {
+				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'exitIfDev.txt'), 'utf8');
+				var actual;
+
+				moduleUtilsInstance.exitIfDevEnvironment();
+				mockConsoleLog.restore();
+				//@TODO change mockConsoleLog.getFileContents(); to allow to be used asynchronously
+				actual = stripAnsi(fs.readFileSync(path.join(__dirname, 'console.log'), 'utf8'));
+
+				expect(expected).to.equal(actual);
+
+			})
+
+			it('should exit the process with error code 0 (no error)', function() {
+				var exitCallInfo;
+
+				moduleUtilsInstance.exitIfDevEnvironment();
 				mockConsoleLog.restore();
 
 				exitCallInfo = mockProcessExit.callInfo();

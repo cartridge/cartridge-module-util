@@ -26,6 +26,7 @@ mockProcessExitApi.callInfo = function() {
 mockProcessExitApi.restore = function() {
 	process.exit = _originalProcessExit;
 	_hasBeenCalled = false;
+	_errorCode = null;
 }
 
 module.exports = mockProcessExitApi;
