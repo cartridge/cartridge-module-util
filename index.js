@@ -12,12 +12,6 @@ var template   = require('lodash/template');
 var Promise    = require('bluebird');
 var fs         = Promise.promisifyAll(require('fs-extra'));
 var pathExists = require('path-exists');
-var del      = require('del');
-var path     = require('path');
-var chalk    = require('chalk');
-var template = require('lodash/template');
-var Promise  = require('bluebird');
-var fs       = Promise.promisifyAll(require('fs-extra'));
 var npmInstallPackage = require('npm-install-package');
 var process = require('process');
 
@@ -66,13 +60,6 @@ function updateJsonObj(obj, newObj, ignoreArr){
 	    	obj[key] = newObj[key];
 	  	}
   	}
-	}
-	return obj;
-}
-
-function cleanJsonObj(obj, newObj){
-	for (var key in newObj) {
-    delete obj[key];
 	}
 	return obj;
 }
