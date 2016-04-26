@@ -198,9 +198,9 @@ describe('As user of the module utils module', function() {
 	describe('When using addToRc', function() {
 
 		var cartridgeRcStruct = testUtils.readJsonFile(testPaths.structs, 'cartridgeRcWithOneModule.json');
-		var cartridgeRcJson;
 		var copySource = path.join(testPaths.stubs, 'cartridgeRcStubNoModules.json');
-		var copyDestination = path.join(testPaths.mockProject, '.cartridgerc')
+		var copyDestination = path.join(testPaths.mockProject, '.cartridgerc');
+		var cartridgeRcJson;
 
 		describe('And module data is written to the file', function() {
 
@@ -256,9 +256,11 @@ describe('As user of the module utils module', function() {
 
 			var cartridgeRcStruct = testUtils.readJsonFile(testPaths.structs, 'cartridgeRcWithOneModule.json');
 			var cartridgeRcJson;
+			var copySource = path.join(testPaths.stubs, 'cartridgeRcStubWithOneModule.json');
+			var copyDestination = path.join(testPaths.mockProject, '.cartridgerc');
 
 			before(function() {
-				fs.copySync(path.join(testPaths.stubs, 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
+				fs.copySync(copySource, copyDestination);
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.addToRc()
@@ -271,7 +273,7 @@ describe('As user of the module utils module', function() {
 			})
 
 			after(function() {
-				fs.removeSync(path.join(testPaths.mockProject, '.cartridgerc'))
+				fs.removeSync(copyDestination)
 			})
 
 			it('should not create a duplicate entry in the modules array', function() {
@@ -290,11 +292,13 @@ describe('As user of the module utils module', function() {
 
 		describe('And the cartridgerc only has one module', function() {
 
+			var copySource = path.join(testPaths.stubs, 'cartridgeRcStubWithOneModule.json');
+			var copyDestination = path.join(testPaths.mockProject, '.cartridgerc');
 			var cartridgeRcStruct = testUtils.readJsonFile(testPaths.structs, 'cartridgeRcWithNoModules.json');
 			var cartridgeRcJson;
 
 			before(function() {
-				fs.copySync(path.join(testPaths.stubs, 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
+				fs.copySync(copySource, copyDestination);
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.removeFromRc()
@@ -314,11 +318,13 @@ describe('As user of the module utils module', function() {
 
 		describe('And the cartridgerc has multiple modules', function() {
 
+			var copySource = path.join(testPaths.stubs, 'cartridgeRcStubWithThreeModules.json');
+			var copyDestination = path.join(testPaths.mockProject, '.cartridgerc')
 			var cartridgeRcStruct = testUtils.readJsonFile(testPaths.structs, 'cartridgeRcWithTwoModules.json');
 			var cartridgeRcJson;
 
 			before(function() {
-				fs.copySync(path.join(testPaths.stubs, 'cartridgeRcStubWithThreeModules.json'), path.join(testPaths.mockProject, '.cartridgerc'));
+				fs.copySync(copySource, copyDestination);
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.removeFromRc()
@@ -344,6 +350,9 @@ describe('As user of the module utils module', function() {
 
 	describe('When using modifyProjectConfig', function() {
 		var projectJson;
+		var copySource = path.join(testPaths.stubs, 'projectJsonStub.json');
+		var copyDestination = path.join(testPaths.mockProject, '_config', 'project.json')
+
 		var transformFunction = function(config) {
 			config.paths.metal = "gear?!";
 
@@ -351,7 +360,7 @@ describe('As user of the module utils module', function() {
 		}
 
 		before(function() {
-			fs.copySync(path.join(testPaths.stubs, 'projectJsonStub.json'), path.join(testPaths.mockProject, '_config', 'project.json'));
+			fs.copySync(copySource, copyDestination);
 			mockConsoleLog.enable();
 
 			return moduleUtilsInstance.modifyProjectConfig(transformFunction)
@@ -417,8 +426,11 @@ describe('As user of the module utils module', function() {
 		})
 
 		describe('And the cartridge file does exist', function() {
+			var copySource = path.join(testPaths.stubs, 'cartridgeRcStubWithOneModule.json')
+			var copyDestination = path.join(testPaths.mockProject, '.cartridgerc');
+
 			beforeEach(function() {
-				fs.copySync(path.join(testPaths.stubs, 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
+				fs.copySync(copySource, copyDestination);
 
 				mockProcessExit.enable();
 				mockConsoleLog.enable();
@@ -503,11 +515,13 @@ describe('As user of the module utils module', function() {
 		})
 
 		describe('And a file that already exists is being copied', function() {
+			var copySource = path.join(testPaths.stubs, 'dummyCopyFileAlt.txt');
+			var copyDestination = path.join(testPaths.mockProject, 'dummyCopyFile.txt')
 
 			before(function() {
 				mockConsoleLog.enable();
 
-				fs.copySync(path.join(testPaths.stubs, 'dummyCopyFileAlt.txt'), path.join(testPaths.mockProject, 'dummyCopyFile.txt'));
+				fs.copySync(copySource, copyDestination);
 
 				return moduleUtilsInstance.copyFileToProject(path.join(testPaths.stubs, 'dummyCopyFile.txt'))
 					.then(function() {
@@ -517,7 +531,7 @@ describe('As user of the module utils module', function() {
 
 			after(function() {
 				mockConsoleLog.clearLogData();
-				fs.removeSync(path.join(testPaths.mockProject, 'dummyCopyFile.txt'));
+				fs.removeSync(copyDestination);
 			})
 
 			it('should not copy the file', function() {
@@ -607,13 +621,15 @@ describe('As user of the module utils module', function() {
 	})
 
 	describe('When using removeFromProjectDir', function() {
+		var copySource = path.join(testPaths.structs, 'cartridgeRcWithNoModules.json');
+		var copyDestination = path.join(testPaths.mockProject, 'cartridgeRcWithNoModules.json');
 
 		describe('And deleting one file', function() {
 
 			before(function() {
 				mockConsoleLog.enable();
 
-				fs.copySync(path.join(testPaths.structs, 'cartridgeRcWithNoModules.json'), path.join(testPaths.mockProject, 'cartridgeRcWithNoModules.json'));
+				fs.copySync(copySource, copyDestination);
 
 				return moduleUtilsInstance.removeFromProjectDir(['cartridgeRcWithNoModules.json'])
 					.then(function() {
@@ -709,10 +725,13 @@ describe('As user of the module utils module', function() {
 	})
 
 	describe('When using removeModuleConfig', function() {
+		var copySource = path.join(testPaths.structs, 'moduleConfig.js');
+		var copyDestination = path.join(testPaths.mockProject, '_config', 'moduleConfig.js');
+
 		before(function() {
 			mockConsoleLog.enable();
 
-			fs.copySync(path.join(testPaths.structs, 'moduleConfig.js'), path.join(testPaths.mockProject, '_config', 'moduleConfig.js'));
+			fs.copySync(copySource, copyDestination);
 
 			return moduleUtilsInstance.removeModuleConfig(path.join(testPaths.structs, 'moduleConfig.js'))
 				.then(function() {
