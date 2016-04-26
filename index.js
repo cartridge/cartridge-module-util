@@ -12,13 +12,23 @@ var template   = require('lodash/template');
 var Promise    = require('bluebird');
 var fs         = Promise.promisifyAll(require('fs-extra'));
 var pathExists = require('path-exists');
+var del      = require('del');
+var path     = require('path');
+var chalk    = require('chalk');
+var template = require('lodash/template');
+var Promise  = require('bluebird');
+var fs       = Promise.promisifyAll(require('fs-extra'));
+var npmInstallPackage = require('npm-install-package');
+var process = require('process');
 
 var paths = {
 	project:   path.resolve('../../'),
 	config:    path.resolve('../../', '_config'),
 	readme:    path.resolve('../../', 'readme.md'),
-	cartridge: path.resolve('../../_cartridge')
+	cartridge: path.resolve('../../_cartridge'),
+	pkg: 			 path.resolve('../../', 'package.json')
 };
+
 
 // Checks if the project has been set up with Cartridge
 function hasCartridgeInstalled() {
@@ -47,6 +57,48 @@ function updateReadme(renderedModuleTemplate) {
 			console.error(err);
 			process.exit(EXIT_FAIL);
 		});
+}
+
+function updateJsonObj(obj, newObj, ignoreArr){
+	for (var key in newObj) {
+		for(var i = 0; i < ignoreArr.length; i++){
+			if(key !== ignoreArr[i]){
+	    	obj[key] = newObj[key];
+	  	}
+  	}
+	}
+	return obj;
+}
+
+function cleanJsonObj(obj, newObj){
+	for (var key in newObj) {
+    delete obj[key];
+	}
+	return obj;
+}
+
+function removeDependency(obj, match){
+
+	for (var key in obj) {
+	if(key === match)
+    delete obj[key];
+	}
+	return obj;
+}
+
+function jSonObjToNpmInstallArray(newObj, ignoreArr){
+	var npmArray = [];
+	for (var key in newObj) {
+		for(var i = 0; i < ignoreArr.length; i++){
+			
+			if(key !== ignoreArr[i]){
+				if (newObj.hasOwnProperty(key)) {
+	        npmArray.push(key);
+	    	}
+	    }
+  	}
+	}
+	return npmArray;
 }
 
 function compileTemplate(rawTemplate) {
@@ -327,6 +379,88 @@ module.exports = function(packageConfig) {
 		}
 
 		return Promise.all(removeTasks);
+	}
+
+	cartridgeApi.addToPackage = function addToPackage(objToAdd, ignoreArr){
+		//get package.json
+		var pkg = {};
+		return fs.readJsonAsync(paths.pkg)
+			.then(function(data){
+				pkg = data;
+
+				return updateJsonObj(data.dependencies, objToAdd, ignoreArr);
+			})
+			.then(function(newPkg){
+				//update file with new values
+				pkg.dependencies = newPkg;
+
+				return fs.writeJsonAsync(paths.pkg, pkg, function (err) {
+				  console.log('write json error', err)
+				})
+				.then(function(){
+					return pkg;
+				});
+			})
+			.then(function(){
+				console.log('arggggggghhhh');
+				cartridgeApi.logMessage('Finished: modifying package.json for ' + packageConfig.name);
+				return Promise.resolve();
+			})
+			.catch(function(err){
+				console.log('modifyPackageJson error');
+				console.error(err);
+				process.exit(1);
+			});
+	};
+
+	cartridgeApi.cleanExpansionPack = function cleanExpansionPack(){
+		var pkg = {};
+		return fs.readJsonAsync(paths.pkg)
+			.then(function(data){
+				pkg = data;
+				//remove from package json
+				return removeDependency(data.dependencies, packageConfig.name);
+			})
+			.then(function(newPkg){
+				//update file with new values
+
+				pkg.dependencies = newPkg;
+
+				return fs.writeJsonAsync(paths.pkg, pkg, function (err) {
+				  console.log('write json error', err)
+				});
+			})
+			.then(function(){
+				//remove from node modules
+				return fs.removeSync(path.resolve(__dirname + '../../../../' + packageConfig.name));
+				
+			})
+			.then(function(){
+				cartridgeApi.logMessage('Finished: cleaned packages for ' + packageConfig.name);
+				return Promise.resolve();
+			})
+
+	};
+
+	cartridgeApi.installDependencies = function installDependencies(dependencies, ignoreArr){
+		return new Promise(function (resolve, reject){
+			process.chdir('../../');
+			return npmInstallPackage(jSonObjToNpmInstallArray(dependencies, ignoreArr), function(err){
+				if(err) throw err;
+				cartridgeApi.logMessage('Finished: installing dependencies for ' + packageConfig.name);
+				resolve();
+			});
+		});
+	};
+
+	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
+		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
+		process.exit(0);
+	};
+
+	cartridgeApi.finishUninstall = function finishUninstall(packageDetails) {
+		cartridgeApi.logMessage('Finished: post uninstall of ' + packageConfig.name);
+		process.exit(0);
 	};
 
 	cartridgeApi.finishInstall = function finishInstall() {
