@@ -40,4 +40,9 @@ mockConsoleLogApi.restore = function() {
 	console.error = _originalMethodError;
 }
 
+mockConsoleLogApi.fullRestore = function() {
+	mockConsoleLogApi.restore();
+	mockConsoleLogApi.clearLogData();
+}
+
 module.exports = mockConsoleLogApi;

@@ -210,8 +210,7 @@ describe('As user of the module utils module', function() {
 
 				return moduleUtilsInstance.addToRc()
 					.then(function() {
-						mockConsoleLog.restore();
-						mockConsoleLog.clearLogData();
+						mockConsoleLog.fullRestore();
 
 						cartridgeRcJson = testUtils.readJsonFile(testPaths.mockProject, '.cartridgerc');
 					})
@@ -265,8 +264,7 @@ describe('As user of the module utils module', function() {
 
 				return moduleUtilsInstance.addToRc()
 					.then(function() {
-						mockConsoleLog.restore();
-						mockConsoleLog.clearLogData();
+						mockConsoleLog.fullRestore();
 
 						cartridgeRcJson = testUtils.readJsonFile(testPaths.mockProject, '.cartridgerc');
 					})
@@ -303,8 +301,7 @@ describe('As user of the module utils module', function() {
 
 				return moduleUtilsInstance.removeFromRc()
 					.then(function() {
-						mockConsoleLog.restore();
-						mockConsoleLog.clearLogData();
+						mockConsoleLog.fullRestore();
 
 						cartridgeRcJson = testUtils.readJsonFile(testPaths.mockProject, '.cartridgerc');
 					})
@@ -329,8 +326,7 @@ describe('As user of the module utils module', function() {
 
 				return moduleUtilsInstance.removeFromRc()
 					.then(function() {
-						mockConsoleLog.restore();
-						mockConsoleLog.clearLogData();
+						mockConsoleLog.fullRestore();
 
 						cartridgeRcJson = testUtils.readJsonFile(testPaths.mockProject, '.cartridgerc');
 					})
@@ -365,8 +361,7 @@ describe('As user of the module utils module', function() {
 
 			return moduleUtilsInstance.modifyProjectConfig(transformFunction)
 				.then(function() {
-					mockConsoleLog.restore();
-					mockConsoleLog.clearLogData();
+					mockConsoleLog.fullRestore();
 
 					projectJson = testUtils.readJsonFile(path.join(testPaths.mockProject, '_config'), 'project.json');
 			})
@@ -478,8 +473,7 @@ describe('As user of the module utils module', function() {
 
 				return moduleUtilsInstance.copyFileToProject(path.join(testPaths.stubs, 'dummyCopyFile.txt'))
 					.then(function() {
-						mockConsoleLog.restore();
-						mockConsoleLog.clearLogData();
+						mockConsoleLog.fullRestore();
 					})
 			})
 
@@ -500,8 +494,7 @@ describe('As user of the module utils module', function() {
 
 				return moduleUtilsInstance.copyFileToProject(path.join(testPaths.stubs, 'dummyCopyFile.txt'), 'destination-folder')
 					.then(function() {
-						mockConsoleLog.restore();
-						mockConsoleLog.clearLogData();
+						mockConsoleLog.fullRestore();
 					})
 			})
 
@@ -564,8 +557,7 @@ describe('As user of the module utils module', function() {
 						copyPath: path.join(testPaths.structs, 'cartridgeRcWithTwoModules.json')
 					}])
 					.then(function() {
-						mockConsoleLog.restore();
-						mockConsoleLog.clearLogData();
+						mockConsoleLog.fullRestore();
 					})
 			})
 
@@ -601,8 +593,7 @@ describe('As user of the module utils module', function() {
 						destinationPath: 'folder2'
 					}])
 					.then(function() {
-						mockConsoleLog.restore();
-						mockConsoleLog.clearLogData();
+						mockConsoleLog.fullRestore();
 					})
 			})
 
