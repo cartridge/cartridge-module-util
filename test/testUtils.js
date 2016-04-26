@@ -9,7 +9,8 @@ var paths = {}
 function getPathsObject() {
 	return {
 		structs: path.join(_testDirectory, 'structs'),
-		stubs: path.join(_testDirectory, 'stubs')
+		stubs: path.join(_testDirectory, 'stubs'),
+		mockProject: path.join(__dirname, 'mock-project')
 	}
 }
 

@@ -80,7 +80,7 @@ describe('As user of the module utils module', function() {
 			})
 
 			it('should correctly log the input', function() {
-				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'finishInstall.txt'), 'utf8');
+				var expected = testUtils.readFile(testPaths.structs, 'finishInstall.txt');
 				var actual;
 
 				moduleUtilsInstance.finishInstall();
@@ -137,7 +137,7 @@ describe('As user of the module utils module', function() {
 			})
 
 			it('should output on-screen message saying this step is going to be skipped', function() {
-				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'exitIfDevNodeEnvDevelopment.txt'), 'utf8');
+				var expected = testUtils.readFile(testPaths.structs, 'exitIfDevNodeEnvDevelopment.txt');
 				var actual;
 
 				moduleUtilsInstance.exitIfDevEnvironment();
@@ -198,13 +198,15 @@ describe('As user of the module utils module', function() {
 
 	describe('When using addToRc', function() {
 
-		var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRcWithOneModule.json'), 'utf8'));
+		var cartridgeRcStruct = testUtils.readJsonFile(testPaths.structs, 'cartridgeRcWithOneModule.json');
 		var cartridgeRcJson;
+		var copySource = path.join(testPaths.stubs, 'cartridgeRcStubNoModules.json');
+		var copyDestination = path.join(testPaths.mockProject, '.cartridgerc')
 
 		describe('And module data is written to the file', function() {
 
 			before(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubNoModules.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				fs.copySync(copySource, copyDestination);
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.addToRc()
@@ -212,12 +214,12 @@ describe('As user of the module utils module', function() {
 						mockConsoleLog.restore();
 						mockConsoleLog.clearLogData();
 
-						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
+						cartridgeRcJson = testUtils.readJsonFile(testPaths.mockProject, '.cartridgerc');
 					})
 			})
 
 			after(function() {
-				fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'))
+				fs.removeSync(path.join(testPaths.mockProject, '.cartridgerc'))
 			})
 
 
@@ -253,11 +255,11 @@ describe('As user of the module utils module', function() {
 
 		describe('And the module data already exists in the cartridgerc file', function() {
 
-			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRcWithOneModule.json'), 'utf8'));
+			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(testPaths.structs, 'cartridgeRcWithOneModule.json'), 'utf8'));
 			var cartridgeRcJson;
 
 			before(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.addToRc()
@@ -265,12 +267,12 @@ describe('As user of the module utils module', function() {
 						mockConsoleLog.restore();
 						mockConsoleLog.clearLogData();
 
-						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
+						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(testPaths.mockProject, '.cartridgerc'), 'utf8'));
 					})
 			})
 
 			after(function() {
-				fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'))
+				fs.removeSync(path.join(testPaths.mockProject, '.cartridgerc'))
 			})
 
 			it('should not create a duplicate entry in the modules array', function() {
@@ -284,16 +286,16 @@ describe('As user of the module utils module', function() {
 	describe('When using removeFromRc', function() {
 
 		after(function() {
-			fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'))
+			fs.removeSync(path.join(testPaths.mockProject, '.cartridgerc'))
 		})
 
 		describe('And the cartridgerc only has one module', function() {
 
-			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRcWithNoModules.json'), 'utf8'));
+			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(testPaths.structs, 'cartridgeRcWithNoModules.json'), 'utf8'));
 			var cartridgeRcJson;
 
 			before(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.removeFromRc()
@@ -301,7 +303,7 @@ describe('As user of the module utils module', function() {
 						mockConsoleLog.restore();
 						mockConsoleLog.clearLogData();
 
-						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
+						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(testPaths.mockProject, '.cartridgerc'), 'utf8'));
 					})
 			})
 
@@ -313,11 +315,11 @@ describe('As user of the module utils module', function() {
 
 		describe('And the cartridgerc has multiple modules', function() {
 
-			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'cartridgeRcWithTwoModules.json'), 'utf8'));
+			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(testPaths.structs, 'cartridgeRcWithTwoModules.json'), 'utf8'));
 			var cartridgeRcJson;
 
 			before(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithThreeModules.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithThreeModules.json'), path.join(testPaths.mockProject, '.cartridgerc'));
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.removeFromRc()
@@ -325,7 +327,7 @@ describe('As user of the module utils module', function() {
 						mockConsoleLog.restore();
 						mockConsoleLog.clearLogData();
 
-						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '.cartridgerc'), 'utf8'));
+						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(testPaths.mockProject, '.cartridgerc'), 'utf8'));
 					})
 			})
 
@@ -350,7 +352,7 @@ describe('As user of the module utils module', function() {
 		}
 
 		before(function() {
-			fs.copySync(path.join(__dirname, 'stubs', 'projectJsonStub.json'), path.join(__dirname, 'mock-project', '_config', 'project.json'));
+			fs.copySync(path.join(__dirname, 'stubs', 'projectJsonStub.json'), path.join(testPaths.mockProject, '_config', 'project.json'));
 			mockConsoleLog.enable();
 
 			return moduleUtilsInstance.modifyProjectConfig(transformFunction)
@@ -358,12 +360,12 @@ describe('As user of the module utils module', function() {
 					mockConsoleLog.restore();
 					mockConsoleLog.clearLogData();
 
-					projectJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'mock-project', '_config', 'project.json'), 'utf8'));
+					projectJson = JSON.parse(fs.readFileSync(path.join(testPaths.mockProject, '_config', 'project.json'), 'utf8'));
 			})
 		})
 
 		after(function() {
-			fs.removeSync(path.join(__dirname, 'mock-project', '_config'))
+			fs.removeSync(path.join(testPaths.mockProject, '_config'))
 		})
 
 		it('should correctly add the data to the project.json file', function() {
@@ -390,7 +392,7 @@ describe('As user of the module utils module', function() {
 			})
 
 			it('should output an on-screen message', function() {
-				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'ensureCartridgeExists.txt'), 'utf8');
+				var expected = fs.readFileSync(path.join(testPaths.structs, 'ensureCartridgeExists.txt'), 'utf8');
 				var actual;
 
 				moduleUtilsInstance.ensureCartridgeExists();
@@ -417,14 +419,14 @@ describe('As user of the module utils module', function() {
 
 		describe('And the cartridge file does exist', function() {
 			beforeEach(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(__dirname, 'mock-project', '.cartridgerc'));
+				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
 
 				mockProcessExit.enable();
 				mockConsoleLog.enable();
 			})
 
 			afterEach(function() {
-				fs.removeSync(path.join(__dirname, 'mock-project', '.cartridgerc'));
+				fs.removeSync(path.join(testPaths.mockProject, '.cartridgerc'));
 
 				mockConsoleLog.clearLogData();
 				mockProcessExit.restore();
@@ -471,11 +473,11 @@ describe('As user of the module utils module', function() {
 			})
 
 			after(function() {
-				fs.removeSync(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt'));
+				fs.removeSync(path.join(testPaths.mockProject, 'dummyCopyFile.txt'));
 			})
 
 			it('should copy the file to the project root', function() {
-				expect(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt')).to.be.a.file();
+				expect(path.join(testPaths.mockProject, 'dummyCopyFile.txt')).to.be.a.file();
 			})
 
 		})
@@ -493,11 +495,11 @@ describe('As user of the module utils module', function() {
 			})
 
 			after(function() {
-				fs.removeSync(path.join(__dirname, 'mock-project', 'destination-folder'));
+				fs.removeSync(path.join(testPaths.mockProject, 'destination-folder'));
 			})
 
 			it('should copy the file to the specificed path', function() {
-				expect(path.join(__dirname, 'mock-project', 'destination-folder', 'dummyCopyFile.txt')).to.be.a.file();
+				expect(path.join(testPaths.mockProject, 'destination-folder', 'dummyCopyFile.txt')).to.be.a.file();
 			})
 		})
 
@@ -506,7 +508,7 @@ describe('As user of the module utils module', function() {
 			before(function() {
 				mockConsoleLog.enable();
 
-				fs.copySync(path.join(__dirname, 'stubs', 'dummyCopyFileAlt.txt'), path.join(__dirname, 'mock-project', 'dummyCopyFile.txt'));
+				fs.copySync(path.join(__dirname, 'stubs', 'dummyCopyFileAlt.txt'), path.join(testPaths.mockProject, 'dummyCopyFile.txt'));
 
 				return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'))
 					.then(function() {
@@ -516,15 +518,15 @@ describe('As user of the module utils module', function() {
 
 			after(function() {
 				mockConsoleLog.clearLogData();
-				fs.removeSync(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt'));
+				fs.removeSync(path.join(testPaths.mockProject, 'dummyCopyFile.txt'));
 			})
 
 			it('should not copy the file', function() {
-				expect(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt')).to.not.have.content("This is a dummy file");
+				expect(path.join(testPaths.mockProject, 'dummyCopyFile.txt')).to.not.have.content("This is a dummy file");
 			})
 
 			it('should correct output the on-screen message saying this step has been skipped', function() {
-				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'copyFileToProjectSkippingMessage.txt'), 'utf8')
+				var expected = fs.readFileSync(path.join(testPaths.structs, 'copyFileToProjectSkippingMessage.txt'), 'utf8')
 				var actual = mockConsoleLog.getLogData()
 
 				expect(actual).to.be.equal(expected)
@@ -542,11 +544,11 @@ describe('As user of the module utils module', function() {
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.copyToProjectDir([{
-						copyPath: path.join(__dirname, 'structs', 'cartridgeRcWithNoModules.json')
+						copyPath: path.join(testPaths.structs, 'cartridgeRcWithNoModules.json')
 					}, {
-						copyPath: path.join(__dirname, 'structs', 'cartridgeRcWithOneModule.json')
+						copyPath: path.join(testPaths.structs, 'cartridgeRcWithOneModule.json')
 					}, {
-						copyPath: path.join(__dirname, 'structs', 'cartridgeRcWithTwoModules.json')
+						copyPath: path.join(testPaths.structs, 'cartridgeRcWithTwoModules.json')
 					}])
 					.then(function() {
 						mockConsoleLog.restore();
@@ -555,17 +557,17 @@ describe('As user of the module utils module', function() {
 			})
 
 			after(function() {
-				fs.removeSync(path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json'));
-				fs.removeSync(path.join(__dirname, 'mock-project', 'cartridgeRcWithOneModule.json'));
-				fs.removeSync(path.join(__dirname, 'mock-project', 'cartridgeRcWithTwoModules.json'));
+				fs.removeSync(path.join(testPaths.mockProject, 'cartridgeRcWithNoModules.json'));
+				fs.removeSync(path.join(testPaths.mockProject, 'cartridgeRcWithOneModule.json'));
+				fs.removeSync(path.join(testPaths.mockProject, 'cartridgeRcWithTwoModules.json'));
 
 				mockConsoleLog.clearLogData();
 			})
 
 			it('should correctly copy over the files to the project root', function() {
-				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json')).to.be.a.path();
-				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithOneModule.json')).to.be.a.path();
-				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithTwoModules.json')).to.be.a.path();
+				expect(path.join(testPaths.mockProject, 'cartridgeRcWithNoModules.json')).to.be.a.path();
+				expect(path.join(testPaths.mockProject, 'cartridgeRcWithOneModule.json')).to.be.a.path();
+				expect(path.join(testPaths.mockProject, 'cartridgeRcWithTwoModules.json')).to.be.a.path();
 			})
 
 		})
@@ -576,13 +578,13 @@ describe('As user of the module utils module', function() {
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.copyToProjectDir([{
-						copyPath: path.join(__dirname, 'structs', 'cartridgeRcWithNoModules.json'),
+						copyPath: path.join(testPaths.structs, 'cartridgeRcWithNoModules.json'),
 						destinationPath: '_config'
 					}, {
-						copyPath: path.join(__dirname, 'structs', 'cartridgeRcWithOneModule.json'),
+						copyPath: path.join(testPaths.structs, 'cartridgeRcWithOneModule.json'),
 						destinationPath: 'folder'
 					}, {
-						copyPath: path.join(__dirname, 'structs', 'cartridgeRcWithTwoModules.json'),
+						copyPath: path.join(testPaths.structs, 'cartridgeRcWithTwoModules.json'),
 						destinationPath: 'folder2'
 					}])
 					.then(function() {
@@ -592,15 +594,15 @@ describe('As user of the module utils module', function() {
 			})
 
 			after(function() {
-				fs.removeSync(path.join(__dirname, 'mock-project', '_config'));
-				fs.removeSync(path.join(__dirname, 'mock-project', 'folder'));
-				fs.removeSync(path.join(__dirname, 'mock-project', 'folder2'));
+				fs.removeSync(path.join(testPaths.mockProject, '_config'));
+				fs.removeSync(path.join(testPaths.mockProject, 'folder'));
+				fs.removeSync(path.join(testPaths.mockProject, 'folder2'));
 			})
 
 			it('should correctly copy over the files to the provided paths', function() {
-				expect(path.join(__dirname, 'mock-project', '_config', 'cartridgeRcWithNoModules.json')).to.be.a.path();
-				expect(path.join(__dirname, 'mock-project', 'folder', 'cartridgeRcWithOneModule.json')).to.be.a.path();
-				expect(path.join(__dirname, 'mock-project', 'folder2', 'cartridgeRcWithTwoModules.json')).to.be.a.path();
+				expect(path.join(testPaths.mockProject, '_config', 'cartridgeRcWithNoModules.json')).to.be.a.path();
+				expect(path.join(testPaths.mockProject, 'folder', 'cartridgeRcWithOneModule.json')).to.be.a.path();
+				expect(path.join(testPaths.mockProject, 'folder2', 'cartridgeRcWithTwoModules.json')).to.be.a.path();
 			})
 		})
 	})
@@ -612,7 +614,7 @@ describe('As user of the module utils module', function() {
 			before(function() {
 				mockConsoleLog.enable();
 
-				fs.copySync(path.join(__dirname, 'structs', 'cartridgeRcWithNoModules.json'), path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json'));
+				fs.copySync(path.join(testPaths.structs, 'cartridgeRcWithNoModules.json'), path.join(testPaths.mockProject, 'cartridgeRcWithNoModules.json'));
 
 				return moduleUtilsInstance.removeFromProjectDir(['cartridgeRcWithNoModules.json'])
 					.then(function() {
@@ -625,11 +627,11 @@ describe('As user of the module utils module', function() {
 			})
 
 			it('should correctly delete remove the file', function() {
-				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json')).to.not.be.a.path();
+				expect(path.join(testPaths.mockProject, 'cartridgeRcWithNoModules.json')).to.not.be.a.path();
 			})
 
 			it('should correctly output a on-screen message', function() {
-				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'removeFromProjectDirSingleFile.txt'), 'utf8')
+				var expected = fs.readFileSync(path.join(testPaths.structs, 'removeFromProjectDirSingleFile.txt'), 'utf8')
 				var actual = mockConsoleLog.getLogData();
 
 				expect(actual).to.be.equal(expected);
@@ -641,9 +643,9 @@ describe('As user of the module utils module', function() {
 			before(function() {
 				mockConsoleLog.enable();
 
-				fs.copySync(path.join(__dirname, 'structs', 'cartridgeRcWithNoModules.json'), path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json'));
-				fs.copySync(path.join(__dirname, 'structs', 'cartridgeRcWithOneModule.json'), path.join(__dirname, 'mock-project', 'cartridgeRcWithOneModule.json'));
-				fs.copySync(path.join(__dirname, 'structs', 'cartridgeRcWithTwoModules.json'), path.join(__dirname, 'mock-project', 'cartridgeRcWithTwoModules.json'));
+				fs.copySync(path.join(testPaths.structs, 'cartridgeRcWithNoModules.json'), path.join(testPaths.mockProject, 'cartridgeRcWithNoModules.json'));
+				fs.copySync(path.join(testPaths.structs, 'cartridgeRcWithOneModule.json'), path.join(testPaths.mockProject, 'cartridgeRcWithOneModule.json'));
+				fs.copySync(path.join(testPaths.structs, 'cartridgeRcWithTwoModules.json'), path.join(testPaths.mockProject, 'cartridgeRcWithTwoModules.json'));
 
 				return moduleUtilsInstance.removeFromProjectDir([
 						'cartridgeRcWithNoModules.json',
@@ -660,16 +662,16 @@ describe('As user of the module utils module', function() {
 			})
 
 			it('should correctly delete all of the files', function() {
-				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json')).to.not.be.a.path();
-				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithOneModule.json')).to.not.be.a.path();
-				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithTwoModules.json')).to.not.be.a.path();
+				expect(path.join(testPaths.mockProject, 'cartridgeRcWithNoModules.json')).to.not.be.a.path();
+				expect(path.join(testPaths.mockProject, 'cartridgeRcWithOneModule.json')).to.not.be.a.path();
+				expect(path.join(testPaths.mockProject, 'cartridgeRcWithTwoModules.json')).to.not.be.a.path();
 			})
 
 			//@TODO ensuring the specific order of the log message is not 100%
 			//due to async nature
 			//Asert the number of lines in the text instead?
 			it.skip('should correctly output an on-screen message', function() {
-				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'removeFromProjectDirMultipleFiles.txt'), 'utf8')
+				var expected = fs.readFileSync(path.join(testPaths.structs, 'removeFromProjectDirMultipleFiles.txt'), 'utf8')
 				var actual = mockConsoleLog.getLogData();
 
 				expect(actual).to.be.equal(expected);
@@ -684,23 +686,23 @@ describe('As user of the module utils module', function() {
 		before(function() {
 			mockConsoleLog.enable();
 
-			return moduleUtilsInstance.addModuleConfig(path.join(__dirname, 'structs', 'moduleConfig.js'))
+			return moduleUtilsInstance.addModuleConfig(path.join(testPaths.structs, 'moduleConfig.js'))
 				.then(function() {
 					mockConsoleLog.restore();
 				})
 		})
 
 		after(function() {
-			fs.removeSync(path.join(__dirname, 'mock-project', '_config'));
+			fs.removeSync(path.join(testPaths.mockProject, '_config'));
 			mockConsoleLog.clearLogData();
 		})
 
 		it('should correctly copy over the module config', function() {
-			expect(path.join(__dirname, 'mock-project', '_config', 'moduleConfig.js')).to.be.a.file();
+			expect(path.join(testPaths.mockProject, '_config', 'moduleConfig.js')).to.be.a.file();
 		})
 
 		it('should correctly output an on-screen message', function() {
-			var expected = fs.readFileSync(path.join(__dirname, 'structs', 'addModuleConfigLog.txt'), 'utf8')
+			var expected = fs.readFileSync(path.join(testPaths.structs, 'addModuleConfigLog.txt'), 'utf8')
 			var actual = mockConsoleLog.getLogData();
 
 			expect(actual).to.be.equal(expected);
@@ -711,25 +713,25 @@ describe('As user of the module utils module', function() {
 		before(function() {
 			mockConsoleLog.enable();
 
-			fs.copySync(path.join(__dirname, 'structs', 'moduleConfig.js'), path.join(__dirname, 'mock-project', '_config', 'moduleConfig.js'));
+			fs.copySync(path.join(testPaths.structs, 'moduleConfig.js'), path.join(testPaths.mockProject, '_config', 'moduleConfig.js'));
 
-			return moduleUtilsInstance.removeModuleConfig(path.join(__dirname, 'structs', 'moduleConfig.js'))
+			return moduleUtilsInstance.removeModuleConfig(path.join(testPaths.structs, 'moduleConfig.js'))
 				.then(function() {
 					mockConsoleLog.restore();
 				})
 		})
 
 		after(function() {
-			fs.removeSync(path.join(__dirname, 'mock-project', '_config'));
+			fs.removeSync(path.join(testPaths.mockProject, '_config'));
 			mockConsoleLog.clearLogData();
 		})
 
 		it('should correctly remove the module config', function() {
-			expect(path.join(__dirname, 'mock-project', '_config', 'moduleConfig.js')).to.not.be.a.path()
+			expect(path.join(testPaths.mockProject, '_config', 'moduleConfig.js')).to.not.be.a.path()
 		})
 
 		it('should correctly output an on-screen message', function() {
-			var expected = fs.readFileSync(path.join(__dirname, 'structs', 'removeModuleConfig.txt'), 'utf8')
+			var expected = fs.readFileSync(path.join(testPaths.structs, 'removeModuleConfig.txt'), 'utf8')
 			var actual = mockConsoleLog.getLogData();
 
 			expect(actual).to.be.equal(expected);
