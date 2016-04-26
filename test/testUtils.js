@@ -35,5 +35,3 @@ testUtilsApi.readFile = function(directory, file) {
 testUtilsApi.getPaths = getPathsObject;
 
 module.exports = testUtilsApi
-
-//testUtils.readJsonFile(testPaths.mockProject, '.cartridgerc');

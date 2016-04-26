@@ -392,7 +392,7 @@ describe('As user of the module utils module', function() {
 			})
 
 			it('should output an on-screen message', function() {
-				var expected = fs.readFileSync(path.join(testPaths.structs, 'ensureCartridgeExists.txt'), 'utf8');
+				var expected = testUtils.readFile(testPaths.structs, 'ensureCartridgeExists.txt');
 				var actual;
 
 				moduleUtilsInstance.ensureCartridgeExists();
@@ -526,7 +526,7 @@ describe('As user of the module utils module', function() {
 			})
 
 			it('should correct output the on-screen message saying this step has been skipped', function() {
-				var expected = fs.readFileSync(path.join(testPaths.structs, 'copyFileToProjectSkippingMessage.txt'), 'utf8')
+				var expected = testUtils.readFile(testPaths.structs, 'copyFileToProjectSkippingMessage.txt');
 				var actual = mockConsoleLog.getLogData()
 
 				expect(actual).to.be.equal(expected)
@@ -631,7 +631,7 @@ describe('As user of the module utils module', function() {
 			})
 
 			it('should correctly output a on-screen message', function() {
-				var expected = fs.readFileSync(path.join(testPaths.structs, 'removeFromProjectDirSingleFile.txt'), 'utf8')
+				var expected = testUtils.readFile(testPaths.structs, 'removeFromProjectDirSingleFile.txt');
 				var actual = mockConsoleLog.getLogData();
 
 				expect(actual).to.be.equal(expected);
@@ -671,7 +671,7 @@ describe('As user of the module utils module', function() {
 			//due to async nature
 			//Asert the number of lines in the text instead?
 			it.skip('should correctly output an on-screen message', function() {
-				var expected = fs.readFileSync(path.join(testPaths.structs, 'removeFromProjectDirMultipleFiles.txt'), 'utf8')
+				var expected = testUtils.readFile(testPaths.structs, 'removeFromProjectDirMultipleFiles.txt');
 				var actual = mockConsoleLog.getLogData();
 
 				expect(actual).to.be.equal(expected);
@@ -702,7 +702,7 @@ describe('As user of the module utils module', function() {
 		})
 
 		it('should correctly output an on-screen message', function() {
-			var expected = fs.readFileSync(path.join(testPaths.structs, 'addModuleConfigLog.txt'), 'utf8')
+			var expected = testUtils.readFile(testPaths.structs, 'addModuleConfigLog.txt');
 			var actual = mockConsoleLog.getLogData();
 
 			expect(actual).to.be.equal(expected);
@@ -731,7 +731,7 @@ describe('As user of the module utils module', function() {
 		})
 
 		it('should correctly output an on-screen message', function() {
-			var expected = fs.readFileSync(path.join(testPaths.structs, 'removeModuleConfig.txt'), 'utf8')
+			var expected = testUtils.readFile(testPaths.structs, 'removeModuleConfig.txt');
 			var actual = mockConsoleLog.getLogData();
 
 			expect(actual).to.be.equal(expected);
