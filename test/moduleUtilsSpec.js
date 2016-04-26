@@ -673,16 +673,6 @@ describe('As user of the module utils module', function() {
 				expect(path.join(testPaths.mockProject, 'cartridgeRcWithTwoModules.json')).to.not.be.a.path();
 			})
 
-			//@TODO ensuring the specific order of the log message is not 100%
-			//due to async nature
-			//Asert the number of lines in the text instead?
-			it.skip('should correctly output an on-screen message', function() {
-				var expected = testUtils.readFile(testPaths.structs, 'removeFromProjectDirMultipleFiles.txt');
-				var actual = mockConsoleLog.getLogData();
-
-				expect(actual).to.be.equal(expected);
-			})
-
 		})
 
 	})
