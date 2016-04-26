@@ -532,6 +532,7 @@ describe('As user of the module utils module', function() {
 	describe('When using copyToProjectDir', function() {
 
 		describe('And copying over multiple file with no destination provided', function() {
+
 			before(function() {
 				mockConsoleLog.enable();
 
@@ -562,6 +563,40 @@ describe('As user of the module utils module', function() {
 				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithTwoModules.json')).to.be.a.path();
 			})
 
+		})
+
+		describe('And copying over multiple files with destination paths provided', function() {
+
+			before(function() {
+				mockConsoleLog.enable();
+
+				return moduleUtilsInstance.copyToProjectDir([{
+						copyPath: path.join(__dirname, 'structs', 'cartridgeRcWithNoModules.json'),
+						destinationPath: '_config'
+					}, {
+						copyPath: path.join(__dirname, 'structs', 'cartridgeRcWithOneModule.json'),
+						destinationPath: 'folder'
+					}, {
+						copyPath: path.join(__dirname, 'structs', 'cartridgeRcWithTwoModules.json'),
+						destinationPath: 'folder2'
+					}])
+					.then(function() {
+						mockConsoleLog.restore();
+						mockConsoleLog.clearLogData();
+					})
+			})
+
+			after(function() {
+				fs.removeSync(path.join(__dirname, 'mock-project', '_config'));
+				fs.removeSync(path.join(__dirname, 'mock-project', 'folder'));
+				fs.removeSync(path.join(__dirname, 'mock-project', 'folder2'));
+			})
+
+			it('should correctly copy over the files to the provided paths', function() {
+				expect(path.join(__dirname, 'mock-project', '_config', 'cartridgeRcWithNoModules.json')).to.be.a.path();
+				expect(path.join(__dirname, 'mock-project', 'folder', 'cartridgeRcWithOneModule.json')).to.be.a.path();
+				expect(path.join(__dirname, 'mock-project', 'folder2', 'cartridgeRcWithTwoModules.json')).to.be.a.path();
+			})
 		})
 	})
 
