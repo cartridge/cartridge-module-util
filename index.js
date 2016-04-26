@@ -389,7 +389,6 @@ module.exports = function(packageConfig) {
 				});
 			})
 			.then(function(){
-				console.log('arggggggghhhh');
 				cartridgeApi.logMessage('Finished: modifying package.json for ' + packageConfig.name);
 				return Promise.resolve();
 			})
@@ -440,15 +439,6 @@ module.exports = function(packageConfig) {
 		});
 	};
 
-	cartridgeApi.finishInstall = function finishInstall(packageDetails) {
-		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
-		process.exit(0);
-	};
-
-	cartridgeApi.finishUninstall = function finishUninstall(packageDetails) {
-		cartridgeApi.logMessage('Finished: post uninstall of ' + packageConfig.name);
-		process.exit(0);
-	};
 
 	cartridgeApi.finishInstall = function finishInstall() {
 		cartridgeApi.logMessage('Finished: post install of ' + packageConfig.name);
