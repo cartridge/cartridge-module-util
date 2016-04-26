@@ -15,10 +15,10 @@ var packageConfigJson = testUtils.readJsonFile(testPaths.structs, 'packageConfig
 var moduleUtils = rewire('../index.js');
 
 moduleUtils.__set__("paths", {
-	project: path.join(process.cwd(), 'test', 'mock-project'),
-	config: path.join(process.cwd(), 'test', 'mock-project', '_config'),
-	readme: path.join(process.cwd(), 'test', 'mock-project', 'readme.md'),
-	cartridge: path.join(process.cwd(), 'test', 'mock-project', '_cartridge')
+	project: path.join(testPaths.mockProject),
+	config: path.join(testPaths.mockProject, '_config'),
+	readme: path.join(testPaths.mockProject, 'readme.md'),
+	cartridge: path.join(testPaths.mockProject, '_cartridge')
 });
 
 var moduleUtilsInstance = moduleUtils(packageConfigJson);
@@ -259,7 +259,7 @@ describe('As user of the module utils module', function() {
 			var cartridgeRcJson;
 
 			before(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
+				fs.copySync(path.join(testPaths.stubs, 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.addToRc()
@@ -295,7 +295,7 @@ describe('As user of the module utils module', function() {
 			var cartridgeRcJson;
 
 			before(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
+				fs.copySync(path.join(testPaths.stubs, 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.removeFromRc()
@@ -319,7 +319,7 @@ describe('As user of the module utils module', function() {
 			var cartridgeRcJson;
 
 			before(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithThreeModules.json'), path.join(testPaths.mockProject, '.cartridgerc'));
+				fs.copySync(path.join(testPaths.stubs, 'cartridgeRcStubWithThreeModules.json'), path.join(testPaths.mockProject, '.cartridgerc'));
 				mockConsoleLog.enable();
 
 				return moduleUtilsInstance.removeFromRc()
@@ -352,7 +352,7 @@ describe('As user of the module utils module', function() {
 		}
 
 		before(function() {
-			fs.copySync(path.join(__dirname, 'stubs', 'projectJsonStub.json'), path.join(testPaths.mockProject, '_config', 'project.json'));
+			fs.copySync(path.join(testPaths.stubs, 'projectJsonStub.json'), path.join(testPaths.mockProject, '_config', 'project.json'));
 			mockConsoleLog.enable();
 
 			return moduleUtilsInstance.modifyProjectConfig(transformFunction)
@@ -419,7 +419,7 @@ describe('As user of the module utils module', function() {
 
 		describe('And the cartridge file does exist', function() {
 			beforeEach(function() {
-				fs.copySync(path.join(__dirname, 'stubs', 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
+				fs.copySync(path.join(testPaths.stubs, 'cartridgeRcStubWithOneModule.json'), path.join(testPaths.mockProject, '.cartridgerc'));
 
 				mockProcessExit.enable();
 				mockConsoleLog.enable();
@@ -465,7 +465,7 @@ describe('As user of the module utils module', function() {
 			before(function() {
 				mockConsoleLog.enable();
 
-				return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'))
+				return moduleUtilsInstance.copyFileToProject(path.join(testPaths.stubs, 'dummyCopyFile.txt'))
 					.then(function() {
 						mockConsoleLog.restore();
 						mockConsoleLog.clearLogData();
@@ -487,7 +487,7 @@ describe('As user of the module utils module', function() {
 			before(function() {
 				mockConsoleLog.enable();
 
-				return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'), 'destination-folder')
+				return moduleUtilsInstance.copyFileToProject(path.join(testPaths.stubs, 'dummyCopyFile.txt'), 'destination-folder')
 					.then(function() {
 						mockConsoleLog.restore();
 						mockConsoleLog.clearLogData();
@@ -508,9 +508,9 @@ describe('As user of the module utils module', function() {
 			before(function() {
 				mockConsoleLog.enable();
 
-				fs.copySync(path.join(__dirname, 'stubs', 'dummyCopyFileAlt.txt'), path.join(testPaths.mockProject, 'dummyCopyFile.txt'));
+				fs.copySync(path.join(testPaths.stubs, 'dummyCopyFileAlt.txt'), path.join(testPaths.mockProject, 'dummyCopyFile.txt'));
 
-				return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'))
+				return moduleUtilsInstance.copyFileToProject(path.join(testPaths.stubs, 'dummyCopyFile.txt'))
 					.then(function() {
 						mockConsoleLog.restore();
 					})
