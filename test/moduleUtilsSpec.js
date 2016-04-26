@@ -5,8 +5,13 @@ var chai = require('chai');
 var stripAnsi = require('strip-ansi');
 var rewire =  require('rewire')
 var expect = chai.expect;
-var packageConfigJson = JSON.parse(fs.readFileSync(path.join(__dirname, 'structs', 'packageConfig.json'), 'utf8'));
 
+var testUtils = require('./testUtils');
+
+testUtils.setTestDir(__dirname);
+
+var testPaths = testUtils.getPaths();
+var packageConfigJson = testUtils.readJsonFile(testPaths.structs, 'packageConfig.json');
 var moduleUtils = rewire('../index.js');
 
 moduleUtils.__set__("paths", {
@@ -48,7 +53,7 @@ describe('As user of the module utils module', function() {
 
 		it('should correctly log the input', function() {
 			var logInput = "Who are the patriots?"
-			var expected = fs.readFileSync(path.join(__dirname, 'structs', 'logMessage.txt'), 'utf8');
+			var expected = testUtils.readFile(testPaths.structs, 'logMessage.txt');
 			var actual;
 
 			moduleUtilsInstance.logMessage(logInput);
