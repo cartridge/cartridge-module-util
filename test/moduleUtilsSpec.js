@@ -518,11 +518,82 @@ describe('As user of the module utils module', function() {
 				expect(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt')).to.not.have.content("This is a dummy file");
 			})
 
-			it('should output on-screen message saying this step has been skipped', function() {
+			it('should correct output the on-screen message saying this step has been skipped', function() {
 				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'copyFileToProjectSkippingMessage.txt'), 'utf8')
 				var actual = mockConsoleLog.getLogData()
 
 				expect(actual).to.be.equal(expected)
+			})
+
+		})
+
+	})
+
+	describe('When using removeFromProjectDir', function() {
+
+		describe('And deleting one file', function() {
+
+			before(function() {
+				mockConsoleLog.enable();
+
+				fs.copySync(path.join(__dirname, 'structs', 'cartridgeRcWithNoModules.json'), path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json'));
+
+				return moduleUtilsInstance.removeFromProjectDir(['cartridgeRcWithNoModules.json'])
+					.then(function() {
+						mockConsoleLog.restore();
+					})
+			})
+
+			after(function() {
+				mockConsoleLog.clearLogData();
+			})
+
+			it('should correctly delete remove the file', function() {
+				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json')).to.not.be.a.path();
+			})
+
+			it('should correctly output a on-screen message', function() {
+				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'removeFromProjectDirSingleFile.txt'), 'utf8')
+				var actual = mockConsoleLog.getLogData();
+
+				expect(actual).to.be.equal(expected);
+			})
+
+		})
+
+		describe('And deleting multiple files', function() {
+			before(function() {
+				mockConsoleLog.enable();
+
+				fs.copySync(path.join(__dirname, 'structs', 'cartridgeRcWithNoModules.json'), path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json'));
+				fs.copySync(path.join(__dirname, 'structs', 'cartridgeRcWithOneModule.json'), path.join(__dirname, 'mock-project', 'cartridgeRcWithOneModule.json'));
+				fs.copySync(path.join(__dirname, 'structs', 'cartridgeRcWithTwoModules.json'), path.join(__dirname, 'mock-project', 'cartridgeRcWithTwoModules.json'));
+
+				return moduleUtilsInstance.removeFromProjectDir([
+						'cartridgeRcWithNoModules.json',
+						'cartridgeRcWithOneModule.json',
+						'cartridgeRcWithTwoModules.json'
+					])
+					.then(function() {
+						mockConsoleLog.restore();
+					})
+			})
+
+			after(function() {
+				mockConsoleLog.clearLogData();
+			})
+
+			it('should correctly delete all of the files', function() {
+				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithNoModules.json')).to.not.be.a.path();
+				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithOneModule.json')).to.not.be.a.path();
+				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithTwoModules.json')).to.not.be.a.path();
+			})
+
+			it('should correctly output a on-screen message', function() {
+				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'removeFromProjectDirMultipleFiles.txt'), 'utf8')
+				var actual = mockConsoleLog.getLogData();
+
+				expect(actual).to.be.equal(expected);
 			})
 
 		})
