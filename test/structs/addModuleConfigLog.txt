@@ -1,0 +1,1 @@
+Finished: Copying moduleConfig.js for cartridge-mock-package

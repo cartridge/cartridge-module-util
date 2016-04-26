@@ -589,7 +589,10 @@ describe('As user of the module utils module', function() {
 				expect(path.join(__dirname, 'mock-project', 'cartridgeRcWithTwoModules.json')).to.not.be.a.path();
 			})
 
-			it('should correctly output a on-screen message', function() {
+			//@TODO ensuring the specific order of the log message is not 100%
+			//due to async nature
+			//Asert the number of lines in the text instead?
+			it('should correctly output an on-screen message', function() {
 				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'removeFromProjectDirMultipleFiles.txt'), 'utf8')
 				var actual = mockConsoleLog.getLogData();
 
@@ -598,5 +601,62 @@ describe('As user of the module utils module', function() {
 
 		})
 
+	})
+
+	describe('When using addModuleConfig', function() {
+
+		before(function() {
+			mockConsoleLog.enable();
+
+			return moduleUtilsInstance.addModuleConfig(path.join(__dirname, 'structs', 'moduleConfig.js'))
+				.then(function() {
+					mockConsoleLog.restore();
+				})
+		})
+
+		after(function() {
+			fs.removeSync(path.join(__dirname, 'mock-project', '_config'));
+			mockConsoleLog.clearLogData();
+		})
+
+		it('should correctly copy over the module config', function() {
+			expect(path.join(__dirname, 'mock-project', '_config', 'moduleConfig.js')).to.be.a.file();
+		})
+
+		it('should correctly output an on-screen message', function() {
+			var expected = fs.readFileSync(path.join(__dirname, 'structs', 'addModuleConfigLog.txt'), 'utf8')
+			var actual = mockConsoleLog.getLogData();
+
+			expect(actual).to.be.equal(expected);
+		})
+	})
+
+	describe('When using removeModuleConfig', function() {
+		before(function() {
+			mockConsoleLog.enable();
+
+			fs.copySync(path.join(__dirname, 'structs', 'moduleConfig.js'), path.join(__dirname, 'mock-project', '_config', 'moduleConfig.js'));
+
+			return moduleUtilsInstance.removeModuleConfig(path.join(__dirname, 'structs', 'moduleConfig.js'))
+				.then(function() {
+					mockConsoleLog.restore();
+				})
+		})
+
+		after(function() {
+			fs.removeSync(path.join(__dirname, 'mock-project', '_config'));
+			mockConsoleLog.clearLogData();
+		})
+
+		it('should correctly remove the module config', function() {
+			expect(path.join(__dirname, 'mock-project', '_config', 'moduleConfig.js')).to.not.be.a.path()
+		})
+
+		it('should correctly output an on-screen message', function() {
+			var expected = fs.readFileSync(path.join(__dirname, 'structs', 'removeModuleConfig.txt'), 'utf8')
+			var actual = mockConsoleLog.getLogData();
+
+			expect(actual).to.be.equal(expected);
+		})
 	})
 })
