@@ -55,11 +55,13 @@ function updateReadme(renderedModuleTemplate) {
 
 function updateJsonObj(obj, newObj, ignoreArr){
 	for (var key in newObj) {
-		for(var i = 0; i < ignoreArr.length; i++){
-			if(key !== ignoreArr[i]){
-	    	obj[key] = newObj[key];
+		if (newObj.hasOwnProperty(key)) {
+			for(var i = 0; i < ignoreArr.length; i++){
+				if(key !== ignoreArr[i]){
+		    	obj[key] = newObj[key];
+		  	}
 	  	}
-  	}
+	  }
 	}
 	return obj;
 }
@@ -67,23 +69,25 @@ function updateJsonObj(obj, newObj, ignoreArr){
 function removeDependency(obj, match){
 
 	for (var key in obj) {
-	if(key === match)
-    delete obj[key];
-	}
+		if(key === match)
+	    delete obj[key];
+		}
 	return obj;
 }
 
 function jSonObjToNpmInstallArray(newObj, ignoreArr){
 	var npmArray = [];
 	for (var key in newObj) {
-		for(var i = 0; i < ignoreArr.length; i++){
-			
-			if(key !== ignoreArr[i]){
-				if (newObj.hasOwnProperty(key)) {
-	        npmArray.push(key);
-	    	}
-	    }
-  	}
+		if (newObj.hasOwnProperty(key)) {
+			for(var i = 0; i < ignoreArr.length; i++){
+				
+				if(key !== ignoreArr[i]){
+					if (newObj.hasOwnProperty(key)) {
+		        npmArray.push(key);
+		    	}
+		    }
+	  	}
+	  }
 	}
 	return npmArray;
 }
@@ -395,7 +399,7 @@ module.exports = function(packageConfig) {
 			.catch(function(err){
 				console.log('modifyPackageJson error');
 				console.error(err);
-				process.exit(1);
+				process.exit(EXIT_FAIL);
 			});
 	};
 
@@ -429,7 +433,7 @@ module.exports = function(packageConfig) {
 	};
 
 	cartridgeApi.installDependencies = function installDependencies(dependencies, ignoreArr){
-		return new Promise(function (resolve, reject){
+		return new Promise(function (resolve){
 			process.chdir('../../');
 			return npmInstallPackage(jSonObjToNpmInstallArray(dependencies, ignoreArr), function(err){
 				if(err) throw err;
