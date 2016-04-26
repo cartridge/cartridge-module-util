@@ -461,6 +461,7 @@ describe('As user of the module utils module', function() {
 				return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'))
 					.then(function() {
 						mockConsoleLog.restore();
+						mockConsoleLog.clearLogData();
 					})
 			})
 
@@ -468,8 +469,60 @@ describe('As user of the module utils module', function() {
 				fs.removeSync(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt'));
 			})
 
-			it('should copy to file to the project root', function() {
+			it('should copy the file to the project root', function() {
 				expect(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt')).to.be.a.file();
+			})
+
+		})
+
+		describe('And a destination path is provided', function() {
+
+			before(function() {
+				mockConsoleLog.enable();
+
+				return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'), 'destination-folder')
+					.then(function() {
+						mockConsoleLog.restore();
+						mockConsoleLog.clearLogData();
+					})
+			})
+
+			after(function() {
+				fs.removeSync(path.join(__dirname, 'mock-project', 'destination-folder'));
+			})
+
+			it('should copy the file to the specificed path', function() {
+				expect(path.join(__dirname, 'mock-project', 'destination-folder', 'dummyCopyFile.txt')).to.be.a.file();
+			})
+		})
+
+		describe('And a file that already exists is being copied', function() {
+
+			before(function() {
+				mockConsoleLog.enable();
+
+				fs.copySync(path.join(__dirname, 'stubs', 'dummyCopyFileAlt.txt'), path.join(__dirname, 'mock-project', 'dummyCopyFile.txt'));
+
+				return moduleUtilsInstance.copyFileToProject(path.join(__dirname, 'stubs', 'dummyCopyFile.txt'))
+					.then(function() {
+						mockConsoleLog.restore();
+					})
+			})
+
+			after(function() {
+				mockConsoleLog.clearLogData();
+				fs.removeSync(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt'));
+			})
+
+			it('should not copy the file', function() {
+				expect(path.join(__dirname, 'mock-project', 'dummyCopyFile.txt')).to.not.have.content("This is a dummy file");
+			})
+
+			it('should output on-screen message saying this step has been skipped', function() {
+				var expected = fs.readFileSync(path.join(__dirname, 'structs', 'copyFileToProjectSkippingMessage.txt'), 'utf8')
+				var actual = mockConsoleLog.getLogData()
+
+				expect(actual).to.be.equal(expected)
 			})
 
 		})
