@@ -2,8 +2,8 @@ var fs = require('fs-extra');
 var path = require('path');
 
 var chai = require('chai');
-var rewire =  require('rewire')
 var expect = chai.expect;
+var rewire =  require('rewire')
 
 var testUtils = require('./testUtils');
 
