@@ -1,6 +1,7 @@
 var fs = require('fs');
 var util = require('util');
 var path = require('path');
+var stripAnsi = require('strip-ansi');
 
 var mockConsoleLogApi = {};
 
@@ -23,7 +24,7 @@ mockConsoleLogApi.enable = function() {
 }
 
 mockConsoleLogApi.getLogData = function() {
-	return _logData.join('');
+	return stripAnsi(_logData.join(''));
 }
 
 mockConsoleLogApi.clearLogData = function() {

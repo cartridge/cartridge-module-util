@@ -2,7 +2,6 @@ var fs = require('fs-extra');
 var path = require('path');
 
 var chai = require('chai');
-var stripAnsi = require('strip-ansi');
 var rewire =  require('rewire')
 var expect = chai.expect;
 
@@ -143,7 +142,7 @@ describe('As user of the module utils module', function() {
 				moduleUtilsInstance.exitIfDevEnvironment();
 				mockConsoleLog.restore();
 
-				actual = stripAnsi(mockConsoleLog.getLogData());
+				actual = mockConsoleLog.getLogData();
 
 				expect(actual).to.equal(expected);
 			})
@@ -398,7 +397,7 @@ describe('As user of the module utils module', function() {
 				moduleUtilsInstance.ensureCartridgeExists();
 				mockConsoleLog.restore();
 
-				actual = stripAnsi(mockConsoleLog.getLogData());
+				actual = mockConsoleLog.getLogData();
 
 				expect(actual).to.equal(expected);
 			})
