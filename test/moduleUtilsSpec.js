@@ -255,7 +255,7 @@ describe('As user of the module utils module', function() {
 
 		describe('And the module data already exists in the cartridgerc file', function() {
 
-			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(testPaths.structs, 'cartridgeRcWithOneModule.json'), 'utf8'));
+			var cartridgeRcStruct = testUtils.readJsonFile(testPaths.structs, 'cartridgeRcWithOneModule.json');
 			var cartridgeRcJson;
 
 			before(function() {
@@ -267,7 +267,7 @@ describe('As user of the module utils module', function() {
 						mockConsoleLog.restore();
 						mockConsoleLog.clearLogData();
 
-						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(testPaths.mockProject, '.cartridgerc'), 'utf8'));
+						cartridgeRcJson = testUtils.readJsonFile(testPaths.mockProject, '.cartridgerc');
 					})
 			})
 
@@ -291,7 +291,7 @@ describe('As user of the module utils module', function() {
 
 		describe('And the cartridgerc only has one module', function() {
 
-			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(testPaths.structs, 'cartridgeRcWithNoModules.json'), 'utf8'));
+			var cartridgeRcStruct = testUtils.readJsonFile(testPaths.structs, 'cartridgeRcWithNoModules.json');
 			var cartridgeRcJson;
 
 			before(function() {
@@ -303,7 +303,7 @@ describe('As user of the module utils module', function() {
 						mockConsoleLog.restore();
 						mockConsoleLog.clearLogData();
 
-						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(testPaths.mockProject, '.cartridgerc'), 'utf8'));
+						cartridgeRcJson = testUtils.readJsonFile(testPaths.mockProject, '.cartridgerc');
 					})
 			})
 
@@ -315,7 +315,7 @@ describe('As user of the module utils module', function() {
 
 		describe('And the cartridgerc has multiple modules', function() {
 
-			var cartridgeRcStruct = JSON.parse(fs.readFileSync(path.join(testPaths.structs, 'cartridgeRcWithTwoModules.json'), 'utf8'));
+			var cartridgeRcStruct = testUtils.readJsonFile(testPaths.structs, 'cartridgeRcWithTwoModules.json');
 			var cartridgeRcJson;
 
 			before(function() {
@@ -327,7 +327,7 @@ describe('As user of the module utils module', function() {
 						mockConsoleLog.restore();
 						mockConsoleLog.clearLogData();
 
-						cartridgeRcJson = JSON.parse(fs.readFileSync(path.join(testPaths.mockProject, '.cartridgerc'), 'utf8'));
+						cartridgeRcJson = testUtils.readJsonFile(testPaths.mockProject, '.cartridgerc');
 					})
 			})
 
@@ -360,7 +360,7 @@ describe('As user of the module utils module', function() {
 					mockConsoleLog.restore();
 					mockConsoleLog.clearLogData();
 
-					projectJson = JSON.parse(fs.readFileSync(path.join(testPaths.mockProject, '_config', 'project.json'), 'utf8'));
+					projectJson = testUtils.readJsonFile(path.join(testPaths.mockProject, '_config'), 'project.json');
 			})
 		})
 
