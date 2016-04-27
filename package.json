@@ -1,7 +1,7 @@
 {
   "name": "cartridge-module-util",
-  "version": "0.4.2",
-  "description": "Uitility code for modules form the Carteidge project",
+  "version": "0.5.1",
+  "description": "Uitility code for modules for the cartridge project",
   "keywords": [
     "dependency",
     "cartridge"
@@ -28,7 +28,9 @@
     "fs-extra": "^0.26.7",
     "lodash": "^4.6.1",
     "path": "^0.12.7",
-    "path-exists": "^2.1.0"
+    "path-exists": "^2.1.0",
+    "npm-install-package": "^1.0.2",
+    "process": "^0.11.2"
   },
   "devDependencies": {
     "chai": "^1.10.0",
