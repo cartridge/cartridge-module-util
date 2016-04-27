@@ -203,7 +203,7 @@ npm test
 To check the code coverage of the current tests run
 
 ```bash
-npm run coverage
+npm run cover
 ```
 
 Please make sure that your changes either increase the test coverage or at least maintain the same coverage.
