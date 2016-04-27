@@ -1,0 +1,3 @@
+Finished: Removing cartridgeRcWithNoModules.json for cartridge-mock-package
+Finished: Removing cartridgeRcWithOneModule.json for cartridge-mock-package
+Finished: Removing cartridgeRcWithTwoModules.json for cartridge-mock-package
