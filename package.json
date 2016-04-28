@@ -19,6 +19,7 @@
   },
   "scripts": {
     "test": "node run lint && node run mocha",
+    "cover": "istanbul cover _mocha && open coverage/lcov-report/index.html",
     "lint": "eslint index.js",
     "mocha": "mocha"
   },
@@ -38,6 +39,7 @@
     "cz-conventional-changelog": "^1.1.5",
     "eslint": "^2.7.0",
     "ghooks": "^1.2.1",
+    "istanbul": "^0.4.3",
     "mocha": "^2.4.5",
     "rewire": "^2.5.1",
     "strip-ansi": "^3.0.1",

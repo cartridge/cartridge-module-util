@@ -183,32 +183,27 @@ cartridgeUtil.removeFromRc()
 * * *
 
 ## Development
-### Commit message standards
-Try and adhere as closely as possible to the [Angular commit messages guidelines](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#-git-commit-guidelines).
 
-[Commitizen](https://github.com/commitizen/cz-cli) is a command line tool which can help with this:
-```sh
-npm install -g commitizen
-```
-Now, simply use `git cz` instead of `git commit` when committing.
+Please follow the instructions within the [base module development guide](https://github.com/cartridge/base-module/wiki/Development-guide) when working on this project.
 
-### ESLint
-By default `index.js` is linted using ESLint. These checks are run by travis and will fail the build if errors are found.
+### Testing
 
-To manually check for errors run
-```sh
-npm run lint
+When adding functionality or modifying existing methods you should add unit tests to cover the change. In addition the tests should be run to ensure that existing functionality hasn't been modified. The tests are run with the following command:
+
+```bash
+mocha
 ```
 
-If you are getting an error that you don't understand then try looking at the [JSLint Error Explanations](http://jslinterrors.com/) site or the [ESLint rules page](http://eslint.org/docs/rules/). The linting rules are in place for a reason. If you have a specific use case where you need to violate one then disable the linter in place rather than removing the rule. In addition leave a comment explaining the reasoning for disabling the linter.
-```javascript
-/*eslint no-extend-native: "off"*/
-// We are polyfilling native functionality for older browsers
-if (!Element.prototype.addEventListener) {
-	Element.prototype.removeEventListener = function (sEventType, fListener) {
-		...
-	}
-}
-/*eslint no-extend-native: "error"*/
+Alternatively both the tests and linting can be run with the following command:
+
+```bash
+npm test
 ```
-If you add further JavaScript files to this module then please add them to the linting command defined in `package.json`.
+
+To check the code coverage of the current tests run
+
+```bash
+npm run cover
+```
+
+Please make sure that your changes either increase the test coverage or at least maintain the same coverage.
