@@ -1,0 +1,1 @@
+Finished: modifying package.json for cartridge-mock-package

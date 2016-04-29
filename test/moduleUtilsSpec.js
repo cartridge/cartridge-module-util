@@ -17,7 +17,8 @@ moduleUtils.__set__("paths", {
 	project: path.join(testPaths.mockProject),
 	config: path.join(testPaths.mockProject, '_config'),
 	readme: path.join(testPaths.mockProject, 'readme.md'),
-	cartridge: path.join(testPaths.mockProject, '_cartridge')
+	cartridge: path.join(testPaths.mockProject, '_cartridge'),
+	pkg: path.join(testPaths.mockProject, 'package.json')
 });
 
 var moduleUtilsInstance = moduleUtils(packageConfigJson);
@@ -735,5 +736,56 @@ describe('As user of the module utils module', function() {
 
 			expect(actual).to.be.equal(expected);
 		})
+	})
+
+	describe('When using addToPackage', function() {
+
+		var dependenciesToAdd = testUtils.readJsonFile(testPaths.structs, 'addToPackageDependencies.json')["cartridge-mock-dependencies"];
+
+		before(function() {
+			fs.copySync(path.join(testPaths.structs, 'packageJson.json'), path.join(testPaths.mockProject, 'package.json'));
+		})
+
+		after(function() {
+			fs.removeSync(path.join(testPaths.mockProject, 'package.json'));
+		})
+
+		describe('And dependencies are added to the package.json file', function() {
+			var newPackageJson;
+
+			beforeEach(function() {
+				mockConsoleLog.enable();
+
+				return moduleUtilsInstance.addToPackage(dependenciesToAdd, ['cartridge-mock-dependencies'])
+					.then(function() {
+						newPackageJson = testUtils.readJsonFile(testPaths.mockProject, 'package.json');
+						mockConsoleLog.restore();
+					})
+			})
+
+			afterEach(function() {
+				mockConsoleLog.clearLogData();
+			})
+
+			it('should correctly add provided deps to `dependencies` key', function() {
+				var actual = Object.keys(newPackageJson.dependencies).length;
+
+				expect(actual).to.be.equal(5);
+			})
+
+			it('should not change change the `devDependencies` key', function() {
+				var actual = Object.keys(newPackageJson.devDependencies).length;
+
+				expect(actual).to.be.equal(2);
+			})
+
+			it('should correctly output an on-screen message', function() {
+				var expected = testUtils.readFile(testPaths.structs, 'addToPackageMessage.txt');
+				var actual = mockConsoleLog.getLogData();
+
+				expect(actual).to.be.equal(expected);
+			})
+		})
+
 	})
 })
