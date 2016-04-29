@@ -21,6 +21,10 @@ moduleUtils.__set__("paths", {
 	pkg: path.join(testPaths.mockProject, 'package.json')
 });
 
+moduleUtils.__set__("npmInstallPackage", function(dependencies, callback) {
+	callback();
+})
+
 var moduleUtilsInstance = moduleUtils(packageConfigJson);
 var mockConsoleLog = require('./mocks/mockConsoleLog');
 var mockProcessExit = require('./mocks/mockProcessExit');
@@ -787,5 +791,40 @@ describe('As user of the module utils module', function() {
 			})
 		})
 
+	})
+
+	describe('When using installDependencies', function() {
+
+		var startingCwd;
+		var pathDownTwoDirectories = path.resolve('../../');
+
+		before(function() {
+			startingCwd = process.cwd();
+
+			mockConsoleLog.enable();
+
+			return moduleUtilsInstance.installDependencies(null, null)
+				.then(function() {
+					mockConsoleLog.restore();
+				})
+		})
+
+		after(function() {
+			mockConsoleLog.clearLogData();
+		})
+
+		it('should correctly output an on-screen message', function() {
+			var expected = testUtils.readFile(testPaths.structs, 'installDependenciesMessage.txt');
+			var actual = mockConsoleLog.getLogData();
+
+			expect(actual).to.be.equal(expected);
+		})
+
+		it('shoudl correctly change the cwd back two directories', function() {
+			var expected = pathDownTwoDirectories;
+			var actual = process.cwd();
+
+			expect(actual).to.be.equal(expected);
+		})
 	})
 })
