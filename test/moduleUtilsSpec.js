@@ -67,7 +67,6 @@ describe('As user of the module utils module', function() {
 
 			expect(actual).to.equal(expected);
 		});
-
 	})
 
 	describe('When using the finishInstall function', function() {
