@@ -203,6 +203,8 @@ cartridgeUtil.removeModuleConfig(path.resolve('_config', 'task.' + TASK_NAME + '
 Add extra dependencies to the `dependency` object in cartridge project `package.json`.
 The dependencies to add must be stored in the module's `package.json` as a seperate key.
 
+Returns a promise that is fulfilled once the dependencies have been added to the package.json
+
 #### *dependencies `object`*
 Object of the dependencies to add
 
@@ -236,6 +238,8 @@ cartridgeUtil.addToPackage(newDependenciesToAddToObject, 'newDependenciesToAdd')
 ### <a name="cleanExpansionPack"></a>cleanExpansionPack()
 Remove all traces of the expansion pack. Calling this function deletes the package's `node_modules` directory and removes it from the package.json dependency object'
 
+Returns a promise that is fulfilled once expansion pack files have been deleted.
+
 Due to removing all traces of the installation, this function should be the penultimate function to call, after all other setup code has run but before running `finishInstall`
 
 #### Example
@@ -250,6 +254,8 @@ cartridgeUtil.cleanExpansionPack();
 ### <a name="installDependencies"></a>installDependencies(dependencies, dependenciesObjectKey)
 Programmatically install npm dependencies.
 The dependencies to add must be stored in the module's `package.json` as a seperate key.
+
+Returns a promise that is fulfilled once all dependencies have been installed.
 
 #### *dependencies `object`*
 Object of the dependencies to add
