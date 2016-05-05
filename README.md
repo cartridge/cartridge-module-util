@@ -157,9 +157,25 @@ cartridgeUtil.modifyProjectConfig(function(config) {
 -------
 
 
-### <a name="removeFromProjectDir"></a>removeFromProjectDir
-> TODO: Add documentation
+### <a name="removeFromProjectDir"></a>removeFromProjectDir(pathList)
+Remove files or folders from the cartridge project directory. Multiple files and folders can be removed in a single call.
 
+This can be useful when uninstalling a module in a uninstall script.
+
+This returns a promise that is fulfilled when all paths have been removed.
+
+#### *pathList `array`*
+
+An array with each index being the path to remove. The path should be relative to the project directory.
+
+#### Example
+
+```javascript
+cartridgeUtil.removeFromProjectDir([
+	'directory/to/delete',
+	'file-to-delete.js'
+])
+```
 
 -------
 
