@@ -186,15 +186,15 @@ cartridgeUtil.removeFromRc()
 -------
 
 
-### <a name="addToPackage"></a> cartridgeUtil.addToPackage(dependencyObject, dependencyString)
+### <a name="addToPackage"></a>addToPackage(dependencies, dependenciesObjectKey)
 Add extra dependencies to the `dependency` object in cartridge project `package.json`.
 The dependencies to add must be stored in the module's `package.json` as a seperate key.
 
-#### dependencyObject `object`
+#### *dependencies `object`*
 Object of the dependencies to add
 
-#### dependencyString `string`
-The string of the key of the dependencies e.g. `newDependenciesToAddTo`
+#### *dependenciesObjectKey `string`*
+The string of the key of the dependencies e.g. `newDependenciesToAdd`. This string relates to the key in the package.json, seen below.
 
 #### Example
 
@@ -202,7 +202,7 @@ The string of the key of the dependencies e.g. `newDependenciesToAddTo`
 //package.json
 {
 	"dependencies": { ... }
-	"newDependenciesToAddTo": {
+	"newDependenciesToAdd": {
 		"dep1": "0.0.1",
 		"dep2": "0.0.2"
 	}
@@ -211,7 +211,7 @@ The string of the key of the dependencies e.g. `newDependenciesToAddTo`
 
 ```javascript
 //Package json will need to be read seperately
-cartridgeUtil.addToPackage(newDependenciesToAddToObject, 'newDependenciesToAddTo')
+cartridgeUtil.addToPackage(newDependenciesToAddToObject, 'newDependenciesToAdd')
 	.then(function() {
 		// Code to run after completion
 	})
@@ -220,14 +220,50 @@ cartridgeUtil.addToPackage(newDependenciesToAddToObject, 'newDependenciesToAddTo
 -------
 
 
-### <a name="cleanExpansionPack"></a> cleanExpansionPack
-> TODO: Needs implementing
+### <a name="cleanExpansionPack"></a>cleanExpansionPack()
+Remove all traces of the expansion pack. Calling this function deletes the package's `node_modules` directory and removes it from the package.json dependency object'
+
+Due to removing all traces of the installation, this function should be the penultimate function to call, after all other setup code has run but before running `finishInstall`
+
+#### Example
+
+```
+cartridgeUtil.cleanExpansionPack();
+```
 
 -------
 
 
-### <a name="installDependencies"></a> installDependencies
-> TODO: Needs implementing
+### <a name="installDependencies"></a>installDependencies(dependencies, dependenciesObjectKey)
+Programmatically install npm dependencies.
+The dependencies to add must be stored in the module's `package.json` as a seperate key.
+
+#### *dependencies `object`*
+Object of the dependencies to add
+
+#### *dependenciesObjectKey `string`*
+The string of the key of the dependencies e.g. `newDependenciesToAdd`. This string relates to the key in the package.json, seen below.
+
+#### Example
+
+```js
+//package.json
+{
+	"dependencies": { ... }
+	"newDependenciesToAdd": {
+		"dep1": "0.0.1",
+		"dep2": "0.0.2"
+	}
+}
+```
+
+```javascript
+//Package json will need to be read seperately
+cartridgeUtil.installDependencies(newDependenciesToAddObject, 'newDependenciesToAdd')
+	.then(function() {
+		// Code to run after completion
+	})
+```
 
 -------
 
