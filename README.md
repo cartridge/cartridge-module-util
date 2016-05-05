@@ -29,6 +29,9 @@ API
 - [removeFromProjectDir](#removeFromProjectDir)
 - [removeFromRc](#removeFromRc)
 - [removeModuleConfig](#removeModuleConfig)
+- [addToPackage](#addToPackage)
+- [cleanExpansionPack](#cleanExpansionPack)
+- [installDependencies](#installDependencies)
 
 
 ### <a name="addModuleConfig"></a> addModuleConfig
@@ -180,7 +183,25 @@ cartridgeUtil.removeFromRc()
 ### <a name="removeModuleConfig"></a> removeModuleConfig
 > TODO: Needs implementing
 
-* * *
+-------
+
+
+### <a name="addToPackage"></a> addToPackage
+> TODO: Needs implementing
+
+-------
+
+
+### <a name="cleanExpansionPack"></a> cleanExpansionPack
+> TODO: Needs implementing
+
+-------
+
+
+### <a name="installDependencies"></a> installDependencies
+> TODO: Needs implementing
+
+-------
 
 ## Development
 
