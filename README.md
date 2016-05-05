@@ -186,8 +186,36 @@ cartridgeUtil.removeFromRc()
 -------
 
 
-### <a name="addToPackage"></a> addToPackage
-> TODO: Needs implementing
+### <a name="addToPackage"></a> cartridgeUtil.addToPackage(dependencyObject, dependencyString)
+Add extra dependencies to the `dependency` object in cartridge project `package.json`.
+The dependencies to add must be stored in the module's `package.json` as a seperate key.
+
+#### dependencyObject `object`
+Object of the dependencies to add
+
+#### dependencyString `string`
+The string of the key of the dependencies e.g. `newDependenciesToAddTo`
+
+#### Example
+
+```js
+//package.json
+{
+	"dependencies": { ... }
+	"newDependenciesToAddTo": {
+		"dep1": "0.0.1",
+		"dep2": "0.0.2"
+	}
+}
+```
+
+```javascript
+//Package json will need to be read seperately
+cartridgeUtil.addToPackage(newDependenciesToAddToObject, 'newDependenciesToAddTo')
+	.then(function() {
+		// Code to run after completion
+	})
+```
 
 -------
 
