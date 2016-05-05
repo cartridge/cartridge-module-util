@@ -68,8 +68,32 @@ cartridgeUtil.addToRc()
 -------
 
 
-### <a name="copyFileToProject"></a>copyFileToProject
-> TODO: Add documentation
+### <a name="copyFileToProject"></a>copyFileToProject(copyPath[, destinationPath])
+Copy a single file from the module directory to the cartridge project directory.
+If the file being copied already exists in the destination path, it will skipped and not overwritten.
+
+Returns a promise this is fulfilled once the file has been copied.
+
+#### *copyPath `string`*
+
+The file path to copy to the project directory. This is relative to the module directory.
+
+#### *destinationPath `string`*
+
+Optional argument specifying where the file will be copied to.
+
+* If provided this is relative to the cartridge project directory. If the directory copying into does not exist, it is created before copying the file.
+* If not provided, this defaults to the cartridge project directory root.
+
+#### Example
+
+```javascript
+//File is copied to the root of the project
+cartridgeUtil.copyFileToProject('file-to-copy.js');
+
+//File is copied into the directory 'copy-directory' in the project root.
+cartridgeUtil.copyFileToProject('file-to-copy.js', 'copy-directory');
+```
 
 -------
 
