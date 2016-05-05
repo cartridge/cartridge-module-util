@@ -180,8 +180,21 @@ cartridgeUtil.removeFromRc()
 -------
 
 
-### <a name="removeModuleConfig"></a>removeModuleConfig
-> TODO: Needs implementing
+### <a name="removeModuleConfig"></a>removeModuleConfig(pathToModuleConfig)
+
+Remove the config file at the provided path.
+
+Returns a promise that is fulfilled once the config file has been deleted.
+
+#### *pathToModuleConfig `string`*
+
+The complete path, with the file name and extension, of the config file.
+
+#### Example
+
+```javascript
+cartridgeUtil.removeModuleConfig(path.resolve('_config', 'task.' + TASK_NAME + '.js'));
+```
 
 -------
 
