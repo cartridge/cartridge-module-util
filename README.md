@@ -10,7 +10,7 @@ The function returns the api that Cartridge modules can use.
 
 ### Example usage
 
-```javascript
+```js
 var packageConfig = require('../package.json');
 var cartridgeUtil = require('cartridge-module-util')(packageConfig);
 ```
@@ -44,7 +44,7 @@ Moves a configuration file from the module directory to the configuration direct
 The path to the module config file. This is relative to the module directory.
 
 #### Example
-```javascript
+```js
 cartridgeUtil.addModuleConfig(path.resolve('_config', 'task.sass.js'));
 ```
 
@@ -59,7 +59,7 @@ Adds the module information to the project `.cartridgerc` file. Will update the 
 Returns a promise that is fulfilled once the `.cartridgerc` file is written.
 
 #### Example
-```javascript
+```js
 cartridgeUtil.addToRc()
     .then(function() {
         // Code to run after completion
@@ -90,7 +90,7 @@ Optional argument specifying where the file will be copied to.
 
 #### Example
 
-```javascript
+```js
 //File is copied to the root of the project
 cartridgeUtil.copyFileToProject('file-to-copy.js');
 
@@ -117,7 +117,7 @@ Returns a promise this is fulfilled when all copy operations have completed.
 
 #### Example
 
-```javascript
+```js
 cartridgeUtil.copyToProjectDir([{
     copyPath: 'file-to-copy.js',
 }, {
@@ -137,7 +137,7 @@ Validates that a `.cartridgerc` file exists in the current working directory. Ex
 
 #### Example
 
-```javascript
+```js
 cartridgeUtil.ensureCartridgeExists();
 ```
 
@@ -152,7 +152,7 @@ Stop execution with a non-error exit code if `NODE_ENV` environment variable equ
 
 #### Example
 
-```javascript
+```js
 cartridgeUtil.exitIfDevEnvironment();
 ```
 
@@ -178,7 +178,7 @@ Log a message out to the console.
 Message to be displayed on the command line
 
 #### Example
-```javascript
+```js
 cartridgeUtil.logMessage('Show me on the command line!');
 ```
 
@@ -198,7 +198,7 @@ Function used to transform the project config.
 The function should expect one argument, a javascript object representing the contents of the project.json file. It should return the modified object.
 
 #### Example
-```javascript
+```js
 cartridgeUtil.modifyProjectConfig(function(config) {
     if(!config.paths.src.hasOwnProperty('my_module')) {
         config.paths.src.my_module = 'some/path';
@@ -225,7 +225,7 @@ An array with each index being the path to remove. The path should be relative t
 
 #### Example
 
-```javascript
+```js
 cartridgeUtil.removeFromProjectDir([
     'directory/to/delete',
     'file-to-delete.js'
@@ -241,7 +241,7 @@ Remove the module information to the project `.cartridgerc` file.
 Returns a promise that is fulfilled once the `.cartridgerc` file is written.
 
 #### Example
-```javascript
+```js
 cartridgeUtil.removeFromRc()
     .then(function() {
         // Code to run after completion
@@ -265,7 +265,7 @@ The complete path, with the file name and extension, of the config file.
 
 #### Example
 
-```javascript
+```js
 cartridgeUtil.removeModuleConfig(path.resolve('_config', 'task.' + TASK_NAME + '.js'));
 ```
 
@@ -299,7 +299,7 @@ The string of the key of the dependencies e.g. `newDependenciesToAdd`. This stri
 }
 ```
 
-```javascript
+```js
 //Package json will need to be read seperately
 cartridgeUtil.addToPackage(newDependenciesToAddToObject, 'newDependenciesToAdd')
     .then(function() {
@@ -319,7 +319,7 @@ Due to removing all traces of the installation, this function should be the penu
 
 #### Example
 
-```javascript
+```js
 cartridgeUtil.cleanExpansionPack();
 ```
 
@@ -353,7 +353,7 @@ The string of the key of the dependencies e.g. `newDependenciesToAdd`. This stri
 }
 ```
 
-```javascript
+```js
 //Package json will need to be read seperately
 cartridgeUtil.installDependencies(newDependenciesToAddObject, 'newDependenciesToAdd')
     .then(function() {
@@ -371,19 +371,19 @@ Please follow the instructions within the [base module development guide](https:
 
 When adding functionality or modifying existing methods you should add unit tests to cover the change. In addition the tests should be run to ensure that existing functionality hasn't been modified. The tests are run with the following command:
 
-```bash
+```sh
 mocha
 ```
 
 Alternatively both the tests and linting can be run with the following command:
 
-```bash
+```sh
 npm test
 ```
 
 To check the code coverage of the current tests run
 
-```bash
+```sh
 npm run cover
 ```
 
