@@ -311,7 +311,7 @@ cartridgeUtil.addToPackage(newDependenciesToAddToObject, 'newDependenciesToAdd')
 
 
 ### <a name="cleanExpansionPack"></a>cleanExpansionPack
-Remove all traces of the expansion pack. Calling this function deletes the package's `node_modules` directory and removes it from the package.json dependency object'
+Remove all traces of the expansion pack. Calling this function deletes the package's `node_modules` directory and removes it from the package.json `dependency` object.
 
 Returns a promise that is fulfilled once expansion pack files have been deleted.
 
