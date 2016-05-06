@@ -188,7 +188,9 @@ This can be useful when uninstalling a module in a uninstall script.
 
 This returns a promise that is fulfilled when all paths have been removed.
 
-#### *pathList `array`*
+#### Arguments
+
+##### *pathList `array`*
 
 An array with each index being the path to remove. The path should be relative to the project directory.
 
@@ -226,7 +228,9 @@ Remove the config file at the provided path.
 
 Returns a promise that is fulfilled once the config file has been deleted.
 
-#### *pathToModuleConfig `string`*
+#### Arguments
+
+##### *pathToModuleConfig `string`*
 
 The complete path, with the file name and extension, of the config file.
 
@@ -245,10 +249,12 @@ The dependencies to add must be stored in the module's `package.json` as a seper
 
 Returns a promise that is fulfilled once the dependencies have been added to the package.json
 
-#### *dependencies `object`*
+#### Arguments
+
+##### *dependencies `object`*
 Object of the dependencies to add
 
-#### *dependenciesObjectKey `string`*
+##### *dependenciesObjectKey `string`*
 The string of the key of the dependencies e.g. `newDependenciesToAdd`. This string relates to the key in the package.json, seen below.
 
 #### Example
@@ -297,10 +303,12 @@ The dependencies to add must be stored in the module's `package.json` as a seper
 
 Returns a promise that is fulfilled once all dependencies have been installed.
 
-#### *dependencies `object`*
+#### Arguments
+
+##### *dependencies `object`*
 Object of the dependencies to add
 
-#### *dependenciesObjectKey `string`*
+##### *dependenciesObjectKey `string`*
 The string of the key of the dependencies e.g. `newDependenciesToAdd`. This string relates to the key in the package.json, seen below.
 
 #### Example
