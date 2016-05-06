@@ -290,7 +290,7 @@ Due to removing all traces of the installation, this function should be the penu
 
 #### Example
 
-```
+```javascript
 cartridgeUtil.cleanExpansionPack();
 ```
 
