@@ -34,13 +34,14 @@ API
 - [installDependencies](#installDependencies)
 
 
-### <a name="addModuleConfig"></a>addModuleConfig
+### <a name="addModuleConfig"></a>addModuleConfig(pathToConfigFile)
 Moves a configuration file from the module directory to the configuration directory of the project. Returns a promise on completion.
 
 #### Arguments
-| Name        | Type        | description                    |
-| ----------- |:----------- |:------------------------------:|
-| filePath    | String      | Path to the configuration file |
+
+##### *pathToConfigFile `string`*
+
+The path to the module config file. This is relative to the module directory.
 
 #### Example
 ```javascript
@@ -84,7 +85,7 @@ The file path to copy to the project directory. This is relative to the module d
 
 Optional argument specifying where the file will be copied to.
 
-* If provided this is relative to the cartridge project directory. If the directory copying into does not exist, it is created before copying.
+* If provided, this is relative to the cartridge project directory. If the directory copying into does not exist, it is created before copying.
 * If not provided, this defaults to the cartridge project directory root.
 
 #### Example
@@ -159,21 +160,22 @@ cartridgeUtil.exitIfDevEnvironment();
 
 
 ### <a name="finishInstall"></a>finishInstall
-Logs out a message that the installation has finished and exits the process with a success status.
+Logs out a message that the installation has finished and exits the process with a success status. This should be the last function called.
 
 
 -------
 
 
-### <a name="logMessage"></a>logMessage
+### <a name="logMessage"></a>logMessage(message)
 Log a message out to the console.
 
-> TODO: Move away from `console.log` to an approach that ties in to how verbose the install is set to
+<!-- TODO: Move away from `console.log` to an approach that ties in to how verbose the install is set to -->
 
 #### Arguments
-| Name        | Type        | description                     |
-| ----------- |:----------- |:-------------------------------:|
-| message     | String      | Message to be displayed on the command line |
+
+##### *message `string`*
+
+Message to be displayed on the command line
 
 #### Example
 ```javascript
@@ -184,13 +186,14 @@ cartridgeUtil.logMessage('Show me on the command line!');
 -------
 
 
-### <a name="modifyProjectConfig"></a>modifyProjectConfig
+### <a name="modifyProjectConfig"></a>modifyProjectConfig(transformFunction)
 Modify the project.json config file of a project with the use of a transform function.
 
 #### Arguments
-| Name        | Type        | description                     |
-| ----------- |:----------- |:-------------------------------:|
-| transform   | function    | Function used to transform the project config |
+
+##### *transformFunction `function`*
+
+Function used to transform the project config.
 
 The function should expect one argument, a javascript object representing the contents of the project.json file. It should return the modified object.
 
