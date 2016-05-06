@@ -60,29 +60,31 @@ Returns a promise that is fulfilled once the `.cartridgerc` file is written.
 #### Example
 ```javascript
 cartridgeUtil.addToRc()
-	.then(function() {
-		// Code to run after completion
-	})
+    .then(function() {
+        // Code to run after completion
+    })
 ```
 
 -------
 
 
 ### <a name="copyFileToProject"></a>copyFileToProject(copyPath[, destinationPath])
-Copy a single file from the module directory to the cartridge project directory.
+Copy a single file / directory from the module directory to the cartridge project directory.
 If the file being copied already exists in the destination path, it will skipped and not overwritten.
 
 Returns a promise this is fulfilled once the file has been copied.
 
-#### *copyPath `string`*
+#### Arguments
+
+##### *copyPath `string`*
 
 The file path to copy to the project directory. This is relative to the module directory.
 
-#### *destinationPath `string`*
+##### *destinationPath `string`*
 
 Optional argument specifying where the file will be copied to.
 
-* If provided this is relative to the cartridge project directory. If the directory copying into does not exist, it is created before copying the file.
+* If provided this is relative to the cartridge project directory. If the directory copying into does not exist, it is created before copying.
 * If not provided, this defaults to the cartridge project directory root.
 
 #### Example
@@ -98,9 +100,33 @@ cartridgeUtil.copyFileToProject('file-to-copy.js', 'copy-directory');
 -------
 
 
-### <a name="copyToProjectDir"></a>copyToProjectDir
-> TODO: Add documentation
+### <a name="copyToProjectDir"></a>copyToProjectDir(copyPaths)
+Copy mutilpe files, directories at once.
 
+#### Arguments
+
+##### *copyPaths `array`*
+
+Array containing copy and destination paths. Each index contains a `copyInfo` object, with the contents:
+
+* `copyInfo.copyPath` - This is **required** and specifies what files or directory is to be copied. This is relative to the module directory. If the path already exists before copying it will not be overwritten.
+* `copyInfo.destinationPath` - This is **optional** and specifies where in the project directory it will be copied to. If the directory does not exist, it will be created. When this is not provided it, copy destination path will default to the project directory root.
+
+Returns a promise this is fulfilled when all copy operations have completed.
+
+#### Example
+
+```javascript
+cartridgeUtil.copyToProjectDir([{
+    copyPath: 'file-to-copy.js',
+}, {
+    copyPath: 'directory/to/copy'
+}, {
+    //file1.js is copied into <project-root>/test-directory
+    copyPath: 'file1.js',
+    destinationPath: 'test-directory'
+}])
+```
 
 -------
 
@@ -171,10 +197,10 @@ The function should expect one argument, a javascript object representing the co
 #### Example
 ```javascript
 cartridgeUtil.modifyProjectConfig(function(config) {
-	if(!config.paths.src.hasOwnProperty('my_module')) {
-		config.paths.src.my_module = 'some/path';
-	}
-	return config;
+    if(!config.paths.src.hasOwnProperty('my_module')) {
+        config.paths.src.my_module = 'some/path';
+    }
+    return config;
 });
 ```
 
@@ -198,8 +224,8 @@ An array with each index being the path to remove. The path should be relative t
 
 ```javascript
 cartridgeUtil.removeFromProjectDir([
-	'directory/to/delete',
-	'file-to-delete.js'
+    'directory/to/delete',
+    'file-to-delete.js'
 ])
 ```
 
@@ -214,9 +240,9 @@ Returns a promise that is fulfilled once the `.cartridgerc` file is written.
 #### Example
 ```javascript
 cartridgeUtil.removeFromRc()
-	.then(function() {
-		// Code to run after completion
-	})
+    .then(function() {
+        // Code to run after completion
+    })
 ```
 
 -------
@@ -262,20 +288,20 @@ The string of the key of the dependencies e.g. `newDependenciesToAdd`. This stri
 ```js
 //package.json
 {
-	"dependencies": { ... }
-	"newDependenciesToAdd": {
-		"dep1": "0.0.1",
-		"dep2": "0.0.2"
-	}
+    "dependencies": { ... }
+    "newDependenciesToAdd": {
+        "dep1": "0.0.1",
+        "dep2": "0.0.2"
+    }
 }
 ```
 
 ```javascript
 //Package json will need to be read seperately
 cartridgeUtil.addToPackage(newDependenciesToAddToObject, 'newDependenciesToAdd')
-	.then(function() {
-		// Code to run after completion
-	})
+    .then(function() {
+        // Code to run after completion
+    })
 ```
 
 -------
@@ -316,20 +342,20 @@ The string of the key of the dependencies e.g. `newDependenciesToAdd`. This stri
 ```js
 //package.json
 {
-	"dependencies": { ... }
-	"newDependenciesToAdd": {
-		"dep1": "0.0.1",
-		"dep2": "0.0.2"
-	}
+    "dependencies": { ... }
+    "newDependenciesToAdd": {
+        "dep1": "0.0.1",
+        "dep2": "0.0.2"
+    }
 }
 ```
 
 ```javascript
 //Package json will need to be read seperately
 cartridgeUtil.installDependencies(newDependenciesToAddObject, 'newDependenciesToAdd')
-	.then(function() {
-		// Code to run after completion
-	})
+    .then(function() {
+        // Code to run after completion
+    })
 ```
 
 -------
