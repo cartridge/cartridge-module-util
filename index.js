@@ -80,7 +80,7 @@ function jSonObjToNpmInstallArray(newObj, ignoreArr){
 	for (var key in newObj) {
 		if (newObj.hasOwnProperty(key)) {
 			for(var i = 0; i < ignoreArr.length; i++){
-				
+
 				if(key !== ignoreArr[i]){
 					if (newObj.hasOwnProperty(key)) {
 		        npmArray.push(key);
@@ -423,7 +423,7 @@ module.exports = function(packageConfig) {
 			.then(function(){
 				//remove from node modules
 				return fs.removeSync(path.resolve(__dirname + '../../../../' + packageConfig.name));
-				
+
 			})
 			.then(function(){
 				cartridgeApi.logMessage('Finished: cleaned packages for ' + packageConfig.name);

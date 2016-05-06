@@ -5,7 +5,6 @@ var stripAnsi = require('strip-ansi');
 
 var mockConsoleLogApi = {};
 
-var _logFilePath = path.join(__dirname, 'console.log');
 var _originalMethod;
 var _originalMethodError;
 var _logData = [];

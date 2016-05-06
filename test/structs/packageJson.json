@@ -1,0 +1,24 @@
+{
+  "name": "cartridge-mock-project-json",
+  "version": "0.5.1",
+  "description": "Uitility code for modules for the cartridge project",
+  "author": "Code Computerlove <npm@codecomputerlove.co.uk>",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cartridge/cartridge-module-util.git"
+  },
+  "dependencies": {
+    "bluebird": "^3.3.4",
+    "chalk": "^1.1.1"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "chai-fs": "^0.1.0"
+  },
+  "cartridge-mock-dependencies" : {
+    "package-one": "0.0.0",
+    "package-two": "0.0.1",
+    "package-three": "0.0.2"
+  }
+}

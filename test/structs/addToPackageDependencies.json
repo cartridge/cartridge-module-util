@@ -1,0 +1,7 @@
+{
+	"cartridge-mock-dependencies" : {
+		"package-one": "0.0.0",
+		"package-two": "0.0.1",
+		"package-three": "0.0.2"
+	}
+}
