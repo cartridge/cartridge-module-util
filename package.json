@@ -18,7 +18,7 @@
     "url": "https://github.com/cartridge/cartridge-module-util.git"
   },
   "scripts": {
-    "test": "node run lint && node run mocha",
+    "test": "npm run lint && mocha",
     "cover": "istanbul cover _mocha && open coverage/lcov-report/index.html",
     "lint": "eslint index.js",
     "mocha": "mocha"
