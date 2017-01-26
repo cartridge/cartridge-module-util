@@ -20,8 +20,7 @@
   "scripts": {
     "test": "mocha && npm run lint",
     "cover": "istanbul cover _mocha && open coverage/lcov-report/index.html",
-    "lint": "eslint index.js",
-    "mocha": "mocha"
+    "lint": "eslint index.js"
   },
   "dependencies": {
     "bluebird": "^3.3.4",
