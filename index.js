@@ -253,6 +253,7 @@ module.exports = function(packageConfig) {
 	};
 
 	cartridgeApi.ensureCartridgeExists = function ensureCartridgeExists() {
+		cartridgeApi.exitIfDevEnvironment();
 		if(!hasCartridgeInstalled()) {
 			console.error(chalk.red('Cartridge is not set up in this directory. Please set it up first before installing this module'));
 			process.exit(EXIT_FAIL);
