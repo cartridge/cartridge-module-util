@@ -1,24 +1,25 @@
 sudo: false
 language: node_js
-cache:
-   directories:
-      - node_modules
-notifications:
-   email: false
-node_js:
-   - '7'
-   - '6'
-   - '5'
-   - '4'
-   - '0.12'
-script:
-   - npm t
 env:
-   - NODE_ENV=development
-install:
-   - npm install
+  - NODE_ENV=development
 cache:
-   directories:
-      - node_modules
-git:
-   depth: 1
+  directories:
+    - ~/.npm
+    - node_modules
+notifications:
+  email: false
+node_js:
+  - '8'
+  - '6'
+  - '4'
+install:
+  - npm install
+before_script:
+  - npm prune
+script:
+  - npm t
+after_success:
+  - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
