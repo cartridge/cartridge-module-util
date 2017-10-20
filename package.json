@@ -1,6 +1,6 @@
 {
   "name": "cartridge-module-util",
-  "version": "0.5.1",
+  "version": "0.0.0-development",
   "description": "Uitility code for modules for the cartridge project",
   "keywords": [
     "dependency",
@@ -20,7 +20,8 @@
   "scripts": {
     "test": "mocha && npm run lint",
     "cover": "istanbul cover _mocha && open coverage/lcov-report/index.html",
-    "lint": "eslint index.js"
+    "lint": "eslint index.js",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "dependencies": {
     "bluebird": "^3.3.4",
@@ -42,7 +43,11 @@
     "mocha": "^2.4.5",
     "rewire": "^2.5.1",
     "strip-ansi": "^3.0.1",
-    "validate-commit-msg": "^2.6.0"
+    "validate-commit-msg": "^2.6.0",
+    "semantic-release": "^8.2.0"
+  },
+  "release": {
+    "branch": "master"
   },
   "config": {
     "commitizen": {
