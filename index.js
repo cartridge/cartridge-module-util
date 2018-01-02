@@ -20,7 +20,7 @@ var paths = {
 	config:    path.resolve('../../', '_config'),
 	readme:    path.resolve('../../', 'readme.md'),
 	cartridge: path.resolve('../../_cartridge'),
-	pkg: 			 path.resolve('../../', 'package.json')
+	pkg:       path.resolve('../../', 'package.json')
 };
 
 
@@ -58,10 +58,10 @@ function updateJsonObj(obj, newObj, ignoreArr){
 		if (newObj.hasOwnProperty(key)) {
 			for(var i = 0; i < ignoreArr.length; i++){
 				if(key !== ignoreArr[i]){
-		    	obj[key] = newObj[key];
-		  	}
-	  	}
-	  }
+				obj[key] = newObj[key];
+				}
+			}
+	}
 	}
 	return obj;
 }
@@ -70,7 +70,7 @@ function removeDependency(obj, match){
 
 	for (var key in obj) {
 		if(key === match)
-	    delete obj[key];
+		delete obj[key];
 		}
 	return obj;
 }
@@ -83,11 +83,11 @@ function jSonObjToNpmInstallArray(newObj, ignoreArr){
 
 				if(key !== ignoreArr[i]){
 					if (newObj.hasOwnProperty(key)) {
-		        npmArray.push(key);
-		    	}
-		    }
-	  	}
-	  }
+						npmArray.push(key);
+					}
+				}
+			}
+		}
 	}
 	return npmArray;
 }
