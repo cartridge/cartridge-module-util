@@ -4,7 +4,8 @@
 		"sourceType": "script"
 	},
 	"env": {
-		"node": true
+		"node": true,
+		"mocha": true
 	},
 	"rules": {
 		"no-cond-assign": 2,
